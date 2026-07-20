@@ -1,0 +1,233 @@
+<!DOCTYPE html><html class="light" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "secondary": "#585f6c",
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-tertiary-fixed": "#191c1f",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f0f1f1",
+                        "surface": "#f9f9f9",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#191c1f",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-fixed-dim": "#c0c7d6",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed-variant": "#474747",
+                        "tertiary": "#000000",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#5e6572",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "outline": "#7e7576",
+                        "border-hairline": "#E5E7EB",
+                        "surface-tint": "#5e5e5e",
+                        "on-primary-container": "#848484",
+                        "error-container": "#ffdad6",
+                        "text-muted": "#6B7280",
+                        "on-secondary-fixed": "#151c27",
+                        "secondary-fixed": "#dce2f3",
+                        "surface-bright": "#f9f9f9",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#dce2f3",
+                        "surface-variant": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "on-surface-variant": "#4c4546",
+                        "background": "#f9f9f9",
+                        "primary-container": "#1b1b1b",
+                        "inverse-surface": "#2f3131",
+                        "on-tertiary-container": "#818488",
+                        "on-background": "#1a1c1c",
+                        "tertiary-fixed": "#e0e2e6",
+                        "surface-container-low": "#f3f3f4",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline-variant": "#cfc4c5",
+                        "inverse-primary": "#c6c6c6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#404754",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container": "#eeeeee",
+                        "primary": "#000000",
+                        "bg-off-white": "#F9FAFB"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "4px",
+                        "section-gap": "128px",
+                        "margin-mobile": "24px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-xl": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script></head><body class="min-h-screen flex flex-col pt-20 bg-surface">
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/80 backdrop-blur-md border-b border-border-hairline dark:border-outline-variant flat no shadows duration-200 ease-in-out">
+<a class="font-headline-lg-mobile md:font-headline-lg text-[24px] md:text-[32px] font-bold tracking-tighter text-primary dark:text-on-background" href="/">DXNZ</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="/">Work<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="#blog">Blog<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="#contact">Contact<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+</nav>
+<button class="md:hidden p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<main class="flex-grow w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-section-gap bg-surface">
+<!-- Header Section -->
+<header class="mb-24">
+<h1 class="font-headline-xl text-headline-xl text-primary mb-4 md:mb-6">About</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">A bit more about who I am and how I got here.</p>
+</header>
+<!-- Intro Section -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-section-gap items-start">
+<div class="md:col-span-4 lg:col-span-3">
+<div class="aspect-[3/4] w-full border border-primary relative overflow-hidden bg-bg-off-white">
+<img alt="Portrait" class="w-full h-full object-cover filter grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDUOr-iEYj9x4yiV6wfz5xlFX2i5zosqovmnKpgBEB2iuxIG2C3QXiN0z2nYQl3TC9J8PGt2EkqloWlE_lqeni9b-lSHcHu4Jb-knuSQefe_HCFvZtWp1DldnKrpv0P39BGInEOvzyFxgAW-F6LQ1PGqppKRwfpS_fC9TAAP2z83l3LMAnJXARCPnCq-q_Dpp3RIgQlhbU3FO5rI7uhgGk0LcFixep5Mx9FrWBoalvqucEzFVM_edr7W3IofjHJKIINwdFl3ScmKtv">
+</div>
+</div>
+<div class="md:col-span-8 lg:col-span-7 lg:col-start-5 pt-4 md:pt-0">
+<p class="font-body-lg text-body-lg text-primary leading-relaxed">
+                    I'm a full-stack developer from Indonesia who enjoys building clean, practical web applications with a focus on thoughtful system design. I like understanding how software works beneath the surface and believe good software should solve real problems while staying simple to use and maintain.
+                </p>
+</div>
+</section>
+<!-- Journey/Timeline Section -->
+<section class="mb-section-gap">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-12 border-b border-border-hairline pb-4">Journey</h2>
+<div class="relative pl-6 md:pl-12 border-l border-border-hairline ml-2 md:ml-4 space-y-16">
+<!-- 2022 -->
+<div class="relative">
+<div class="absolute -left-[31px] md:-left-[55px] top-1 w-3 h-3 bg-primary rounded-full ring-4 ring-surface"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-gutter">
+<div class="md:col-span-1">
+<span class="font-label-mono text-label-mono text-on-surface-variant">2022</span>
+</div>
+<div class="md:col-span-3">
+<h3 class="font-body-lg text-body-lg font-semibold text-primary mb-2">Started Learning Programming</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Started learning programming in the first year of vocational high school, where I discovered an interest in web development and building software from scratch.</p>
+</div>
+</div>
+</div>
+<!-- 2022-2025 -->
+<div class="relative">
+<div class="absolute -left-[31px] md:-left-[55px] top-1 w-3 h-3 bg-primary rounded-full ring-4 ring-surface"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-gutter">
+<div class="md:col-span-1">
+<span class="font-label-mono text-label-mono text-on-surface-variant">2022–2025</span>
+</div>
+<div class="md:col-span-3">
+<h3 class="font-body-lg text-body-lg font-semibold text-primary mb-2">Software &amp; Game Development (PPLG)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Studied Software &amp; Game Development, building a strong foundation in programming, databases, and software engineering through coursework, competitions, and personal projects.</p>
+<ul class="space-y-3 border-l border-border-hairline pl-4 ml-1">
+<li class="font-body-md text-body-md text-on-surface-variant">
+<span class="font-label-mono text-label-mono text-primary mr-2">2024</span> — Won 2nd Place in a university web design competition
+                                </li>
+<li class="font-body-md text-body-md text-on-surface-variant">
+<span class="font-label-mono text-label-mono text-primary mr-2">2024</span> — Received 3rd Place (Harapan III) in the Pelajar Pelopor Keselamatan Lalu Lintas competition with a microcontroller-based brake temperature detection project.
+                                </li>
+</ul>
+</div>
+</div>
+</div>
+<!-- 2025 -->
+<div class="relative">
+<div class="absolute -left-[31px] md:-left-[55px] top-1 w-3 h-3 bg-primary rounded-full ring-4 ring-surface"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-gutter">
+<div class="md:col-span-1">
+<span class="font-label-mono text-label-mono text-on-surface-variant">2025</span>
+</div>
+<div class="md:col-span-3">
+<h3 class="font-body-lg text-body-lg font-semibold text-primary mb-2">Began Studying Informatics Engineering</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Started pursuing a Bachelor's degree in Informatics Engineering while continuing to build real-world software projects outside the classroom.</p>
+</div>
+</div>
+</div>
+<!-- 2025 SIPUPS -->
+<div class="relative">
+<div class="absolute -left-[31px] md:-left-[55px] top-1 w-3 h-3 bg-surface border border-primary rounded-full ring-4 ring-surface"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-gutter">
+<div class="md:col-span-1">
+<span class="font-label-mono text-label-mono text-on-surface-variant">2025</span>
+</div>
+<div class="md:col-span-3">
+<h3 class="font-body-lg text-body-lg font-semibold text-primary mb-2">SIPUPS</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Built SIPUPS as a school project during vocational high school — a digital library management system using Laravel, focusing on maintainable architecture and practical admin workflows.</p>
+</div>
+</div>
+</div>
+<!-- 2025-2026 -->
+<div class="relative">
+<div class="absolute -left-[31px] md:-left-[55px] top-1 w-3 h-3 bg-surface border border-primary rounded-full ring-4 ring-surface"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-gutter">
+<div class="md:col-span-1">
+<span class="font-label-mono text-label-mono text-on-surface-variant">2025–2026</span>
+</div>
+<div class="md:col-span-3">
+<h3 class="font-body-lg text-body-lg font-semibold text-primary mb-2">LabNotes</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Built LabNotes, another school project — a laboratory management platform that expanded my experience designing full-stack applications and modern development workflows.</p>
+</div>
+</div>
+</div>
+<!-- 2026 -->
+<div class="relative">
+<div class="absolute -left-[31px] md:-left-[55px] top-1 w-3 h-3 bg-surface border border-primary rounded-full ring-4 ring-surface"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-gutter">
+<div class="md:col-span-1">
+<span class="font-label-mono text-label-mono text-on-surface-variant">2026</span>
+</div>
+<div class="md:col-span-3">
+<h3 class="font-body-lg text-body-lg font-semibold text-primary mb-2">Siwayut Catering</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Developed Siwayut Catering as a university coursework project — a web-based administration system for a catering business, prioritizing simplicity and maintainable code.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interests Section -->
+<section>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-8 border-b border-border-hairline pb-4">Interests</h2>
+<div class="flex flex-wrap gap-4">
+<span class="font-label-mono text-label-mono text-primary border border-border-hairline px-6 py-2 bg-surface hover:bg-bg-off-white transition-colors">Web Development</span>
+<span class="font-label-mono text-label-mono text-primary border border-border-hairline px-6 py-2 bg-surface hover:bg-bg-off-white transition-colors">System Design</span>
+<span class="font-label-mono text-label-mono text-primary border border-border-hairline px-6 py-2 bg-surface hover:bg-bg-off-white transition-colors">Linux</span>
+<span class="font-label-mono text-label-mono text-primary border border-border-hairline px-6 py-2 bg-surface hover:bg-bg-off-white transition-colors">UI/UX</span>
+<span class="font-label-mono text-label-mono text-primary border border-border-hairline px-6 py-2 bg-surface hover:bg-bg-off-white transition-colors">Open Source</span>
+<span class="font-label-mono text-label-mono text-primary border border-border-hairline px-6 py-2 bg-surface hover:bg-bg-off-white transition-colors">Performance Optimization</span>
+</div>
+</section>
+</main>
+<footer class="w-full px-margin-mobile md:px-margin-desktop flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-surface dark:bg-background border-t border-border-hairline dark:border-outline-variant flat no shadows grid py-8" id="contact">
+<div class="col-span-4 md:col-span-6 flex flex-col gap-2"><span class="font-headline-lg text-[24px] text-primary font-bold tracking-tighter">DXNZ</span><p class="font-label-mono text-[12px] text-secondary">© 2026 DXNZ. All rights reserved.</p></div>
+<nav class="flex flex-col md:flex-row gap-6 md:gap-8 md:col-span-6">
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="mailto:dxnzid@icloud.com"><span class="material-symbols-outlined text-[18px]">mail</span> dxnzid@icloud.com</a>
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="https://github.com/dxnz-id"><svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg> dxnz-id</a>
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="https://instagram.com/dxnz.idx"><svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"></svg></a></nav></footer></body></html>

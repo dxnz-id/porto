@@ -1,0 +1,212 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{try{try{try{try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadada",
+                        "secondary": "#585f6c",
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-tertiary-fixed": "#191c1f",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f0f1f1",
+                        "surface": "#f9f9f9",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#191c1f",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-fixed-dim": "#c0c7d6",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed-variant": "#474747",
+                        "tertiary": "#000000",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#5e6572",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "outline": "#7e7576",
+                        "border-hairline": "#E5E7EB",
+                        "surface-tint": "#5e5e5e",
+                        "on-primary-container": "#848484",
+                        "error-container": "#ffdad6",
+                        "text-muted": "#6B7280",
+                        "on-secondary-fixed": "#151c27",
+                        "secondary-fixed": "#dce2f3",
+                        "surface-bright": "#f9f9f9",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#dce2f3",
+                        "surface-variant": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "on-surface-variant": "#4c4546",
+                        "background": "#f9f9f9",
+                        "primary-container": "#1b1b1b",
+                        "inverse-surface": "#2f3131",
+                        "on-tertiary-container": "#818488",
+                        "on-background": "#1a1c1c",
+                        "tertiary-fixed": "#e0e2e6",
+                        "surface-container-low": "#f3f3f4",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline-variant": "#cfc4c5",
+                        "inverse-primary": "#c6c6c6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#404754",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container": "#eeeeee",
+                        "primary": "#000000",
+                        "bg-off-white": "#F9FAFB"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "4px",
+                        "section-gap": "128px",
+                        "margin-mobile": "24px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-xl": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    }catch(_e){}}catch(_e){}}catch(_e){}}catch(_e){}}catch(_e){}</script>
+<style>
+    @keyframes pulse-subtle {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+    .animate-pulse-subtle {
+        animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .animate-pulse-subtle {
+            animation: none;
+        }
+    }
+</style>
+</head><body class="bg-surface text-on-surface font-body-md antialiased selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/80 backdrop-blur-md border-b border-border-hairline dark:border-outline-variant flat no shadows duration-200 ease-in-out">
+<a class="font-headline-lg-mobile md:font-headline-lg text-[24px] md:text-[32px] font-bold tracking-tighter text-primary dark:text-on-background" href="/">DXNZ</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="/">Work<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="/#blog">Blog<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+<a class="text-primary dark:text-on-background font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="/contact">Contact<span class="absolute bottom-0 left-1/2 w-full h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2"></span></a>
+</nav>
+<!-- Mobile Menu Button Placeholder -->
+<button class="md:hidden p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<main class="pt-20">
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop min-h-[calc(100vh-80px)] flex flex-col justify-center">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Form (2/3 width) -->
+<div class="md:col-span-8 md:pr-16">
+<h1 class="font-headline-xl text-[48px] md:text-[72px] leading-[1.1] tracking-tighter text-primary mb-16">Let's build something <br><span class="text-secondary">together.</span></h1>
+<form class="flex flex-col gap-10 max-w-2xl">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-secondary uppercase tracking-widest" for="name">Name</label>
+<input class="w-full bg-transparent border-0 border-b border-border-hairline focus:ring-0 focus:border-primary p-0 py-3 font-body-lg text-primary placeholder:text-tertiary-fixed-dim transition-colors" id="name" placeholder="What should I call you?" type="text">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-secondary uppercase tracking-widest" for="email">Email</label>
+<input class="w-full bg-transparent border-0 border-b border-border-hairline focus:ring-0 focus:border-primary p-0 py-3 font-body-lg text-primary placeholder:text-tertiary-fixed-dim transition-colors" id="email" placeholder="Where can I reach you?" type="email">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-secondary uppercase tracking-widest" for="message">Message</label>
+<textarea class="w-full bg-transparent border-0 border-b border-border-hairline focus:ring-0 focus:border-primary p-0 py-3 font-body-lg text-primary placeholder:text-tertiary-fixed-dim transition-colors resize-none" id="message" placeholder="Tell me about your project..." rows="4"></textarea>
+</div>
+<button class="mt-4 self-start font-label-mono text-label-mono text-primary hover:text-secondary flex items-center gap-2 group transition-colors" type="button">
+Send Message <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Right Column: Contact Info (1/3 width) -->
+<div class="md:col-span-4 mt-16 md:mt-0 flex flex-col gap-16 border-t md:border-t-0 md:border-l border-border-hairline pt-16 md:pt-0 md:pl-16"><div><h2 class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-8">Availability</h2><div class="flex flex-col gap-4"><div class="flex flex-col gap-1"><span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest text-[10px]">Open to</span><p class="font-body-md text-primary">Fullstack roles — remote or Central Java</p></div><div class="flex flex-col gap-1"><span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest text-[10px]">Based in</span><p class="font-body-md text-primary">Central Java, Indonesia · GMT+7</p></div><div class="flex flex-col gap-1"><span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest text-[10px]">Reply time</span><p class="font-body-md text-primary">Within a day, most days</p></div></div></div>
+<div>
+<h2 class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-8">Direct Contact</h2>
+<div class="flex flex-col gap-6">
+<a class="font-body-lg text-primary hover:text-secondary transition-colors inline-block" href="mailto:dxnzid@icloud.com">dxnzid@icloud.com</a>
+<div>
+<p class="font-body-md text-secondary">Kudus, Indonesia</p>
+<p class="font-body-md text-secondary">GMT+7 (WIB)</p>
+</div>
+</div>
+</div>
+<div>
+<h2 class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-8">Social</h2>
+<ul class="flex flex-col gap-4">
+<li class="">
+<a class="font-body-lg text-primary hover:text-secondary transition-colors flex items-center justify-between group" href="https://github.com/dxnz-id">
+<div class="flex items-center gap-3">
+<svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+GitHub 
+</div>
+<span class="material-symbols-outlined text-[16px] text-secondary opacity-0 group-hover:opacity-100 transition-opacity">north_east</span>
+</a>
+</li>
+<li class="">
+<a class="font-body-lg text-primary hover:text-secondary transition-colors flex items-center justify-between group" href="#">
+<div class="flex items-center gap-3">
+<svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+LinkedIn 
+</div>
+<span class="material-symbols-outlined text-[16px] text-secondary opacity-0 group-hover:opacity-100 transition-opacity">north_east</span>
+</a>
+</li>
+<li class="">
+<a class="font-body-lg text-primary hover:text-secondary transition-colors flex items-center justify-between group" href="#">
+<div class="flex items-center gap-3">
+<svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+Twitter / X 
+</div>
+<span class="material-symbols-outlined text-[16px] text-secondary opacity-0 group-hover:opacity-100 transition-opacity">north_east</span>
+</a>
+</li>
+<li class="">
+<a class="font-body-lg text-primary hover:text-secondary transition-colors flex items-center justify-between group" href="https://instagram.com/dxnz.idx">
+<div class="flex items-center gap-3">
+<svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg>
+Instagram 
+</div>
+<span class="material-symbols-outlined text-[16px] text-secondary opacity-0 group-hover:opacity-100 transition-opacity">north_east</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer-->
+<footer class="w-full px-margin-mobile md:px-margin-desktop flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-surface dark:bg-background border-t border-border-hairline dark:border-outline-variant flat no shadows grid py-8" id="contact">
+<div class="col-span-4 md:col-span-6 flex flex-col gap-2"><span class="font-headline-lg text-[24px] text-primary font-bold tracking-tighter">DXNZ</span><p class="font-label-mono text-[12px] text-secondary">© 2026 DXNZ. All rights reserved.</p></div>
+<nav class="flex flex-col md:flex-row gap-6 md:gap-8 md:col-span-6">
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="mailto:dxnzid@icloud.com"><span class="material-symbols-outlined text-[18px]">mail</span> dxnzid@icloud.com</a>
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="https://github.com/dxnz-id"><svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg> dxnz-id</a>
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="https://instagram.com/dxnz.idx"><svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg></a></nav></footer></body></html>

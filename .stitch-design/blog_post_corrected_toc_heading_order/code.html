@@ -1,0 +1,469 @@
+<!DOCTYPE html><html class="light" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;600;500&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        try {
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        "colors": {
+                            "primary-container": "#1b1b1b",
+                            "outline-variant": "#cfc4c5",
+                            "on-tertiary": "#ffffff",
+                            "secondary-container": "#dce2f3",
+                            "on-secondary-container": "#5e6572",
+                            "outline": "#7e7576",
+                            "on-error": "#ffffff",
+                            "on-primary-fixed-variant": "#474747",
+                            "on-tertiary-fixed": "#191c1f",
+                            "on-surface": "#1a1c1c",
+                            "primary": "#000000",
+                            "text-muted": "#6B7280",
+                            "primary-fixed-dim": "#c6c6c6",
+                            "surface-dim": "#dadada",
+                            "on-secondary-fixed-variant": "#404754",
+                            "on-primary-fixed": "#1b1b1b",
+                            "surface-container-low": "#f3f3f4",
+                            "border-hairline": "#E5E7EB",
+                            "tertiary-container": "#191c1f",
+                            "secondary-fixed-dim": "#c0c7d6",
+                            "on-tertiary-fixed-variant": "#44474a",
+                            "on-primary-container": "#848484",
+                            "tertiary-fixed": "#e0e2e6",
+                            "tertiary-fixed-dim": "#c4c7ca",
+                            "surface-bright": "#f9f9f9",
+                            "surface-container": "#eeeeee",
+                            "on-background": "#1a1c1c",
+                            "inverse-surface": "#2f3131",
+                            "secondary": "#585f6c",
+                            "surface": "#f9f9f9",
+                            "on-error-container": "#93000a",
+                            "surface-container-highest": "#e2e2e2",
+                            "tertiary": "#000000",
+                            "surface-container-lowest": "#ffffff",
+                            "secondary-fixed": "#dce2f3",
+                            "error-container": "#ffdad6",
+                            "inverse-primary": "#c6c6c6",
+                            "on-secondary-fixed": "#151c27",
+                            "bg-off-white": "#F9FAFB",
+                            "surface-container-high": "#e8e8e8",
+                            "error": "#ba1a1a",
+                            "primary-fixed": "#e2e2e2",
+                            "on-tertiary-container": "#818488",
+                            "surface-variant": "#e2e2e2",
+                            "inverse-on-surface": "#f0f1f1",
+                            "on-primary": "#ffffff",
+                            "surface-tint": "#5e5e5e",
+                            "background": "#f9f9f9",
+                            "on-secondary": "#ffffff",
+                            "on-surface-variant": "#4c4546"
+                        },
+                        "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                        },
+                        "spacing": {
+                            "margin-mobile": "24px",
+                            "section-gap": "128px",
+                            "margin-desktop": "64px",
+                            "unit": "4px",
+                            "gutter": "24px"
+                        },
+                        "fontFamily": {
+                            "label-mono": ["JetBrains Mono"],
+                            "headline-xl": ["Hanken Grotesk"],
+                            "body-md": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "headline-lg-mobile": ["Hanken Grotesk"],
+                            "label-caps": ["Inter"],
+                            "headline-lg": ["Hanken Grotesk"]
+                        },
+                        "fontSize": {
+                            "label-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                            "headline-xl": ["72px", { "lineHeight": "80px", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                            "headline-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                            "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                            "headline-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                        }
+                    }
+                }
+            }
+        } catch (_e) {}
+    }catch(_e){}</script></head><body class="bg-surface text-on-background min-h-screen flex flex-col relative">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/80 backdrop-blur-md border-b border-border-hairline dark:border-outline-variant flat no shadows duration-200 ease-in-out">
+<a class="font-headline-lg-mobile md:font-headline-lg text-[24px] md:text-[32px] font-bold tracking-tighter text-primary dark:text-on-background" href="#">DXNZ</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="index.html">Work<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="blog.html">Blog<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="#contact">Contact<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+</nav>
+<button class="md:hidden p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Table of Contents (Sticky Minimap) -->
+<nav class="hidden xl:flex fixed top-1/2 -translate-y-1/2 right-0 z-40 group w-[240px] justify-end pr-8" id="minimap-toc">
+<div class="flex flex-col gap-[5px] items-end w-full" id="minimap-items">
+<!-- Items will be injected here by JS -->
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto flex justify-center">
+<article class="w-full max-w-[700px]" id="main-article">
+<!-- Back Link -->
+<div class="mb-12">
+<a class="inline-flex items-center gap-2 font-label-caps text-label-caps text-secondary hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-1" href="#">
+<span class="material-symbols-outlined text-sm" data-original-icon="arrow_left_alt">arrow_left_alt</span>
+                Back to Writing
+            </a>
+</div>
+<!-- Header -->
+<header class="mb-16">
+<h1 class="font-headline-xl text-headline-xl mb-6">Building a Digital Library with Laravel Filament</h1>
+<div class="font-label-mono text-label-mono text-secondary flex items-center gap-4 border-b border-border-hairline pb-6">
+<span class="">01.12.24</span>
+<span class="w-1 h-1 rounded-full bg-border-hairline"></span>
+<span class="">5 MIN READ</span>
+</div>
+</header>
+<!-- Content Area -->
+<div class="font-body-lg text-body-lg text-on-surface flex flex-col gap-8">
+<p class="">
+                Building a sophisticated administrative interface doesn't have to be an exercise in tedious boilerplate. When tasked with creating a digital library management system, I needed a tool that prioritized rapid development without sacrificing technical elegance. Enter Laravel Filament. This post explores how I structured the underlying schema and leveraged Filament's powerful declarative UI to build a clean, minimalist dashboard.
+                The foundation of any scalable library is its data normalization, as detailed in the <a class="underline underline-offset-4 decoration-border-hairline hover:decoration-primary transition-colors" href="#">Filament documentation</a>.</p>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile mt-8 mb-4 border-b border-border-hairline pb-4" id="architecting-the-database-schema">Architecting the Database Schema</h2>
+<p class="">
+                A solid foundation requires a precise schema. For a digital library, the relationships are deceptively complex. We need to handle books, authors, categories, and digital asset storage efficiently.
+                For instance, this is handled automatically via the <code class="px-1.5 py-0.5 rounded-sm bg-surface-container-low font-mono text-[0.9em]">HasMedia</code> interface.</p>
+<h3 class="font-semibold text-headline-lg-mobile md:text-[24px] mt-8 mb-4" id="polymorphic-relationship-structures">Polymorphic Relationship Structures</h3>
+<ol class="list-none flex flex-col gap-4 mb-8">
+<li class="flex items-start"><span class="font-label-mono text-secondary mr-2">1.</span><span class="font-body-md">Define a robust schema for media metadata.</span></li>
+<li class="flex items-start"><span class="font-label-mono text-secondary mr-2">2.</span><span class="font-body-md">Implement polymorphic relations for flexible categorization.</span></li>
+<li class="flex items-start"><span class="font-label-mono text-secondary mr-2">3.</span><span class="font-body-md">Optimize indexing for ISBN and author lookups.</span></li>
+</ol>
+<ul class="list-none flex flex-col gap-4 border-t border-border-hairline pt-4">
+<li class="flex gap-4 border-b border-border-hairline pb-4">
+<span class="material-symbols-outlined text-secondary">check</span>
+<div>
+<strong class="font-label-caps text-label-caps block mb-1">Polymorphic Relationships</strong>
+<span class="font-body-md text-body-md text-secondary">Implementing polymorphic relations for tags to allow categorization across books, authors, and series.</span>
+</div>
+</li>
+<li class="flex gap-4 border-b border-border-hairline pb-4">
+<span class="material-symbols-outlined text-secondary">check</span>
+<div>
+<strong class="font-label-caps text-label-caps block mb-1">Efficient Media Storage</strong>
+<span class="font-body-md text-body-md text-secondary">Utilizing Spatie Media Library to handle cover images and EPUB file uploads seamlessly.</span>
+</div>
+</li>
+<li class="flex gap-4 border-b border-border-hairline pb-4">
+<span class="material-symbols-outlined text-secondary">check</span>
+<div>
+<strong class="font-label-caps text-label-caps block mb-1">Optimized Indexing</strong>
+<span class="font-body-md text-body-md text-secondary">Strategic database indexing on ISBNs, author names, and publication dates for lightning-fast queries.</span>
+</div>
+</li>
+</ul>
+<div class="overflow-x-auto my-8">
+<table class="w-full border-collapse border border-border-hairline text-body-md">
+<thead class="bg-surface-container-low">
+<tr class="font-label-caps text-label-caps text-secondary">
+<th class="border border-border-hairline p-4 text-left">Approach</th>
+<th class="border border-border-hairline p-4 text-left">Pros</th>
+<th class="border border-border-hairline p-4 text-left">Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="border border-border-hairline p-4">Filament Core</td>
+<td class="border border-border-hairline p-4">Rapid development</td>
+<td class="border border-border-hairline p-4">Less flexible</td>
+</tr>
+<tr>
+<td class="border border-border-hairline p-4">Spatie Media Library</td>
+<td class="border border-border-hairline p-4">Rich features</td>
+<td class="border border-border-hairline p-4">External dependency</td>
+</tr>
+<tr>
+<td class="border border-border-hairline p-4">Custom Implementation</td>
+<td class="border border-border-hairline p-4">Full control</td>
+<td class="border border-border-hairline p-4">Time intensive</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote class="pl-6 border-l-2 border-primary my-8 py-2">
+<p class="font-body-lg text-body-lg italic text-secondary">"Minimalism is not the absence of things, but the perfect amount of them."</p>
+</blockquote>
+<p class="">
+                Configuring the Filament resource is where the magic happens. By defining the form and table schemas declaratively, we can generate a complete CRUD interface with a few lines of code.
+            </p>
+<div class="bg-surface-container-low p-6 border border-border-hairline overflow-x-auto my-6">
+<pre><code class="font-label-mono text-label-mono text-sm text-secondary">public static function form(Form $form): Form
+{
+    return $form
+        -&gt;schema([
+            Forms\Components\TextInput::make('title')
+                -&gt;required()
+                -&gt;maxLength(255),
+            Forms\Components\Select::make('author_id')
+                -&gt;relationship('author', 'name')
+                -&gt;searchable()
+                -&gt;required(),
+            Forms\Components\FileUpload::make('cover')
+                -&gt;image()
+                -&gt;directory('covers'),
+        ]);
+}</code></pre>
+</div>
+<figure class="my-12">
+<div class="w-full h-[400px] bg-cover bg-center border border-border-hairline" data-alt="A clean, minimalist UI dashboard interface on a laptop screen showing a digital library management system. Light mode, stark white background, thin black borders, precise typography, professional architectural aesthetic, monochrome palette with subtle gray tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_bKvi7AO9FBRoewHkhZpEH7zBEcI6Yu8OMIJ2KsIjvYDsTWuWyQGjCpCvIpi8h6pvY40_BmQsU6sJbZ3DVIvAKtFy-bXdVt58zfEqgpwfwOeNv0pjFw3NLUBZaffoyvxloczVkbCTHY8k2UDXu7Fs9VFfJgmRwERI95tEal2NgE12Ks3qSduT5C3pEdmuvOVd-8peD1QhFFBITCd9UqDTGpy-MomqCuLte-2mQHb_XDhCPMpQflmkaMTfy_r1aF3_5OB1EEskbdjw')"></div>
+<figcaption class="font-label-mono text-label-mono text-secondary mt-4 text-center">Filament Resource Dashboard</figcaption>
+</figure>
+<figure class="my-12">
+<div class="bg-surface-container-low border border-border-hairline p-8 rounded-sm flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
+<div class="px-4 py-2 border border-primary font-label-mono text-label-mono bg-surface">Request</div>
+<div class="w-8 h-0.5 bg-secondary relative hidden md:block"><span class="absolute right-0 top-1/2 -translate-y-1/2 border-t-4 border-b-4 border-l-4 border-transparent border-l-secondary"></span></div>
+<div class="px-4 py-2 border border-border-hairline font-label-mono text-label-mono bg-surface">Validation</div>
+<div class="w-8 h-0.5 bg-secondary relative hidden md:block"><span class="absolute right-0 top-1/2 -translate-y-1/2 border-t-4 border-b-4 border-l-4 border-transparent border-l-secondary"></span></div>
+<div class="px-4 py-2 border border-border-hairline font-label-mono text-label-mono bg-surface">Database</div>
+<div class="w-8 h-0.5 bg-secondary relative hidden md:block"><span class="absolute right-0 top-1/2 -translate-y-1/2 border-t-4 border-b-4 border-l-4 border-transparent border-l-secondary"></span></div>
+<div class="px-4 py-2 border border-primary font-label-mono text-label-mono bg-surface">Response</div>
+</div>
+<figcaption class="font-label-mono text-label-mono text-secondary mt-4 text-center">Fig 2. Request flow diagram</figcaption>
+</figure>
+<p class="">By focusing on the structural integrity of the schema and letting Filament handle the UI scaffolding, we achieve a system that is both robust and visually refined. <strong>The real power lies in the constraints</strong>—choosing a toolset that enforces <em>good patterns while abstracting away the noise</em>, allowing us to focus purely on the architectural design of the application.</p>
+<div class="relative overflow-x-auto my-8">
+<div class="absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-surface to-transparent pointer-events-none"></div>
+<table class="w-full border-collapse border border-border-hairline text-body-md min-w-[900px]">
+<thead class="bg-surface-container-low">
+<tr class="font-label-caps text-label-caps text-secondary">
+<th class="border border-border-hairline p-4 text-left">Field Type</th>
+<th class="border border-border-hairline p-4 text-left">Component</th>
+<th class="border border-border-hairline p-4 text-left">Validation</th>
+<th class="border border-border-hairline p-4 text-left">DB Type</th>
+<th class="border border-border-hairline p-4 text-right">Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="border border-border-hairline p-4">Text Input</td>
+<td class="border border-border-hairline p-4"><code class="px-1.5 py-0.5 rounded-sm bg-surface-container-low font-mono text-[0.9em]">TextInput::make()</code></td>
+<td class="border border-border-hairline p-4">required</td>
+<td class="border border-border-hairline p-4">string</td>
+<td class="border border-border-hairline p-4 text-right">01</td>
+</tr>
+<tr>
+<td class="border border-border-hairline p-4">Select Menu</td>
+<td class="border border-border-hairline p-4"><code class="px-1.5 py-0.5 rounded-sm bg-surface-container-low font-mono text-[0.9em]">Select::make()</code></td>
+<td class="border border-border-hairline p-4">exists</td>
+<td class="border border-border-hairline p-4">unsignedBigInt</td>
+<td class="border border-border-hairline p-4 text-right">02</td>
+</tr>
+<tr>
+<td class="border border-border-hairline p-4">File Upload</td>
+<td class="border border-border-hairline p-4"><code class="px-1.5 py-0.5 rounded-sm bg-surface-container-low font-mono text-[0.9em]">FileUpload::make()</code></td>
+<td class="border border-border-hairline p-4">image|max:1024</td>
+<td class="border border-border-hairline p-4">string</td>
+<td class="border border-border-hairline p-4 text-right">03</td>
+</tr>
+<tr>
+<td class="border border-border-hairline p-4">Rich Editor</td>
+<td class="border border-border-hairline p-4"><code class="px-1.5 py-0.5 rounded-sm bg-surface-container-low font-mono text-[0.9em]">RichEditor::make()</code></td>
+<td class="border border-border-hairline p-4">nullable</td>
+<td class="border border-border-hairline p-4">text</td>
+<td class="border border-border-hairline p-4 text-right">04</td>
+</tr>
+<tr>
+<td class="border border-border-hairline p-4">Date Picker</td>
+<td class="border border-border-hairline p-4"><code class="px-1.5 py-0.5 rounded-sm bg-surface-container-low font-mono text-[0.9em]">DatePicker::make()</code></td>
+<td class="border border-border-hairline p-4">date|after:today</td>
+<td class="border border-border-hairline p-4">date</td>
+<td class="border border-border-hairline p-4 text-right">05</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile mt-8 mb-4 border-b border-border-hairline pb-4" id="testing-the-implementation">Testing the Implementation</h2><p class="">Testing is a crucial phase in the development lifecycle, ensuring that our declarative UI behaves as expected under various conditions. For a Filament-based system, we focus on feature tests that simulate user interactions within the dashboard.</p><h3 class="font-semibold text-headline-lg-mobile md:text-[24px] mt-8 mb-4" id="writing-feature-tests">Writing Feature Tests</h3><p class="">We use Laravel's built-in testing suite along with Pest to write expressive feature tests. These tests verify that the CRUD operations for our digital library resources are functioning correctly and that the UI components render without issues.</p><h3 class="font-semibold text-headline-lg-mobile md:text-[24px] mt-8 mb-4" id="testing-edge-cases">Testing Edge Cases</h3><p class="">Beyond standard CRUD operations, it's vital to test edge cases such as validation failures for unique constraints and proper handling of large file uploads. This ensures the system remains robust and provides clear feedback to the administrative users.</p><div class="bg-surface-container-low p-6 border border-border-hairline overflow-x-auto my-6"><pre><code class="font-label-mono text-label-mono text-sm text-secondary">it('can render the library index page', function () {
+    $this-&gt;get(LibraryResource::getUrl('index'))
+        -&gt;assertSuccessful();
+});
+
+it('validates required fields when creating a book', function () {
+    Livewire::test(CreateLibrary::class)
+        -&gt;set('data.title', '')
+        -&gt;call('create')
+        -&gt;assertHasErrors(['data.title' =&gt; 'required']);
+});</code></pre></div><h2 class="font-headline-lg-mobile text-headline-lg-mobile mt-8 mb-4 border-b border-border-hairline pb-4" id="deployment-considerations">Deployment Considerations</h2><p class="">Deploying a Filament application requires careful consideration of the production environment. Key areas to focus on include database indexing for high-volume searches, efficient caching strategies for dashboard metrics, and a robust file storage configuration (like S3) for digital assets. Ensuring these components are properly tuned will provide a smooth and performant experience for the end-users.</p></div>
+<!-- Decision Flow Section-->
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile mt-8 mb-4 border-b border-border-hairline pb-4" id="handling-data-validation">Handling Data Validation</h2>
+<figure class="my-12">
+<div class="bg-surface-container-low border border-border-hairline p-8 rounded-sm flex flex-col items-center">
+<div class="w-0.5 h-6 bg-secondary"></div>
+<div class="px-4 py-2 border border-border-hairline font-label-mono text-label-mono bg-surface">Validate Input</div>
+<div class="w-0.5 h-6 bg-secondary"></div>
+<div class="w-64 md:w-80 h-0.5 bg-secondary"></div>
+<div class="flex justify-between w-64 md:w-80">
+<!-- Left path -->
+<div class="flex flex-col items-center w-0">
+<div class="w-max flex flex-col items-center">
+<div class="w-0.5 h-6 bg-secondary relative mb-2"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-secondary"></span></div>
+<div class="px-4 py-2 border border-primary font-label-mono text-label-mono bg-surface">Valid</div>
+<div class="h-8 w-0.5 bg-secondary relative my-2"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-secondary"></span></div>
+<div class="px-4 py-2 border border-border-hairline font-label-mono text-label-mono bg-surface">Process Request</div>
+</div>
+</div>
+<!-- Right path -->
+<div class="flex flex-col items-center w-0">
+<div class="w-max flex flex-col items-center">
+<div class="w-0.5 h-6 bg-secondary relative mb-2"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-secondary"></span></div>
+<div class="px-4 py-2 border border-error font-label-mono text-label-mono bg-surface text-error">Invalid</div>
+<div class="h-8 w-0.5 bg-secondary relative my-2"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-secondary"></span></div>
+<div class="px-4 py-2 border border-border-hairline font-label-mono text-label-mono bg-surface">Return Error</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="font-label-mono text-label-mono text-secondary mt-4 text-center">Fig 3. Decision flow diagram</figcaption>
+</figure>
+<hr class="my-12 border-t border-border-hairline">
+<div class="mt-16 pt-8 border-t border-border-hairline flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-secondary">Share this post</span>
+<div class="flex gap-4">
+<button class="w-10 h-10 flex items-center justify-center border border-border-hairline hover:border-primary transition-colors bg-surface text-primary">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+<button class="px-4 h-10 flex items-center justify-center border border-primary bg-surface hover:bg-surface-container-low transition-colors font-label-mono text-label-mono text-primary gap-2">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+                    Copy Link
+                </button>
+</div>
+</div>
+<!-- Post Navigation -->
+<div class="mt-16 pt-16 border-t border-border-hairline grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0">
+<a class="group flex flex-col items-start md:pr-8 md:border-r md:border-border-hairline hover:bg-surface-container-low transition-colors p-4 -ml-4 rounded-sm" href="#">
+<span class="font-label-caps text-label-caps text-secondary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm transition-transform group-hover:-translate-x-1">arrow_back</span>
+                    Previous Post
+                </span>
+<span class="font-body-lg text-body-lg font-semibold group-hover:text-primary">Optimizing PostgreSQL for Scale</span>
+</a>
+<a class="group flex flex-col items-end md:pl-8 hover:bg-surface-container-low transition-colors p-4 -mr-4 rounded-sm text-right" href="#">
+<span class="font-label-caps text-label-caps text-secondary mb-2 flex items-center gap-2">
+                    Next Post
+                    <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+</span>
+<span class="font-body-lg text-body-lg font-semibold group-hover:text-primary">Why I Use Linux for Development</span>
+</a>
+</div>
+</article>
+</main>
+<!-- Footer -->
+<footer class="w-full px-margin-mobile md:px-margin-desktop flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-surface dark:bg-background border-t border-border-hairline dark:border-outline-variant flat no shadows grid py-8" id="contact">
+<div class="col-span-4 md:col-span-6 flex flex-col gap-2">
+<span class="font-headline-lg text-[24px] text-primary font-bold tracking-tighter">DXNZ</span>
+<p class="font-label-mono text-[12px] text-secondary">© 2026 DXNZ. All rights reserved.</p>
+</div>
+<nav class="flex flex-col md:flex-row gap-6 md:gap-8 md:col-span-6">
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="mailto:dxnzid@icloud.com"><span class="material-symbols-outlined text-[18px]">mail</span> dxnzid@icloud.com</a>
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="https://github.com/dxnz-id"><svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg> dxnz-id</a>
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="https://instagram.com/dxnz.idx"><svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path class="" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg> dxnz.idx</a>
+</nav>
+</footer>
+<script>
+window.addEventListener('load', () => {
+    // Generate Minimap TOC
+    const headings = Array.from(document.querySelectorAll('#main-article h2[id], #main-article h3[id]'));
+    const minimapItems = document.getElementById('minimap-items');
+    
+    if (minimapItems && headings.length > 0) {
+        minimapItems.innerHTML = '';
+        headings.forEach((heading, index) => {
+            const isH2 = heading.tagName.toLowerCase() === 'h2';
+            const id = heading.id;
+            const text = heading.textContent;
+            
+            // Create Wrapper
+            const wrapper = document.createElement('a');
+            wrapper.href = `#${id}`;
+            wrapper.className = `flex items-center justify-end gap-3 toc-item group/item cursor-pointer w-full py-[2px] pr-2`;
+            wrapper.setAttribute('data-target', id);
+            wrapper.setAttribute('data-ish2', isH2.toString());
+            
+            // Create Label
+            const label = document.createElement('span');
+            label.className = `font-headline-lg text-[13px] leading-none tracking-tight text-[#a3a3a3] opacity-0 -translate-x-2 transition-all duration-200 ease-out group-hover/item:opacity-100 group-hover/item:translate-x-0 truncate max-w-[200px] toc-label text-right ${!isH2 ? 'pr-3' : ''}`;
+            label.textContent = text;
+            
+            // Create Bar
+            const bar = document.createElement('div');
+            const defaultWidth = isH2 ? '16px' : '10px';
+            bar.className = `toc-bar transition-all duration-200 ease-out bg-[#d4d4d4] group-hover/item:bg-[#000000] rounded-full`;
+            bar.style.height = '2px';
+            bar.style.width = defaultWidth;
+            
+            wrapper.appendChild(label);
+            wrapper.appendChild(bar);
+            minimapItems.appendChild(wrapper);
+        });
+    }
+
+    // Smooth scrolling for table of contents links
+    document.querySelectorAll('.toc-item').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                const headerOffset = 100;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Intersection Observer for scroll tracking
+    const observerOptions = {
+        rootMargin: '-100px 0px -80% 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                
+                // Reset all links
+                document.querySelectorAll('.toc-item').forEach(item => {
+                    const bar = item.querySelector('.toc-bar');
+                    const label = item.querySelector('.toc-label');
+                    const isH2 = item.getAttribute('data-ish2') === 'true';
+                    
+                    if(bar) {
+                        bar.style.backgroundColor = '#d4d4d4';
+                        bar.style.height = '2px';
+                        bar.style.width = isH2 ? '16px' : '10px';
+                    }
+                    if(label) {
+                        label.classList.remove('text-[#000000]', 'font-medium');
+                        label.classList.add('text-[#a3a3a3]');
+                    }
+                });
+                
+                // Activate current link
+                const activeItem = document.querySelector(`.toc-item[data-target="${id}"]`);
+                if (activeItem) {
+                    const bar = activeItem.querySelector('.toc-bar');
+                    const label = activeItem.querySelector('.toc-label');
+                    const isH2 = activeItem.getAttribute('data-ish2') === 'true';
+                    
+                    if(bar) {
+                        bar.style.backgroundColor = '#000000';
+                        bar.</script></body></html>

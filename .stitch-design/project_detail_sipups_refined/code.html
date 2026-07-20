@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#474747",
+                        "on-tertiary-fixed": "#191c1f",
+                        "on-surface": "#1a1c1c",
+                        "primary-container": "#1b1b1b",
+                        "secondary-container": "#dce2f3",
+                        "on-secondary-container": "#5e6572",
+                        "outline-variant": "#cfc4c5",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#7e7576",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#848484",
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "tertiary-fixed": "#e0e2e6",
+                        "surface-container": "#eeeeee",
+                        "surface-bright": "#f9f9f9",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "surface-dim": "#dadada",
+                        "primary": "#000000",
+                        "text-muted": "#6B7280",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-secondary-fixed-variant": "#404754",
+                        "tertiary-container": "#191c1f",
+                        "secondary-fixed-dim": "#c0c7d6",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "surface-container-low": "#f3f3f4",
+                        "border-hairline": "#E5E7EB",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#dce2f3",
+                        "tertiary": "#000000",
+                        "on-background": "#1a1c1c",
+                        "surface": "#f9f9f9",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2f3131",
+                        "secondary": "#585f6c",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f1",
+                        "surface-tint": "#5e5e5e",
+                        "on-surface-variant": "#4c4546",
+                        "background": "#f9f9f9",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#151c27",
+                        "inverse-primary": "#c6c6c6",
+                        "surface-container-high": "#e8e8e8",
+                        "error": "#ba1a1a",
+                        "bg-off-white": "#F9FAFB",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#818488"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "24px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "section-gap": "128px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-xl": ["72px", { "lineHeight": "80px", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script><meta charset="utf-8"></head><body class="antialiased min-h-screen flex flex-col pt-20 bg-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/80 backdrop-blur-md border-b border-border-hairline dark:border-outline-variant flat no shadows duration-200 ease-in-out">
+<a class="font-headline-lg-mobile md:font-headline-lg text-[24px] md:text-[32px] font-bold tracking-tighter text-primary dark:text-on-background" href="#">DXNZ</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="index.html">Work<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="blog.html">Blog<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+<a class="text-secondary dark:text-on-surface-variant font-label-caps text-label-caps hover:text-primary dark:hover:text-on-background transition-colors px-2 py-1 relative group" href="#contact">Contact<span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 group-hover:w-full"></span></a>
+</nav>
+<!-- Mobile Menu Button Placeholder -->
+<button class="md:hidden p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-24 bg-surface">
+<!-- Back Link -->
+<a class="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors font-label-mono text-label-mono mb-12" href="#">
+<span class="material-symbols-outlined" data-icon="arrow_back" style="font-size: 16px;">arrow_back</span>
+            Back to Work
+        </a>
+<!-- Single Column Main Content Area -->
+<div class="flex flex-col gap-section-gap">
+<!-- Header -->
+<header class="flex flex-col gap-6">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-xl md:text-headline-xl text-primary max-w-4xl">SIPUPS</h1>
+<p class="font-body-lg text-body-lg text-secondary max-w-2xl">A digital library platform for managing collections, users, and borrowing, built with a modern admin experience.</p>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">University Coursework</span>
+<span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Solo Project</span>
+<span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Laravel</span>
+<span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Filament</span>
+<span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">MySQL</span>
+</div>
+</header>
+<!-- Horizontal Snap-Scroll Gallery -->
+<section class="w-full relative -mx-margin-mobile md:mx-0 px-margin-mobile md:px-0">
+<div class="flex overflow-x-auto snap-x gap-4 no-scrollbar pb-8">
+<!-- Image 1 -->
+<div class="snap-center shrink-0 w-[85vw] md:w-[800px] aspect-video border border-border-hairline bg-bg-off-white relative group">
+<img alt="Admin dashboard showing library collection overview" class="w-full h-full object-cover" data-alt="A sleek, dark-mode software interface displaying a complex supply chain dashboard. The UI is minimalist, featuring high-contrast geometric charts, thin white lines on a deep black background, and striking neon blue data points. The aesthetic is extremely professional, technical, and clean, reminiscent of modern dev tools." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKn8ifkZi4IRzk2BExjeiagmI4wq0OnlPUUl3etP5ucQvSJ_xXfcZTiqAAjx1UGri-1dk88ORtxGhIp4LSSGyC4cehI-A3HYbSowm7D7-QBQDPSv6_gfyPYQO2ohmR37C0cZw7I286Hb7eCNPN4aNVZHW28J3FYa74fZ8ypKWf-_0j1oZ-vfGp687j9dpu1fUmCBTzKfC8TbdQtD6alUhDRqFms_G_ipy6Q8HSwBA8NlG46bWS24meCybqER-LdSfEXYjhcPI0fRyx">
+<div class="absolute bottom-4 left-4 bg-surface/90 px-3 py-1 border border-border-hairline">
+<span class="font-label-mono text-label-mono text-primary">01 / Dashboard Overview</span>
+</div>
+</div>
+<!-- Image 2 -->
+<div class="snap-center shrink-0 w-[85vw] md:w-[800px] aspect-video border border-border-hairline bg-bg-off-white relative group">
+<img alt="Interface for managing book collections" class="w-full h-full object-cover" data-alt="A minimalist mobile app interface for warehouse workers, shown against a stark white background. The screen displays a clear, highly legible typography-driven list of inventory items with subtle green status indicators. The design is utilitarian, emphasizing extreme clarity and architectural grid alignment without any gradients or shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX7dMKUN2qhZDEzYuChrR1W-HrOwPMJPtxziJx4btYPqrN7Xkq80YRhoBAfwnC3H3FGINfobeM2F1chJwxQKlwwJyqmtKJ8QDdnKPgQYEiIB46a7PyOa6ZDjWA7OC1ysOy8SSKlY0pr6wA8Z7tdfocfnSXD0TQL_Md6cIz2yDCT9_UgmCaTFcYRiACpTxzDqHz_AI-T95BkUtBERnmFMR_0ZTrhZSUuD2SHxQgZ34_v4W6elORf8s5DWPiQ6IQx83aru_gzlxy4eYH">
+<div class="absolute bottom-4 left-4 bg-surface/90 px-3 py-1 border border-border-hairline">
+<span class="font-label-mono text-label-mono text-primary">02 / Collection Management</span>
+</div>
+</div>
+<!-- Image 3 -->
+<div class="snap-center shrink-0 w-[85vw] md:w-[800px] aspect-video border border-border-hairline bg-bg-off-white relative group">
+<img alt="Borrowing and return workflow screen" class="w-full h-full object-cover" data-alt="A high-level architectural diagram rendered as a modern digital illustration. Flowing lines connect various cloud service icons in a stark, black and white palette with single red accent lines denoting critical data paths. The visual language is technical, precise, and abstract, embodying elite software engineering aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9An9Io1yICBOOmKbuEz5LdcwgbYoRSdWpfJpLCMRAqhqZb4cfaFxyONtemRuShpJYArc4t9zNaWnz80EAUR3g7mTduRWQ7qweekoVO900K-j_2qIBpbqZ_d6FE43zOunZsofni2Vez8j3fUBi_J-Cxw8jxW01JTHnbTc8EBx5uYGLcQGccOjAIB0jpnEYMv1w2ZxdCE5pQDo_EOM_ryqdBGWU6fnCy6q--8bpRDJPNS-dJvjRNyU15r040j2QnTCwStfNyLEK3cmK">
+<div class="absolute bottom-4 left-4 bg-surface/90 px-3 py-1 border border-border-hairline">
+<span class="font-label-mono text-label-mono text-primary">03 / Borrowing Workflow</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Overview Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-border-hairline pt-12"><!-- Left Side: Built With -->
+<div class="flex flex-col gap-6">
+    <h2 class="font-label-caps text-label-caps text-secondary tracking-widest">BUILT WITH</h2>
+    <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Next.js</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">TypeScript</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Prisma</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">PostgreSQL</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Redis</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">BullMQ</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">DeepSeek API</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Caddy</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Docker</span>
+        <span class="px-3 py-1 border border-border-hairline font-label-mono text-label-mono text-primary bg-bg-off-white">Cloudflare</span>
+    </div>
+</div>
+
+<!-- Right Side: Metadata Grid -->
+<div class="flex flex-col md:flex-row gap-12">
+    <!-- Vertical Divider (Desktop Only) -->
+    <div class="hidden md:block w-px bg-border-hairline h-full"></div>
+    
+    <div class="grid grid-cols-2 gap-x-12 gap-y-8 flex-grow">
+        <div class="flex flex-col gap-1">
+            <span class="font-label-caps text-label-caps text-secondary">ROLE</span>
+            <span class="font-body-md text-primary font-semibold">Core Systems &amp; DevOps Architect</span>
+        </div>
+        <div class="flex flex-col gap-1">
+            <span class="font-label-caps text-label-caps text-secondary">FOCUS</span>
+            <span class="font-body-md text-primary font-semibold">Web application</span>
+        </div>
+        <div class="flex flex-col gap-1">
+            <span class="font-label-caps text-label-caps text-secondary">SHIPPED</span>
+            <span class="font-body-md text-primary font-semibold">Mar 2026</span>
+        </div>
+        <div class="flex flex-col gap-1">
+            <span class="font-label-caps text-label-caps text-secondary">STACK</span>
+            <span class="font-body-md text-primary font-semibold">10 technologies</span>
+        </div>
+    </div>
+</div></section>
+<!-- Key Features (Bento Grid Style) -->
+<section class="border-t border-border-hairline pt-12 flex flex-col gap-8"><h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">Key Features</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8"><div class="border-t border-border-hairline pt-6 flex flex-col gap-2"><h4 class="font-label-mono text-label-mono font-bold text-primary">Collection Management</h4><p class="font-body-md text-body-md text-secondary text-sm">Add, edit, and organize library collections with a simple interface.</p></div><div class="border-t border-border-hairline pt-6 flex flex-col gap-2"><h4 class="font-label-mono text-label-mono font-bold text-primary">Borrowing System</h4><p class="font-body-md text-body-md text-secondary text-sm">Track borrowing and returns for library collections.</p></div><div class="border-t border-border-hairline pt-6 flex flex-col gap-2"><h4 class="font-label-mono text-label-mono font-bold text-primary">User Management</h4><p class="font-body-md text-body-md text-secondary text-sm">Manage library members and view their borrowing records.</p></div><div class="border-t border-border-hairline pt-6 flex flex-col gap-2"><h4 class="font-label-mono text-label-mono font-bold text-primary">Admin Dashboard</h4><p class="font-body-md text-body-md text-secondary text-sm">A Filament-powered admin panel for day-to-day library operations.</p></div></div></section>
+</div>
+<!-- Project Nav Footer -->
+<div class="mt-16 pt-16 border-t border-border-hairline grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0">
+<a class="group flex flex-col items-start md:pr-8 md:border-r md:border-border-hairline hover:bg-surface-container-low transition-colors p-4 -ml-4 rounded-sm" href="#">
+<span class="font-label-caps text-label-caps text-secondary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm transition-transform group-hover:-translate-x-1">arrow_back</span>
+Previous</span>
+<span class="font-body-lg text-body-lg font-semibold group-hover:text-primary">Siwayut Catering</span>
+</a>
+<a class="group flex flex-col items-end md:pl-8 hover:bg-surface-container-low transition-colors p-4 -mr-4 rounded-sm text-right" href="#">
+<span class="font-label-caps text-label-caps text-secondary mb-2 flex items-center gap-2">
+Next<span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+</span>
+<span class="font-body-lg text-body-lg font-semibold group-hover:text-primary">LabNotes</span>
+</a>
+</div>
+</main>
+<!-- Footer-->
+<footer class="w-full px-margin-mobile md:px-margin-desktop flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-surface dark:bg-background border-t border-border-hairline dark:border-outline-variant flat no shadows grid py-8 mt-auto" id="contact">
+<div class="col-span-4 md:col-span-6 flex flex-col gap-2"><span class="font-headline-lg text-[24px] text-primary dark:text-on-background font-bold tracking-tighter">DXNZ</span><p class="font-label-mono text-[12px] text-secondary">© 2026 DXNZ. All rights reserved.</p></div>
+<nav class="flex flex-col md:flex-row gap-6 md:gap-8 md:col-span-6">
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="mailto:dxnzid@icloud.com"><span class="material-symbols-outlined text-[18px]">mail</span> dxnzid@icloud.com</a>
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="https://github.com/dxnz-id"><svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg> dxnz-id</a>
+<a class="text-secondary dark:text-on-surface-variant font-label-mono text-label-mono hover:text-primary dark:hover:text-on-background transition-colors duration-150 ease-linear flex items-center gap-2" href="https://instagram.com/dxnz.idx"><svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg> dxnz.idx</a>
+</nav>
+</footer>
+
+
+
+
+</body></html>
