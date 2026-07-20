@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import IntroSection from "@/components/about/IntroSection";
 import JourneyTimeline from "@/components/about/JourneyTimeline";
-import InterestsTags from "@/components/about/InterestsTags";
-import SectionReveal from "@/components/ui/SectionReveal";
 
 export const metadata: Metadata = {
   title: "About",
@@ -26,9 +24,6 @@ export default function AboutPage() {
       </header>
       <IntroSection />
       <JourneyTimeline />
-      <SectionReveal>
-        <InterestsTags />
-      </SectionReveal>
     </div>
   );
 }
