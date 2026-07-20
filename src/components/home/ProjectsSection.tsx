@@ -1,22 +1,52 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import projects from "@/lib/projects";
 import ProjectCard from "./ProjectCard";
+import SectionHeader from "@/components/ui/SectionHeader";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function ProjectsSection() {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const cards = gridRef.current?.children;
+      if (!cards?.length) return;
+
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 32 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power4.out",
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: gridRef },
+  );
+
   return (
     <section
       id="work"
       className="py-16 md:py-24 border-b border-border-hairline"
     >
-      {/* Inner container */}
       <div className="max-w-7xl mx-auto">
-        {/* Section header */}
-        <div className="px-margin-mobile md:px-margin-desktop mb-12">
-          <p className="text-label-caps text-secondary mb-2">Selected Work</p>
-          <div className="border-b border-border-hairline" />
-        </div>
+        <SectionHeader label="Selected Work" />
 
-        {/* 2-col grid — no outer padding, cards have own padding */}
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2">
           {projects.map((project, i) => (
             <ProjectCard
               key={project.slug}

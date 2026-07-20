@@ -7,52 +7,56 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface SectionRevealProps {
+interface StaggerRevealProps {
   children: React.ReactNode;
   className?: string;
-  delay?: number;
+  itemSelector?: string;
+  stagger?: number;
+  y?: number;
+  duration?: number;
 }
 
-export default function SectionReveal({
+export default function StaggerReveal({
   children,
   className,
-  delay = 0,
-}: SectionRevealProps) {
+  itemSelector = "> *",
+  stagger = 0.1,
+  y = 24,
+  duration = 0.5,
+}: StaggerRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       const el = ref.current;
       if (!el) return;
+      const items = el.querySelectorAll(itemSelector);
+      if (!items.length) return;
 
       gsap.fromTo(
-        el,
-        { opacity: 0, y: 40 },
+        items,
+        { opacity: 0, y },
         {
           opacity: 1,
           y: 0,
-          duration: 0.7,
+          duration,
           ease: "power4.out",
-          delay,
+          stagger,
           scrollTrigger: {
             trigger: el,
             start: "top 88%",
             once: true,
           },
-          onComplete: () => {
-            el.style.willChange = "auto";
-          },
-        }
+        },
       );
     },
-    { scope: ref }
+    { scope: ref },
   );
 
   return (
     <div
       ref={ref}
       className={className}
-      style={{ opacity: 0, willChange: "transform, opacity" }}
     >
       {children}
     </div>

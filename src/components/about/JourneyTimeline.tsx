@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -101,10 +102,7 @@ export default function JourneyTimeline() {
 
   return (
     <section ref={sectionRef} className="mb-16 md:mb-24">
-      <div className="mb-12">
-        <p className="text-label-caps text-secondary mb-2">Journey</p>
-        <div className="border-b border-border-hairline" />
-      </div>
+      <SectionHeader label="Journey" />
 
       <div
         ref={itemsRef}

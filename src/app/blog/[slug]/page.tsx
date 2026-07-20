@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { posts, getPost, getAdjacentPosts } from "@/lib/blog";
 import PostNavigation from "@/components/blog/PostNavigation";
 import TableOfContents from "@/components/blog/TableOfContents";
-import SectionReveal from "@/components/ui/SectionReveal";
+import StaggerReveal from "@/components/ui/StaggerReveal";
 import ShareSection from "@/components/blog/ShareSection";
 
 interface Props {
@@ -113,39 +113,37 @@ export default async function BlogPostPage({ params }: Props) {
           </header>
 
           {/* Post content */}
-          <SectionReveal>
-            <div>
-              {content
-                .trim()
-                .split(/\n\n+/)
-                .map((block, i) => {
-                  if (block.startsWith("## ")) {
-                    const text = block.replace("## ", "");
-                    const id = text
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")
-                      .replace(/[^\w-]/g, "");
-                    return (
-                      <h2
-                        key={i}
-                        id={id}
-                        className="text-headline-lg-mobile text-primary mt-16 mb-6 border-b border-border-hairline pb-4 scroll-mt-24"
-                      >
-                        {text}
-                      </h2>
-                    );
-                  }
+          <StaggerReveal stagger={0.08} y={16} duration={0.45}>
+            {content
+              .trim()
+              .split(/\n\n+/)
+              .map((block, i) => {
+                if (block.startsWith("## ")) {
+                  const text = block.replace("## ", "");
+                  const id = text
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")
+                    .replace(/[^\w-]/g, "");
                   return (
-                    <p
+                    <h2
                       key={i}
-                      className="text-body-lg text-on-surface leading-relaxed mb-6"
+                      id={id}
+                      className="text-headline-lg-mobile text-primary mt-16 mb-6 border-b border-border-hairline pb-4 scroll-mt-24"
                     >
-                      {block}
-                    </p>
+                      {text}
+                    </h2>
                   );
-                })}
-            </div>
-          </SectionReveal>
+                }
+                return (
+                  <p
+                    key={i}
+                    className="text-body-lg text-on-surface leading-relaxed mb-6"
+                  >
+                    {block}
+                  </p>
+                );
+              })}
+          </StaggerReveal>
 
           {/* Share */}
           <ShareSection title={post.title} description={post.description} />

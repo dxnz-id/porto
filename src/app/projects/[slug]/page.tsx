@@ -7,7 +7,7 @@ import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectMetadata from "@/components/projects/ProjectMetadata";
 import KeyFeatures from "@/components/projects/KeyFeatures";
 import ProjectNavigation from "@/components/projects/ProjectNavigation";
-import SectionReveal from "@/components/ui/SectionReveal";
+import ProjectCascade from "@/components/projects/ProjectCascade";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -44,7 +44,6 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <div className="flex-grow w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-16 md:pt-20 pb-section-gap">
-      {/* Back link */}
       <Link
         href="/#work"
         className="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors text-label-mono mb-10 group"
@@ -56,7 +55,6 @@ export default async function ProjectPage({ params }: Props) {
         Back to Work
       </Link>
 
-      {/* Page header */}
       <header className="mb-16 md:mb-20 border-b border-border-hairline pb-12">
         <p className="text-label-caps text-secondary mb-4">Project</p>
         <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary max-w-4xl mb-4">
@@ -65,7 +63,6 @@ export default async function ProjectPage({ params }: Props) {
         <p className="text-body-lg text-secondary max-w-2xl mb-8">
           {project.description}
         </p>
-        {/* Tech stack tags */}
         <div className="flex flex-wrap gap-2">
           {project.techStack.map((tech) => (
             <span
@@ -78,31 +75,17 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       </header>
 
-      {/* Main content sections */}
-      <div className="flex flex-col gap-16 md:gap-24">
-        {/* Gallery */}
-        <SectionReveal>
-          <ProjectGallery images={project.images} />
-        </SectionReveal>
-
-        {/* Metadata */}
-        <SectionReveal>
+      <ProjectCascade
+        gallery={<ProjectGallery images={project.images} />}
+        metadata={
           <ProjectMetadata
             techStack={project.techStack}
             metadata={project.metadata}
           />
-        </SectionReveal>
-
-        {/* Key Features */}
-        <SectionReveal>
-          <KeyFeatures features={project.features} />
-        </SectionReveal>
-      </div>
-
-      {/* Project navigation */}
-      <SectionReveal>
-        <ProjectNavigation prev={prev} next={next} />
-      </SectionReveal>
+        }
+        features={<KeyFeatures features={project.features} />}
+        navigation={<ProjectNavigation prev={prev} next={next} />}
+      />
     </div>
   );
 }
