@@ -15,10 +15,10 @@ export default function BlogPage() {
       <header className="mb-16 md:mb-20">
         <p className="text-label-caps text-secondary mb-3">Blog</p>
         <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary mb-4">
-          Writing.
+          Notes and <span className="text-secondary">thoughts.</span>
         </h1>
         <p className="text-body-lg text-secondary max-w-xl">
-          Thoughts on web development, Linux, and building things.
+          Notes on web development, Linux, and the occasional deep dive.
         </p>
       </header>
 
