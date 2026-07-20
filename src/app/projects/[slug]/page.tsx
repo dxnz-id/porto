@@ -6,7 +6,7 @@ import projects from "@/lib/projects";
 import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectMetadata from "@/components/projects/ProjectMetadata";
 import KeyFeatures from "@/components/projects/KeyFeatures";
-import ProjectNavigation from "@/components/projects/ProjectNavigation";
+import PrevNextNav from "@/components/ui/PrevNextNav";
 import ProjectCascade from "@/components/projects/ProjectCascade";
 
 interface Props {
@@ -84,7 +84,13 @@ export default async function ProjectPage({ params }: Props) {
           />
         }
         features={<KeyFeatures features={project.features} />}
-        navigation={<ProjectNavigation prev={prev} next={next} />}
+        navigation={
+          <PrevNextNav
+            prev={prev ? { slug: prev.slug, title: prev.name } : null}
+            next={next ? { slug: next.slug, title: next.name } : null}
+            hrefPrefix="/projects"
+          />
+        }
       />
     </div>
   );

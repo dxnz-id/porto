@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { posts, getPost, getAdjacentPosts } from "@/lib/blog";
-import PostNavigation from "@/components/blog/PostNavigation";
+import PrevNextNav from "@/components/ui/PrevNextNav";
 import TableOfContents from "@/components/blog/TableOfContents";
 import StaggerReveal from "@/components/ui/StaggerReveal";
 import ShareSection from "@/components/blog/ShareSection";
@@ -149,7 +149,11 @@ export default async function BlogPostPage({ params }: Props) {
           <ShareSection title={post.title} description={post.description} />
 
           {/* Post navigation */}
-          <PostNavigation prev={prev} next={next} />
+          <PrevNextNav
+            prev={prev ? { slug: prev.slug, title: prev.title } : null}
+            next={next ? { slug: next.slug, title: next.title } : null}
+            hrefPrefix="/blog"
+          />
         </article>
       </div>
     </>

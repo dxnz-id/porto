@@ -1,22 +1,30 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import type { BlogPost } from "@/lib/blog";
 
-interface PostNavigationProps {
-  prev: BlogPost | null;
-  next: BlogPost | null;
+export interface NavItem {
+  slug: string;
+  title: string;
 }
 
-export default function PostNavigation({ prev, next }: PostNavigationProps) {
+interface PrevNextNavProps {
+  prev: NavItem | null;
+  next: NavItem | null;
+  hrefPrefix: string;
+}
+
+export default function PrevNextNav({
+  prev,
+  next,
+  hrefPrefix,
+}: PrevNextNavProps) {
   if (!prev && !next) return null;
 
   return (
     <nav className="grid grid-cols-2 border-t border-border-hairline mt-16">
-      {/* Previous (older) */}
       <div className="border-r border-border-hairline">
         {prev ? (
           <Link
-            href={`/blog/${prev.slug}`}
+            href={`${hrefPrefix}/${prev.slug}`}
             className="group flex flex-col gap-2 p-8 hover:bg-surface-container-low transition-colors duration-200"
           >
             <span className="text-label-caps text-secondary flex items-center gap-2">
@@ -35,11 +43,10 @@ export default function PostNavigation({ prev, next }: PostNavigationProps) {
         )}
       </div>
 
-      {/* Next (newer) */}
       <div>
         {next ? (
           <Link
-            href={`/blog/${next.slug}`}
+            href={`${hrefPrefix}/${next.slug}`}
             className="group flex flex-col gap-2 p-8 text-right hover:bg-surface-container-low transition-colors duration-200"
           >
             <span className="text-label-caps text-secondary flex items-center gap-2 justify-end">
