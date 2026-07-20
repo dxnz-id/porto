@@ -27,16 +27,16 @@ export default function SectionReveal({
 
       gsap.fromTo(
         el,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 64 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power3.out",
+          duration: 1.0,
+          ease: "power4.out",
           delay,
           scrollTrigger: {
             trigger: el,
-            start: "top 85%",
+            start: "top 88%",
             once: true,
           },
           onComplete: () => {

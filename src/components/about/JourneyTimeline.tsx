@@ -77,16 +77,16 @@ export default function JourneyTimeline() {
 
       gsap.fromTo(
         items,
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 48 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
-          ease: "power3.out",
-          stagger: 0.1,
+          duration: 0.8,
+          ease: "power4.out",
+          stagger: 0.12,
           scrollTrigger: {
             trigger: itemsRef.current,
-            start: "top 80%",
+            start: "top 85%",
             once: true,
           },
         }
