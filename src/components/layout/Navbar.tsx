@@ -3,8 +3,6 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import MobileMenu from "./MobileMenu";
 
 const navLinks = [
@@ -18,25 +16,6 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  useGSAP(() => {
-    const header = document.getElementById("site-header");
-    if (!header) return;
-
-    const onScroll = () => {
-      const scrolled = window.scrollY > 48;
-      gsap.to(header, {
-        height: scrolled ? 64 : 80,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-      header.classList.toggle("backdrop-blur-lg", scrolled);
-      header.classList.toggle("backdrop-blur-md", !scrolled);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  });
-
   const toggleMenu = useCallback(() => {
     setMobileMenuOpen((prev) => !prev);
   }, []);
@@ -49,7 +28,7 @@ export default function Navbar() {
     <>
       <header
         id="site-header"
-        className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/80 backdrop-blur-md border-b border-border-hairline transition-[height] duration-200 ease-in-out"
+        className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/80 backdrop-blur-lg border-b border-border-hairline"
       >
         {/* Logo */}
         <Link
