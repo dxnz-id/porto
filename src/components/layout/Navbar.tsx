@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { Menu } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 
 const navLinks = [
@@ -19,7 +18,6 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // GSAP: shrink navbar on scroll (h-20 → h-16, increase blur)
   useGSAP(() => {
     const header = document.getElementById("site-header");
     if (!header) return;
@@ -56,14 +54,14 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-headline-lg-mobile md:text-[32px] font-headline font-bold tracking-tighter text-primary"
+          className="font-headline font-bold tracking-tighter text-primary text-[24px] md:text-[28px]"
         >
           DXNZ
         </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map(({ href, label }) => {
+          {navLinks.map(({ href, label }, i) => {
             const isActive =
               href === "/"
                 ? pathname === "/" || pathname.startsWith("/projects")
@@ -73,35 +71,30 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className={`text-label-caps px-2 py-1 relative group transition-colors ${
-                  isActive
-                    ? "text-primary"
-                    : "text-secondary hover:text-primary"
+                className={`group flex items-center gap-1.5 transition-colors duration-200 ${
+                  isActive ? "text-primary" : "text-secondary hover:text-primary"
                 }`}
               >
-                {label}
-                {/* Underline — full width when active, expand on hover */}
-                <span
-                  className={`absolute bottom-0 left-1/2 h-0.5 bg-primary transition-all duration-300 ease-in-out -translate-x-1/2 ${
-                    isActive ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
-                />
+                {/* Index number */}
+                <span className="text-[10px] font-mono tabular-nums leading-none opacity-50 group-hover:opacity-100 transition-opacity duration-200 mt-0.5">
+                  0{i + 1}
+                </span>
+                <span className="text-label-caps">{label}</span>
               </Link>
             );
           })}
         </nav>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile — text menu trigger */}
         <button
-          className="md:hidden p-2 text-primary"
+          className="md:hidden text-label-caps text-primary"
           onClick={toggleMenu}
           aria-label="Open menu"
         >
-          <Menu size={24} />
+          Menu
         </button>
       </header>
 
-      {/* Mobile Menu Overlay */}
       <MobileMenu
         isOpen={mobileMenuOpen}
         onClose={closeMenu}
