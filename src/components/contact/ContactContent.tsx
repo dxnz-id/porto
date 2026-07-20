@@ -11,12 +11,40 @@ import SocialLinks from "@/components/contact/SocialLinks";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ContactContent() {
+  const headerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const formFields = formRef.current?.querySelectorAll("[data-field] > *");
+      const lines = headerRef.current?.querySelectorAll("[data-h-line]");
+      const extras = headerRef.current?.querySelectorAll("[data-h-extra]");
+
+      if (!lines?.length) return;
+
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+      tl.fromTo(
+        lines,
+        { y: "108%" },
+        { y: "0%", duration: 0.7, stagger: 0.1 },
+      );
+
+      if (extras?.length) {
+        tl.fromTo(
+          extras,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.5, stagger: 0.06 },
+          "-=0.3",
+        );
+      }
+    },
+    { scope: headerRef },
+  );
+
+  useGSAP(
+    () => {
+      const formFields = formRef.current?.querySelector("form")?.children;
       const sidebarItems = sidebarRef.current?.children;
 
       const tl = gsap.timeline({
@@ -50,24 +78,36 @@ export default function ContactContent() {
 
   return (
     <div className="flex-grow pt-16 md:pt-20 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full">
-      <header className="mb-16 md:mb-20">
-        <p className="text-label-caps text-secondary mb-3">Contact</p>
-        <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary mb-4">
-          Let&apos;s build something{" "}
-          <span className="text-secondary">together.</span>
-        </h1>
-        <p className="text-body-lg text-secondary max-w-2xl">
-          Whether you have a project in mind, want to collaborate, or just want
-          to say hi — I&apos;m always open to new conversations.
-        </p>
-      </header>
+      <div ref={headerRef}>
+        <header className="mb-16 md:mb-20">
+          <div className="overflow-hidden mb-3">
+            <p data-h-line className="text-label-caps text-secondary">
+              Contact
+            </p>
+          </div>
+          <div className="overflow-hidden mb-4">
+            <h1
+              data-h-line
+              className="text-headline-lg-mobile md:text-headline-xl text-primary"
+            >
+              Let&apos;s build something{" "}
+              <span className="text-secondary">together.</span>
+            </h1>
+          </div>
+          <div className="overflow-hidden">
+            <p
+              data-h-extra
+              className="text-body-lg text-secondary max-w-2xl"
+            >
+              Whether you have a project in mind, want to collaborate, or just
+              want to say hi — I&apos;m always open to new conversations.
+            </p>
+          </div>
+        </header>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-        <div
-          ref={formRef}
-          data-field
-          className="md:col-span-8 md:pr-16"
-        >
+        <div ref={formRef} className="md:col-span-8 md:pr-16">
           <ContactForm />
         </div>
 

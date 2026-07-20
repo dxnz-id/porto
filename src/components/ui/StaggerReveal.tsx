@@ -19,7 +19,7 @@ interface StaggerRevealProps {
 export default function StaggerReveal({
   children,
   className,
-  itemSelector = "> *",
+  itemSelector = ":scope > *",
   stagger = 0.1,
   y = 24,
   duration = 0.5,
