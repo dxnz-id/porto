@@ -6,8 +6,10 @@ export default function BlogPreview() {
   return (
     <section
       id="blog"
-      className="px-margin-mobile md:px-margin-desktop py-16 md:py-24"
+      className="py-16 md:py-24"
     >
+      {/* Inner container */}
+      <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
       {/* Section header */}
       <div className="mb-12">
         <div className="flex justify-between items-end mb-2">
@@ -62,6 +64,7 @@ export default function BlogPreview() {
             </div>
           </Link>
         ))}
+      </div>
       </div>
     </section>
   );

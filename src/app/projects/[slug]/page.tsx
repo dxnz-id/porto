@@ -43,7 +43,7 @@ export default async function ProjectPage({ params }: Props) {
   const { prev, next } = getAdjacentProjects(slug);
 
   return (
-    <div className="flex-grow w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop pt-16 md:pt-20 pb-section-gap">
+    <div className="flex-grow w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-16 md:pt-20 pb-section-gap">
       {/* Back link */}
       <Link
         href="/#work"
