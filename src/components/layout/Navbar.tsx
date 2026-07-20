@@ -11,6 +11,7 @@ import MobileMenu from "./MobileMenu";
 const navLinks = [
   { href: "/", label: "Work" },
   { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
