@@ -7,6 +7,7 @@ import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectMetadata from "@/components/projects/ProjectMetadata";
 import KeyFeatures from "@/components/projects/KeyFeatures";
 import ProjectNavigation from "@/components/projects/ProjectNavigation";
+import SectionReveal from "@/components/ui/SectionReveal";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -65,7 +66,6 @@ export default async function ProjectPage({ params }: Props) {
           <p className="text-body-lg text-secondary max-w-2xl">
             {project.description}
           </p>
-          {/* Tags: type + tech */}
           <div className="flex flex-wrap gap-2 mt-2">
             {project.tags.map((tag) => (
               <span
@@ -87,20 +87,28 @@ export default async function ProjectPage({ params }: Props) {
         </header>
 
         {/* Gallery */}
-        <ProjectGallery images={project.images} />
+        <SectionReveal>
+          <ProjectGallery images={project.images} />
+        </SectionReveal>
 
         {/* Metadata */}
-        <ProjectMetadata
-          techStack={project.techStack}
-          metadata={project.metadata}
-        />
+        <SectionReveal>
+          <ProjectMetadata
+            techStack={project.techStack}
+            metadata={project.metadata}
+          />
+        </SectionReveal>
 
         {/* Key Features */}
-        <KeyFeatures features={project.features} />
+        <SectionReveal>
+          <KeyFeatures features={project.features} />
+        </SectionReveal>
       </div>
 
       {/* Project navigation */}
-      <ProjectNavigation prev={prev} next={next} />
+      <SectionReveal>
+        <ProjectNavigation prev={prev} next={next} />
+      </SectionReveal>
     </div>
   );
 }

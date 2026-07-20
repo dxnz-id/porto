@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import IntroSection from "@/components/about/IntroSection";
 import JourneyTimeline from "@/components/about/JourneyTimeline";
 import InterestsTags from "@/components/about/InterestsTags";
+import SectionReveal from "@/components/ui/SectionReveal";
 
 export const metadata: Metadata = { title: "About" };
 
@@ -14,9 +15,13 @@ export default function AboutPage() {
           A bit more about who I am and how I got here.
         </p>
       </header>
+      {/* IntroSection has its own GSAP timeline */}
       <IntroSection />
+      {/* JourneyTimeline has its own GSAP ScrollTrigger stagger */}
       <JourneyTimeline />
-      <InterestsTags />
+      <SectionReveal>
+        <InterestsTags />
+      </SectionReveal>
     </div>
   );
 }

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { posts, getPost, getAdjacentPosts } from "@/lib/blog";
 import PostNavigation from "@/components/blog/PostNavigation";
+import TableOfContents from "@/components/blog/TableOfContents";
+import SectionReveal from "@/components/ui/SectionReveal";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Placeholder content per post (will be replaced with MDX later)
+// Placeholder content per post
 const placeholderContent: Record<string, string> = {
   "building-digital-library-laravel-filament": `
 Building a sophisticated administrative interface doesn't have to be an exercise in tedious boilerplate. When tasked with creating a digital library system, I needed a tool that prioritized rapid development without sacrificing technical integrity. Enter Laravel Filament.
@@ -54,10 +56,6 @@ Everything on Linux is designed to work beautifully from the command line. Packa
 ## Performance and Resource Usage
 
 A well-configured Linux system is remarkably lightweight. My development machine runs faster, cooler, and longer on battery than it did on any other OS.
-
-## The Ecosystem Just Works
-
-For web development specifically, Linux is where the tools were built. Docker, Node.js, Python, databases — everything runs natively without workarounds.
   `,
   "designing-minimal-interfaces": `
 Minimal design is often misunderstood as "less work." In reality, achieving a truly minimal interface requires more thought, more iteration, and more restraint than piling on features.
@@ -73,10 +71,6 @@ Before removing anything, understand what the user is trying to accomplish. Ever
 ## Typography as Structure
 
 In minimal design, typography does a lot of heavy lifting. Clear hierarchy through font weight, size, and spacing can replace visual clutter like borders, backgrounds, and decorative elements.
-
-## White Space is Not Empty Space
-
-White space guides attention, creates breathing room, and communicates relationships between elements. Treating it as wasted space is a common mistake that leads to cluttered, anxious-feeling interfaces.
   `,
 };
 
@@ -90,6 +84,9 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <div className="flex-grow max-w-[1440px] mx-auto w-full">
+      {/* TOC — fixed right, xl only */}
+      <TableOfContents articleId="post-article" />
+
       <div className="px-margin-mobile md:px-margin-desktop pt-32 pb-section-gap max-w-3xl">
         {/* Back link */}
         <Link
@@ -106,50 +103,53 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Post header */}
         <header className="mb-16">
           <h1 className="text-headline-xl text-primary mb-6">{post.title}</h1>
-          <div className="flex items-center gap-6">
-            <span className="text-label-mono text-secondary">{post.date}</span>
-            <span className="text-label-mono text-secondary">·</span>
-            <span className="text-label-mono text-secondary">
-              {post.readTime}
-            </span>
+          <div className="flex items-center gap-4 text-label-mono text-secondary border-b border-border-hairline pb-6">
+            <span>{post.date}</span>
+            <span className="w-1 h-1 rounded-full bg-border-hairline" />
+            <span>{post.readTime}</span>
           </div>
         </header>
 
-        {/* Post content — plain text for now, MDX when content/blog/ is ready */}
-        <article className="prose-custom">
-          {content
-            .trim()
-            .split(/\n\n+/)
-            .map((block, i) => {
-              if (block.startsWith("## ")) {
-                const id = block
-                  .replace("## ", "")
-                  .toLowerCase()
-                  .replace(/\s+/g, "-");
-                return (
-                  <h2
-                    key={i}
-                    id={id}
-                    className="text-headline-lg-mobile text-primary mt-16 mb-6 border-b border-border-hairline pb-4 scroll-mt-24"
-                  >
-                    {block.replace("## ", "")}
-                  </h2>
-                );
-              }
-              return (
-                <p
-                  key={i}
-                  className="text-body-lg text-on-surface leading-relaxed mb-6"
-                >
-                  {block}
-                </p>
-              );
-            })}
+        {/* Post content */}
+        <article id="post-article">
+          <SectionReveal>
+            <div>
+              {content
+                .trim()
+                .split(/\n\n+/)
+                .map((block, i) => {
+                  if (block.startsWith("## ")) {
+                    const text = block.replace("## ", "");
+                    const id = text
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")
+                      .replace(/[^\w-]/g, "");
+                    return (
+                      <h2
+                        key={i}
+                        id={id}
+                        className="text-headline-lg-mobile text-primary mt-16 mb-6 border-b border-border-hairline pb-4 scroll-mt-24"
+                      >
+                        {text}
+                      </h2>
+                    );
+                  }
+                  return (
+                    <p
+                      key={i}
+                      className="text-body-lg text-on-surface leading-relaxed mb-6"
+                    >
+                      {block}
+                    </p>
+                  );
+                })}
+            </div>
+          </SectionReveal>
         </article>
       </div>
 
-      {/* Post navigation — full width */}
-      <div className="px-margin-mobile md:px-margin-desktop">
+      {/* Post navigation */}
+      <div className="px-margin-mobile md:px-margin-desktop max-w-3xl">
         <PostNavigation prev={prev} next={next} />
       </div>
     </div>

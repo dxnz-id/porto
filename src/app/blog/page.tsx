@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { posts } from "@/lib/blog";
 import BlogPostItem from "@/components/blog/BlogPostItem";
+import SectionReveal from "@/components/ui/SectionReveal";
 
 export const metadata: Metadata = {
   title: "Writing",
@@ -21,11 +22,13 @@ export default function BlogPage() {
       </header>
 
       {/* Post list */}
-      <div className="flex flex-col border-t border-border-hairline">
-        {posts.map((post) => (
-          <BlogPostItem key={post.slug} post={post} />
-        ))}
-      </div>
+      <SectionReveal>
+        <div className="flex flex-col border-t border-border-hairline">
+          {posts.map((post) => (
+            <BlogPostItem key={post.slug} post={post} />
+          ))}
+        </div>
+      </SectionReveal>
     </div>
   );
 }
