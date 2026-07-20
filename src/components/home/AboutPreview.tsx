@@ -11,14 +11,12 @@ import { ArrowRight } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const techStack = [
-  "TypeScript",
-  "Laravel",
-  "Next.js",
-  "React",
-  "MySQL",
-  "Docker",
+  "Web Development",
+  "System Design",
   "Linux",
-  "Tailwind CSS",
+  "UI/UX",
+  "Open Source",
+  "Performance Optimization",
 ];
 
 export default function AboutPreview() {
@@ -104,7 +102,7 @@ export default function AboutPreview() {
 
             {/* Tech Stack */}
             <div className="border-t border-border-hairline pt-8">
-              <p className="text-label-caps text-secondary mb-6">Tech Stack</p>
+              <p className="text-label-caps text-secondary mb-6">Interests</p>
               <ul className="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-8">
                 {techStack.map((tech) => (
                   <li

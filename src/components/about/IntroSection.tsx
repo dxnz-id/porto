@@ -47,18 +47,53 @@ export default function IntroSection() {
         </div>
       </div>
 
-      {/* Intro text */}
+      {/* Intro text + stack */}
       <div
         ref={textRef}
         className="md:col-span-8 lg:col-span-7 lg:col-start-5 pt-4 md:pt-0"
       >
-        <p className="text-body-lg text-primary leading-relaxed">
+        <p className="text-body-lg text-primary leading-relaxed mb-10">
           I&apos;m a full-stack developer from Indonesia who enjoys building
           clean, practical web applications with a focus on thoughtful system
           design. I like understanding how software works beneath the surface
           and believe good software should solve real problems while staying
           simple to use and maintain.
         </p>
+
+        <div>
+          <div className="mb-6">
+            <p className="text-label-caps text-secondary mb-2">Stack</p>
+            <div className="border-b border-border-hairline" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
+            {[
+              { label: "Front End", items: ["TypeScript", "React", "Next.js", "Tailwind CSS", "shadcn/ui"] },
+              { label: "Back End", items: ["Laravel", "PHP", "Go", "Node.js", "REST API"] },
+              { label: "Database", items: ["MySQL", "PostgreSQL", "SQLite"] },
+              { label: "Cloud & DevOps", items: ["Docker", "Linux", "AWS", "Firebase"] },
+              { label: "Tools", items: ["Git", "Figma", "Postman"] },
+            ].map(({ label, items }, i) => (
+              <div key={label}>
+                <div className="flex items-baseline gap-3 mb-3">
+                  <span className="text-[11px] font-mono tabular-nums text-secondary">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="text-label-caps text-primary">{label}</h3>
+                </div>
+                <ul className="flex flex-wrap gap-2">
+                  {items.map((item) => (
+                    <li
+                      key={item}
+                      className="px-3 py-1 border border-border-hairline text-label-mono text-primary bg-bg-off-white"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
