@@ -9,21 +9,50 @@ export default function IntroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+  const stackHeaderRef = useRef<HTMLDivElement>(null);
+  const stackBorderRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       if (!photoRef.current || !textRef.current) return;
+      const categories = gsap.utils.toArray<HTMLElement>(".stack-category");
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.fromTo(
         photoRef.current,
         { opacity: 0, y: 28 },
         { opacity: 1, y: 0, duration: 0.75 },
-      ).fromTo(
-        textRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.7 },
-        "-=0.45",
-      );
+      )
+        .fromTo(
+          textRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.7 },
+          "-=0.45",
+        )
+        .fromTo(
+          stackRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.5 },
+          "-=0.2",
+        )
+        .fromTo(
+          stackHeaderRef.current,
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.3 },
+          "-=0.35",
+        )
+        .fromTo(
+          stackBorderRef.current,
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.35, transformOrigin: "left" },
+          "-=0.2",
+        )
+        .fromTo(
+          categories,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.35, stagger: 0.1 },
+          "-=0.2",
+        );
     },
     { scope: sectionRef },
   );
@@ -60,10 +89,10 @@ export default function IntroSection() {
           simple to use and maintain.
         </p>
 
-        <div>
-          <div className="mb-6">
+        <div ref={stackRef}>
+          <div ref={stackHeaderRef} className="mb-6">
             <p className="text-label-caps text-secondary mb-2">Stack</p>
-            <div className="border-b border-border-hairline" />
+            <div ref={stackBorderRef} className="border-b border-border-hairline" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
             {[
@@ -73,7 +102,7 @@ export default function IntroSection() {
               { label: "Cloud & DevOps", items: ["Docker", "Linux", "AWS", "Firebase"] },
               { label: "Tools", items: ["Git", "Figma", "Postman"] },
             ].map(({ label, items }, i) => (
-              <div key={label}>
+              <div key={label} className="stack-category">
                 <div className="flex items-baseline gap-3 mb-3">
                   <span className="text-[11px] font-mono tabular-nums text-secondary">
                     {String(i + 1).padStart(2, "0")}
