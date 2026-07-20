@@ -61,7 +61,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map(({ href, label }, i) => {
+          {navLinks.map(({ href, label }) => {
             const isActive =
               href === "/"
                 ? pathname === "/" || pathname.startsWith("/projects")
@@ -71,15 +71,13 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className={`group flex items-center gap-1.5 transition-colors duration-200 ${
-                  isActive ? "text-primary" : "text-secondary hover:text-primary"
+                className={`text-label-caps transition-colors duration-200 ${
+                  isActive
+                    ? "text-primary"
+                    : "text-secondary hover:text-primary"
                 }`}
               >
-                {/* Index number */}
-                <span className="text-[10px] font-mono tabular-nums leading-none opacity-50 group-hover:opacity-100 transition-opacity duration-200 mt-0.5">
-                  0{i + 1}
-                </span>
-                <span className="text-label-caps">{label}</span>
+                {label}
               </Link>
             );
           })}
