@@ -61,7 +61,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-10 max-w-2xl">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-2xl">
       {/* Name */}
       <div className="flex flex-col gap-2">
         <label htmlFor="name" className={labelClass}>
@@ -100,8 +100,8 @@ export default function ContactForm() {
       <div className="flex flex-col gap-2">
         <label htmlFor="subject" className={labelClass}>
           Subject{" "}
-          <span className="text-[10px] text-secondary normal-case tracking-normal ml-1">
-            optional
+          <span className="text-label-caps text-secondary normal-case tracking-normal font-body ml-1">
+            (optional)
           </span>
         </label>
         <input

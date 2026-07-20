@@ -13,7 +13,7 @@ export default function AvailabilityInfo() {
       <div className="flex flex-col gap-4">
         {info.map(({ label, value }) => (
           <div key={label} className="flex flex-col gap-1">
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-secondary">
+            <span className="text-label-caps text-secondary">
               {label}
             </span>
             <p className="text-body-md text-primary">{value}</p>

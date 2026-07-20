@@ -6,23 +6,24 @@ export default function BlogPreview() {
   return (
     <section
       id="blog"
-      className="px-margin-mobile md:px-margin-desktop pt-section-gap pb-8"
+      className="px-margin-mobile md:px-margin-desktop py-16 md:py-24"
     >
       {/* Section header */}
-      <div className="flex justify-between items-end mb-12 border-b border-border-hairline pb-4">
-        <h2 className="text-label-caps text-secondary uppercase tracking-widest">
-          Writing
-        </h2>
-        <Link
-          href="/blog"
-          className="text-label-mono text-primary hover:text-secondary flex items-center gap-2 group transition-colors"
-        >
-          View all posts{" "}
-          <ArrowRight
-            size={16}
-            className="group-hover:translate-x-1 transition-transform duration-200"
-          />
-        </Link>
+      <div className="mb-12">
+        <div className="flex justify-between items-end mb-2">
+          <p className="text-label-caps text-secondary">Writing</p>
+          <Link
+            href="/blog"
+            className="text-label-mono text-primary hover:text-secondary flex items-center gap-2 group transition-colors"
+          >
+            View all{" "}
+            <ArrowRight
+              size={16}
+              className="group-hover:translate-x-1 transition-transform duration-200"
+            />
+          </Link>
+        </div>
+        <div className="border-b border-border-hairline" />
       </div>
 
       {/* Post list */}

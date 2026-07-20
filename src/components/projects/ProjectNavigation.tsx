@@ -14,7 +14,7 @@ export default function ProjectNavigation({
   if (!prev && !next) return null;
 
   return (
-    <div className="mt-16 pt-16 border-t border-border-hairline grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0">
+    <div className="mt-12 pt-12 border-t border-border-hairline grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0">
       {/* Previous */}
       <div className="md:pr-8 md:border-r md:border-border-hairline">
         {prev ? (

@@ -56,37 +56,30 @@ export default async function ProjectPage({ params }: Props) {
         Back to Work
       </Link>
 
-      {/* Main content */}
-      <div className="flex flex-col gap-section-gap">
-        {/* Header */}
-        <header className="flex flex-col gap-6">
-          <p className="text-label-caps text-secondary">Project</p>
-          <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary max-w-4xl">
-            {project.name}
-          </h1>
-          <p className="text-body-lg text-secondary max-w-2xl">
-            {project.description}
-          </p>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 border border-border-hairline text-label-mono text-primary bg-bg-off-white"
-              >
-                {tag}
-              </span>
-            ))}
-            {project.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 border border-border-hairline text-label-mono text-primary bg-bg-off-white"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </header>
+      {/* Page header */}
+      <header className="mb-16 md:mb-20 border-b border-border-hairline pb-12">
+        <p className="text-label-caps text-secondary mb-4">Project</p>
+        <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary max-w-4xl mb-4">
+          {project.name}
+        </h1>
+        <p className="text-body-lg text-secondary max-w-2xl mb-8">
+          {project.description}
+        </p>
+        {/* Tech stack tags */}
+        <div className="flex flex-wrap gap-2">
+          {project.techStack.map((tech) => (
+            <span
+              key={tech}
+              className="px-3 py-1 border border-border-hairline text-label-mono text-primary bg-bg-off-white"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </header>
 
+      {/* Main content sections */}
+      <div className="flex flex-col gap-16 md:gap-24">
         {/* Gallery */}
         <SectionReveal>
           <ProjectGallery images={project.images} />

@@ -10,20 +10,22 @@ export default function ProjectMetadata({
   metadata,
 }: ProjectMetadataProps) {
   const metaItems = [
-    { label: "ROLE", value: metadata.role },
-    { label: "FOCUS", value: metadata.focus },
-    { label: "SHIPPED", value: metadata.shipped },
-    { label: "STACK", value: metadata.stackCount },
+    { label: "Role", value: metadata.role },
+    { label: "Focus", value: metadata.focus },
+    { label: "Shipped", value: metadata.shipped },
+    { label: "Stack", value: metadata.stackCount },
   ];
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-border-hairline pt-12">
-      {/* Left: Built With */}
-      <div className="flex flex-col gap-6">
-        <h2 className="text-label-caps text-secondary tracking-widest">
-          BUILT WITH
-        </h2>
-        <div className="flex flex-wrap gap-2">
+    <section>
+      <div className="mb-10">
+        <p className="text-label-caps text-secondary mb-2">Built With</p>
+        <div className="border-b border-border-hairline" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        {/* Left: Tech stack tags */}
+        <div className="flex flex-wrap gap-2 content-start">
           {techStack.map((tech) => (
             <span
               key={tech}
@@ -33,13 +35,9 @@ export default function ProjectMetadata({
             </span>
           ))}
         </div>
-      </div>
 
-      {/* Right: Metadata grid */}
-      <div className="flex flex-col md:flex-row gap-12">
-        {/* Vertical divider desktop */}
-        <div className="hidden md:block w-px bg-border-hairline h-full" />
-        <div className="grid grid-cols-2 gap-x-12 gap-y-8 flex-grow">
+        {/* Right: Meta grid */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-8">
           {metaItems.map(({ label, value }) => (
             <div key={label} className="flex flex-col gap-1">
               <span className="text-label-caps text-secondary">{label}</span>

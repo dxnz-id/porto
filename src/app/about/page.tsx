@@ -19,7 +19,8 @@ export default function AboutPage() {
           Who I am.
         </h1>
         <p className="text-body-lg text-secondary max-w-2xl">
-          A bit more about me and how I got here.
+          Full-stack developer from Indonesia. I build practical software and
+          enjoy understanding how things work beneath the surface.
         </p>
       </header>
       <IntroSection />

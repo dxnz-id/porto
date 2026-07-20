@@ -31,7 +31,7 @@ export default function IntroSection() {
   return (
     <section
       ref={sectionRef}
-      className="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-section-gap items-start"
+      className="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-16 md:mb-24 items-start"
     >
       {/* Photo */}
       <div ref={photoRef} className="md:col-span-4 lg:col-span-3">

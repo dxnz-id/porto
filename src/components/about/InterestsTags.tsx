@@ -10,10 +10,11 @@ const interests = [
 export default function InterestsTags() {
   return (
     <section>
-      <h2 className="text-headline-lg-mobile text-primary mb-8 border-b border-border-hairline pb-4">
-        Interests
-      </h2>
-      <div className="flex flex-wrap gap-4">
+      <div className="mb-8">
+        <p className="text-label-caps text-secondary mb-2">Interests</p>
+        <div className="border-b border-border-hairline" />
+      </div>
+      <div className="flex flex-wrap gap-3">
         {interests.map((interest) => (
           <span
             key={interest}

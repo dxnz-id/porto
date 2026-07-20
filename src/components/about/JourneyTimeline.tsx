@@ -96,10 +96,11 @@ export default function JourneyTimeline() {
   );
 
   return (
-    <section ref={sectionRef} className="mb-section-gap">
-      <h2 className="text-headline-lg-mobile text-primary mb-12 border-b border-border-hairline pb-4">
-        Journey
-      </h2>
+    <section ref={sectionRef} className="mb-16 md:mb-24">
+      <div className="mb-12">
+        <p className="text-label-caps text-secondary mb-2">Journey</p>
+        <div className="border-b border-border-hairline" />
+      </div>
 
       <div
         ref={itemsRef}

@@ -56,14 +56,17 @@ export default function AboutPreview() {
     <section
       ref={sectionRef}
       id="about"
-      className="py-section-gap px-margin-mobile md:px-margin-desktop border-b border-border-hairline bg-bg-off-white"
+      className="py-16 md:py-24 px-margin-mobile md:px-margin-desktop border-b border-border-hairline bg-bg-off-white"
     >
+      {/* Section header */}
+      <div className="mb-12">
+        <p className="text-label-caps text-secondary mb-2">About</p>
+        <div className="border-b border-border-hairline" />
+      </div>
+
       <div className="grid grid-cols-4 md:grid-cols-12 gap-gutter">
         {/* Photo */}
-        <div
-          ref={photoRef}
-          className="col-span-4 md:col-span-4 mb-8 md:mb-0"
-        >
+        <div ref={photoRef} className="col-span-4 md:col-span-4 mb-8 md:mb-0">
           <div className="w-full aspect-[3/4] border border-border-hairline bg-surface relative overflow-hidden">
             <Image
               src="/images/profile.jpg"
@@ -80,23 +83,15 @@ export default function AboutPreview() {
           ref={textRef}
           className="col-span-4 md:col-span-7 flex flex-col justify-center md:col-start-6"
         >
-          <h2 className="text-label-caps text-secondary uppercase tracking-widest mb-8">
-            About
-          </h2>
           <p className="text-body-lg text-primary mb-6 leading-relaxed">
             I&apos;m a full-stack developer from Indonesia who enjoys building
             web applications that are clean, fast, and practical. I primarily
             work with Laravel, Next.js, TypeScript, and SQL databases, and I
-            like designing systems from the UI down to the database. Beyond
-            writing code, I&apos;m interested in Linux, self-hosting,
-            performance optimization, and understanding how software works
-            beneath the surface. I believe good software isn&apos;t defined by
-            complexity — it should solve real problems while staying simple to
-            use and maintain.
+            like designing systems from the UI down to the database.
           </p>
           <Link
             href="/about"
-            className="text-label-mono text-secondary hover:text-primary transition-colors flex items-center gap-2 mt-2 group mb-12"
+            className="text-label-mono text-secondary hover:text-primary transition-colors flex items-center gap-2 mb-12 group"
           >
             Read more about me{" "}
             <ArrowRight
@@ -107,14 +102,12 @@ export default function AboutPreview() {
 
           {/* Tech Stack */}
           <div className="border-t border-border-hairline pt-8">
-            <h3 className="text-label-caps text-secondary uppercase tracking-widest mb-6">
-              Tech Stack
-            </h3>
+            <p className="text-label-caps text-secondary mb-6">Tech Stack</p>
             <ul className="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-8">
               {techStack.map((tech) => (
                 <li
                   key={tech}
-                  className="text-label-mono text-primary flex items-center border-b border-border-hairline pb-2"
+                  className="text-label-mono text-primary border-b border-border-hairline pb-2"
                 >
                   {tech}
                 </li>

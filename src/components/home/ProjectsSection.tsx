@@ -5,13 +5,12 @@ export default function ProjectsSection() {
   return (
     <section
       id="work"
-      className="py-section-gap border-b border-border-hairline"
+      className="py-16 md:py-24 border-b border-border-hairline"
     >
-      {/* Section label */}
+      {/* Section header */}
       <div className="px-margin-mobile md:px-margin-desktop mb-12">
-        <h2 className="text-label-caps text-secondary uppercase tracking-widest border-b border-border-hairline pb-4">
-          Projects
-        </h2>
+        <p className="text-label-caps text-secondary mb-2">Selected Work</p>
+        <div className="border-b border-border-hairline" />
       </div>
 
       {/* 2-col grid — no outer padding, cards have own padding */}
