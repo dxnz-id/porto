@@ -6,6 +6,7 @@ import { posts, getPost, getAdjacentPosts } from "@/lib/blog";
 import PostNavigation from "@/components/blog/PostNavigation";
 import TableOfContents from "@/components/blog/TableOfContents";
 import SectionReveal from "@/components/ui/SectionReveal";
+import ShareSection from "@/components/blog/ShareSection";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -83,35 +84,35 @@ export default async function BlogPostPage({ params }: Props) {
   const content = placeholderContent[slug] ?? "";
 
   return (
-    <div className="flex-grow max-w-[1440px] mx-auto w-full">
+    <>
       {/* TOC — fixed right, xl only */}
       <TableOfContents articleId="post-article" />
 
-      <div className="px-margin-mobile md:px-margin-desktop pt-32 pb-section-gap max-w-3xl">
-        {/* Back link */}
-        <Link
-          href="/blog"
-          className="text-label-mono text-secondary hover:text-primary transition-colors flex items-center gap-2 mb-12 group"
-        >
-          <ArrowLeft
-            size={14}
-            className="group-hover:-translate-x-1 transition-transform duration-200"
-          />
-          Back to Writing
-        </Link>
+      <main className="flex-grow pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto flex justify-center">
+        <article className="w-full max-w-[700px]" id="post-article">
+          {/* Back link */}
+          <Link
+            href="/blog"
+            className="text-label-mono text-secondary hover:text-primary transition-colors flex items-center gap-2 mb-12 group"
+          >
+            <ArrowLeft
+              size={14}
+              className="group-hover:-translate-x-1 transition-transform duration-200"
+            />
+            Back to Writing
+          </Link>
 
-        {/* Post header */}
-        <header className="mb-16">
-          <h1 className="text-headline-xl text-primary mb-6">{post.title}</h1>
-          <div className="flex items-center gap-4 text-label-mono text-secondary border-b border-border-hairline pb-6">
-            <span>{post.date}</span>
-            <span className="w-1 h-1 rounded-full bg-border-hairline" />
-            <span>{post.readTime}</span>
-          </div>
-        </header>
+          {/* Post header */}
+          <header className="mb-16">
+            <h1 className="text-headline-xl text-primary mb-6">{post.title}</h1>
+            <div className="flex items-center gap-4 text-label-mono text-secondary border-b border-border-hairline pb-6">
+              <span>{post.date}</span>
+              <span className="w-1 h-1 rounded-full bg-border-hairline" />
+              <span>{post.readTime}</span>
+            </div>
+          </header>
 
-        {/* Post content */}
-        <article id="post-article">
+          {/* Post content */}
           <SectionReveal>
             <div>
               {content
@@ -145,13 +146,14 @@ export default async function BlogPostPage({ params }: Props) {
                 })}
             </div>
           </SectionReveal>
-        </article>
-      </div>
 
-      {/* Post navigation */}
-      <div className="px-margin-mobile md:px-margin-desktop max-w-3xl">
-        <PostNavigation prev={prev} next={next} />
-      </div>
-    </div>
+          {/* Share */}
+          <ShareSection title={post.title} description={post.description} />
+
+          {/* Post navigation */}
+          <PostNavigation prev={prev} next={next} />
+        </article>
+      </main>
+    </>
   );
 }
