@@ -43,11 +43,11 @@ export default async function ProjectPage({ params }: Props) {
   const { prev, next } = getAdjacentProjects(slug);
 
   return (
-    <div className="flex-grow w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-24 bg-surface">
+    <div className="flex-grow w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop pt-16 md:pt-20 pb-section-gap">
       {/* Back link */}
       <Link
         href="/#work"
-        className="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors text-label-mono mb-12 group"
+        className="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors text-label-mono mb-10 group"
       >
         <ArrowLeft
           size={16}
@@ -60,6 +60,7 @@ export default async function ProjectPage({ params }: Props) {
       <div className="flex flex-col gap-section-gap">
         {/* Header */}
         <header className="flex flex-col gap-6">
+          <p className="text-label-caps text-secondary">Project</p>
           <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary max-w-4xl">
             {project.name}
           </h1>

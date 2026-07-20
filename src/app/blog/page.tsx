@@ -10,15 +10,16 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <div className="flex-grow pt-20 pb-section-gap max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+    <div className="flex-grow pt-16 md:pt-20 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto">
       {/* Page header */}
-      <header className="mb-24 pt-20 grid grid-cols-4 md:grid-cols-12 gap-gutter">
-        <div className="col-span-4 md:col-span-8">
-          <h1 className="text-headline-xl text-primary mb-4">Writing</h1>
-          <p className="text-body-lg text-secondary max-w-lg">
-            Thoughts on web development, Linux, and building things.
-          </p>
-        </div>
+      <header className="mb-16 md:mb-20">
+        <p className="text-label-caps text-secondary mb-3">Blog</p>
+        <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary mb-4">
+          Writing.
+        </h1>
+        <p className="text-body-lg text-secondary max-w-xl">
+          Thoughts on web development, Linux, and building things.
+        </p>
       </header>
 
       {/* Post list */}

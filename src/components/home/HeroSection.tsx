@@ -31,7 +31,7 @@ export default function HeroSection() {
   );
 
   return (
-    <section className="flex flex-col justify-center px-margin-mobile md:px-margin-desktop border-b border-border-hairline pt-32 pb-40">
+    <section className="flex flex-col justify-center px-margin-mobile md:px-margin-desktop border-b border-border-hairline pt-16 md:pt-20 pb-32 md:pb-40">
       <div ref={containerRef} className="grid grid-cols-4 md:grid-cols-12 gap-gutter">
         <div className="col-span-4 md:col-span-10 md:col-start-2">
           <div className="mb-8">

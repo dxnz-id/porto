@@ -12,16 +12,17 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="flex-grow w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-section-gap bg-surface">
-      <header className="mb-24">
-        <h1 className="text-headline-xl text-primary mb-4 md:mb-6">About</h1>
-        <p className="text-body-lg text-on-surface-variant max-w-2xl">
-          A bit more about who I am and how I got here.
+    <div className="flex-grow pt-16 md:pt-20 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto">
+      <header className="mb-16 md:mb-20">
+        <p className="text-label-caps text-secondary mb-3">About</p>
+        <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary mb-4">
+          Who I am.
+        </h1>
+        <p className="text-body-lg text-secondary max-w-2xl">
+          A bit more about me and how I got here.
         </p>
       </header>
-      {/* IntroSection has its own GSAP timeline */}
       <IntroSection />
-      {/* JourneyTimeline has its own GSAP ScrollTrigger stagger */}
       <JourneyTimeline />
       <SectionReveal>
         <InterestsTags />

@@ -12,16 +12,17 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="flex-grow py-section-gap px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full">
+    <div className="flex-grow pt-16 md:pt-20 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full">
       {/* Page header */}
-      <header className="mb-16 md:mb-24 mt-12 md:mt-20">
-        <h1 className="text-[48px] md:text-headline-xl leading-[1.1] tracking-tighter text-primary mb-6">
+      <header className="mb-16 md:mb-20">
+        <p className="text-label-caps text-secondary mb-3">Contact</p>
+        <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary mb-4">
           Let&apos;s build something{" "}
           <span className="text-secondary">together.</span>
         </h1>
-        <p className="text-body-lg text-on-surface-variant max-w-2xl">
-          Whether you have a project in mind, want to discuss a collaboration,
-          or just want to say hi — I&apos;m always open to new conversations.
+        <p className="text-body-lg text-secondary max-w-2xl">
+          Whether you have a project in mind, want to collaborate, or just want
+          to say hi — I&apos;m always open to new conversations.
         </p>
       </header>
 
