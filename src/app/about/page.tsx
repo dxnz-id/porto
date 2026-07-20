@@ -4,7 +4,11 @@ import JourneyTimeline from "@/components/about/JourneyTimeline";
 import InterestsTags from "@/components/about/InterestsTags";
 import SectionReveal from "@/components/ui/SectionReveal";
 
-export const metadata: Metadata = { title: "About" };
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn more about Zidan — a fullstack developer from Indonesia, his journey, tech stack, and interests.",
+};
 
 export default function AboutPage() {
   return (

@@ -35,7 +35,7 @@ export default function HeroSection() {
       <div ref={containerRef} className="grid grid-cols-4 md:grid-cols-12 gap-gutter">
         <div className="col-span-4 md:col-span-10 md:col-start-2">
           <div className="mb-8">
-            <h1 className="font-headline text-[32px] md:text-[40px] md:leading-[1.2] tracking-tighter max-w-4xl">
+            <h1 className="font-headline text-headline-lg-mobile md:text-headline-xl max-w-4xl">
               <span data-hero className="text-secondary block mb-2">
                 Hey, I&apos;m Zidan.
               </span>

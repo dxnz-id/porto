@@ -1,28 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-
-const posts = [
-  {
-    slug: "building-digital-library-laravel-filament",
-    date: "01.12.24",
-    title: "Building a Digital Library with Laravel Filament",
-    description:
-      "Notes on building an admin-friendly library management system with Laravel and Filament.",
-  },
-  {
-    slug: "why-i-use-linux-for-development",
-    date: "11.28.23",
-    title: "Why I Use Linux for Development",
-    description:
-      "A few reasons Linux has become my daily driver for coding and self-hosting.",
-  },
-  {
-    slug: "designing-minimal-interfaces",
-    date: "10.15.23",
-    title: "Designing Minimal Interfaces That Stay Practical",
-    description: "Thoughts on keeping UI simple without sacrificing usability.",
-  },
-];
+import { posts } from "@/lib/blog";
 
 export default function BlogPreview() {
   return (

@@ -88,7 +88,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* TOC — fixed right, xl only */}
       <TableOfContents articleId="post-article" />
 
-      <main className="flex-grow pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto flex justify-center">
+      <div className="pt-12 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto flex justify-center">
         <article className="w-full max-w-[700px]" id="post-article">
           {/* Back link */}
           <Link
@@ -153,7 +153,7 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Post navigation */}
           <PostNavigation prev={prev} next={next} />
         </article>
-      </main>
+      </div>
     </>
   );
 }

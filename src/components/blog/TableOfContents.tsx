@@ -93,7 +93,7 @@ export default function TableOfContents({
             >
               {/* Label — visible on group hover */}
               <span
-                className={`text-[11px] leading-none font-mono tracking-wide whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${
+                className={`text-label-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${
                   isActive ? "text-primary" : "text-secondary"
                 }`}
               >

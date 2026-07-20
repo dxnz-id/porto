@@ -90,7 +90,7 @@ export default function MobileMenu({
               key={href}
               href={href}
               onClick={onClose}
-              className={`text-headline-xl py-4 border-b border-border-hairline transition-colors ${
+              className={`text-headline-lg-mobile py-4 border-b border-border-hairline transition-colors ${
                 isActive ? "text-primary" : "text-secondary hover:text-primary"
               }`}
             >

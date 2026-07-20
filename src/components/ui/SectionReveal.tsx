@@ -39,6 +39,9 @@ export default function SectionReveal({
             start: "top 85%",
             once: true,
           },
+          onComplete: () => {
+            el.style.willChange = "auto";
+          },
         }
       );
     },
@@ -46,7 +49,11 @@ export default function SectionReveal({
   );
 
   return (
-    <div ref={ref} className={className}>
+    <div
+      ref={ref}
+      className={className}
+      style={{ opacity: 0, willChange: "transform, opacity" }}
+    >
       {children}
     </div>
   );
