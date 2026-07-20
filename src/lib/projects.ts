@@ -3,7 +3,15 @@ export interface Project {
   name: string;
   description: string;
   techStack: string[];
+  tags: string[];
   images: { src: string; label: string }[];
+  metadata: {
+    role: string;
+    focus: string;
+    shipped: string;
+    stackCount: string;
+  };
+  features: { title: string; description: string }[];
 }
 
 const projects: Project[] = [
@@ -13,10 +21,39 @@ const projects: Project[] = [
     description:
       "A digital library platform for managing collections, users, and borrowing, built with a modern admin experience.",
     techStack: ["Laravel", "Filament", "MySQL"],
+    tags: ["University Coursework", "Solo Project"],
     images: [
       {
         src: "https://lh3.googleusercontent.com/aida-public/AB6AXuA3kLN-UnMNIbUS_9CfeN5a6p4sYFa84avKsyFkAxrfOQpxTQPq0JCl0zQbvo2-caKqEfGRfvALYjBboNvSLptuI8bvPujmVB7GWg_TTSao8wCCTQgGZLht3kdl-QuLLCB7THhYOuIqCTQ-CYb_9j7aM3Gu429sc5b6EdINtEC0TwFxDU6Uw6UB51J0COZbanKaKmM3BN7WTAGRxtxPMc_NOfS7Q9B6RxOdLQE5lJO-iQwjqOsCxJ-hiIX9Ngd6Vt8hDzOLKchWtn3Y",
         label: "Dashboard Overview",
+      },
+    ],
+    metadata: {
+      role: "Core Systems & DevOps Architect",
+      focus: "Web application",
+      shipped: "Mar 2026",
+      stackCount: "3 technologies",
+    },
+    features: [
+      {
+        title: "Collection Management",
+        description:
+          "Add, edit, and organize library collections with a simple interface.",
+      },
+      {
+        title: "Borrowing System",
+        description:
+          "Track borrowing and returns for library collections.",
+      },
+      {
+        title: "User Management",
+        description:
+          "Manage library members and view their borrowing records.",
+      },
+      {
+        title: "Admin Dashboard",
+        description:
+          "A Filament-powered admin panel for day-to-day library operations.",
       },
     ],
   },
@@ -26,6 +63,7 @@ const projects: Project[] = [
     description:
       "A laboratory management platform with a Laravel-powered backend and a modern React landing page.",
     techStack: ["Laravel", "Filament", "React", "Docker", "MariaDB"],
+    tags: ["School Project", "Solo Project"],
     images: [
       {
         src: "https://lh3.googleusercontent.com/aida-public/AB6AXuA4D8DBkjeNeWlFEEOY-1dRFLE-zgySJSdkjmKTgVaveY--Va66qDWwe1fA8Ak1vAElERixHeS-RYNI8YcnZK3HXapgRnLsmvxl2FKWwy-uyNwX9Br-odU0mCJ_FyXAtvkpzsJbIsM36Kf_fAVEIi-QySFOZO5eaZGRLXHcCUlR1GoH7XyP9vPrWCNuHPBvJUNSvKYdvjQmRnWB4n2EYA91H1zt26TFOCpue1uv_-tpmufgtkj4hq9EmXX_I02ku8LDCT-sSOPAyYQv",
@@ -40,6 +78,34 @@ const projects: Project[] = [
         label: "Dashboard",
       },
     ],
+    metadata: {
+      role: "Fullstack Developer",
+      focus: "Web application",
+      shipped: "Feb 2026",
+      stackCount: "5 technologies",
+    },
+    features: [
+      {
+        title: "Lab Equipment Tracking",
+        description:
+          "Track and manage laboratory equipment inventory and availability.",
+      },
+      {
+        title: "Reservation System",
+        description:
+          "Allow students and staff to reserve lab equipment and rooms.",
+      },
+      {
+        title: "User Management",
+        description:
+          "Role-based access control for admins, staff, and students.",
+      },
+      {
+        title: "Dashboard",
+        description:
+          "A Filament admin panel with real-time stats and equipment status.",
+      },
+    ],
   },
   {
     slug: "siwayut",
@@ -47,6 +113,7 @@ const projects: Project[] = [
     description:
       "A catering management platform with a public landing page, order form, order tracking, and an admin panel, built on a custom vanilla PHP MVC framework.",
     techStack: ["PHP", "MySQL", "Tailwind CSS"],
+    tags: ["University Coursework", "Solo Project"],
     images: [
       {
         src: "https://lh3.googleusercontent.com/aida-public/AB6AXuD3S7WYzbvZ3M49AS1ojQ9fE6vIUNFfsMPwpUJVvASmsS7232hwh6J54lYKoRL7pco8U5eIoAhlzu5I07RJK02OuNE9iooTJwkXAKq398FFtpj9Ty7zwusvF1qZQlwpiGEUuSCKRm2z9AZrr6iymuReKokWAuOfADRNAwxoTNtTKayS0AosH23RAntQI10gnKldiWSgxRJJKxqumCox-vpIzhRlzlHpZ7HnpaFxy2IFJCisuP_8nLg7Wdes8ziHV8oF174e5dPuOqdC",
@@ -55,6 +122,34 @@ const projects: Project[] = [
       {
         src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBUp5bZElFn40puK0yrY_7BoPSCWZuodq3EfQqM-6Wq-04XTN2vkrLHec-FTWJD30uz5eth470EBgBLlx5wljXYxXcn3uwNNyRjAyX_SPYy594djBwsWNL7ZZvFj4N8_y19Ms0XdIJoEl4-y9McM4YcDszveqETCxQzrEE-52BCeVYxOEXFGQ3FkUA42Nnlu5U3nJq6__n9bltMBgmXNf9dCp36NytAGA-U1HzEJlg8bhzY1u8ht84Bob1BAOXoMrXSXb95GbmPIVmw",
         label: "Mobile Interface",
+      },
+    ],
+    metadata: {
+      role: "Fullstack Developer",
+      focus: "Web application",
+      shipped: "Jan 2026",
+      stackCount: "3 technologies",
+    },
+    features: [
+      {
+        title: "Landing Page",
+        description:
+          "A public-facing page showcasing the catering menu and services.",
+      },
+      {
+        title: "Order Form",
+        description:
+          "A simple form for customers to submit catering orders online.",
+      },
+      {
+        title: "Order Tracking",
+        description:
+          "Let customers check the status of their order with a tracking page.",
+      },
+      {
+        title: "Admin Panel",
+        description:
+          "A simple admin interface to manage orders, menus, and delivery status.",
       },
     ],
   },
