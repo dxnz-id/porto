@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import StackIcon from "tech-stack-icons";
 
 export default function IntroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -96,11 +97,11 @@ export default function IntroSection() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
             {[
-              { label: "Front End", items: ["TypeScript", "React", "Next.js", "Tailwind CSS", "shadcn/ui"] },
-              { label: "Back End", items: ["Laravel", "PHP", "Go", "Node.js", "REST API"] },
-              { label: "Database", items: ["MySQL", "PostgreSQL", "SQLite"] },
-              { label: "Cloud & DevOps", items: ["Docker", "Linux", "AWS", "Firebase"] },
-              { label: "Tools", items: ["Git", "Figma", "Postman"] },
+              { label: "Front End", items: [["TypeScript", "typescript"], ["React", "react"], ["Next.js", "nextjs2"], ["Tailwind CSS", "tailwindcss"], ["shadcn/ui", null]] },
+              { label: "Back End", items: [["Laravel", "laravel"], ["PHP", "php"], ["Go", "go"], ["Node.js", "nodejs"], ["REST API", null]] },
+              { label: "Database", items: [["MySQL", "mysql"], ["PostgreSQL", "postgresql"], ["SQLite", "sqlite"]] },
+              { label: "Cloud & DevOps", items: [["Docker", "docker"], ["Linux", "linux"], ["AWS", "aws"], ["Firebase", "firebase"]] },
+              { label: "Tools", items: [["Git", "git"], ["Figma", "figma"], ["Postman", "postman"]] },
             ].map(({ label, items }, i) => (
               <div key={label} className="stack-category">
                 <div className="flex items-baseline gap-3 mb-3">
@@ -110,11 +111,12 @@ export default function IntroSection() {
                   <h3 className="text-label-caps text-primary">{label}</h3>
                 </div>
                 <ul className="flex flex-wrap gap-2">
-                  {items.map((item) => (
+                  {items.map(([item, icon]) => (
                     <li
                       key={item}
-                      className="px-3 py-1 border border-border-hairline text-label-mono text-primary bg-bg-off-white"
+                      className="flex items-center gap-1.5 px-3 py-1 border border-border-hairline text-label-mono text-primary bg-bg-off-white"
                     >
+                      {icon && <StackIcon name={icon} variant="grayscale" className="w-4 h-4 shrink-0" />}
                       {item}
                     </li>
                   ))}
