@@ -69,27 +69,31 @@ const entries: TimelineEntry[] = [
 export default function JourneyTimeline() {
   const sectionRef = useRef<HTMLElement>(null);
   const itemsRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       const items = itemsRef.current?.querySelectorAll("[data-timeline-item]");
-      if (!items?.length) return;
+      if (!items?.length || !lineRef.current) return;
 
-      gsap.fromTo(
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: itemsRef.current,
+          start: "top 85%",
+          once: true,
+        },
+        defaults: { ease: "power4.out" },
+      });
+
+      tl.fromTo(
+        lineRef.current,
+        { scaleY: 0 },
+        { scaleY: 1, duration: 0.7, transformOrigin: "top" }
+      ).fromTo(
         items,
         { opacity: 0, y: 48 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power4.out",
-          stagger: 0.12,
-          scrollTrigger: {
-            trigger: itemsRef.current,
-            start: "top 85%",
-            once: true,
-          },
-        }
+        { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 },
+        "-=0.35"
       );
     },
     { scope: sectionRef }
@@ -104,8 +108,13 @@ export default function JourneyTimeline() {
 
       <div
         ref={itemsRef}
-        className="relative pl-6 md:pl-12 border-l border-border-hairline ml-2 md:ml-4 space-y-16"
+        className="relative pl-6 md:pl-12 ml-2 md:ml-4 space-y-16"
       >
+        {/* Vertical line — animated draw */}
+        <div
+          ref={lineRef}
+          className="absolute left-0 inset-y-0 w-px bg-border-hairline"
+        />
         {entries.map((entry, i) => (
           <div key={i} data-timeline-item="" className="relative">
             {/* Dot indicator */}

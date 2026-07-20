@@ -27,11 +27,11 @@ export default function SectionReveal({
 
       gsap.fromTo(
         el,
-        { opacity: 0, y: 64 },
+        { opacity: 0, y: 40 },
         {
           opacity: 1,
           y: 0,
-          duration: 1.0,
+          duration: 0.7,
           ease: "power4.out",
           delay,
           scrollTrigger: {

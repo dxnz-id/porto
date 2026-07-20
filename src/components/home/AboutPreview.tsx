@@ -23,10 +23,15 @@ export default function AboutPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const interestsBorderRef = useRef<HTMLDivElement>(null);
+  const interestsLabelRef = useRef<HTMLParagraphElement>(null);
+  const interestsGridRef = useRef<HTMLUListElement>(null);
 
   useGSAP(
     () => {
       if (!photoRef.current || !textRef.current) return;
+
+      const interestItems = interestsGridRef.current?.querySelectorAll("li");
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -34,18 +39,40 @@ export default function AboutPreview() {
           start: "top 75%",
           once: true,
         },
+        defaults: { ease: "power4.out" },
       });
 
       tl.fromTo(
         photoRef.current,
         { opacity: 0, y: 32 },
-        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
-      ).fromTo(
-        textRef.current,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
-        "-=0.45"
-      );
+        { opacity: 1, y: 0, duration: 0.7 }
+      )
+        .fromTo(
+          textRef.current,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 0.7 },
+          "-=0.45"
+        )
+        .fromTo(
+          interestsBorderRef.current,
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.4, transformOrigin: "left" },
+          "-=0.35"
+        )
+        .fromTo(
+          interestsLabelRef.current,
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.3 },
+          "-=0.2"
+        );
+      if (interestItems?.length) {
+        tl.fromTo(
+          interestItems,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.35, stagger: 0.06 },
+          "-=0.15"
+        );
+      }
     },
     { scope: sectionRef }
   );
@@ -101,9 +128,9 @@ export default function AboutPreview() {
             </Link>
 
             {/* Tech Stack */}
-            <div className="border-t border-border-hairline pt-8">
-              <p className="text-label-caps text-secondary mb-6">Interests</p>
-              <ul className="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-8">
+            <div ref={interestsBorderRef} className="border-t border-border-hairline pt-8">
+              <p ref={interestsLabelRef} className="text-label-caps text-secondary mb-6">Interests</p>
+              <ul ref={interestsGridRef} className="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-8">
                 {techStack.map((tech) => (
                   <li
                     key={tech}
