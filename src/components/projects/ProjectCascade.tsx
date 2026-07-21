@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface ProjectCascadeProps {
   gallery: React.ReactNode;
+  links: React.ReactNode;
   metadata: React.ReactNode;
   features: React.ReactNode;
   navigation: React.ReactNode;
@@ -16,6 +17,7 @@ interface ProjectCascadeProps {
 
 export default function ProjectCascade({
   gallery,
+  links,
   metadata,
   features,
   navigation,
@@ -49,7 +51,7 @@ export default function ProjectCascade({
 
   return (
     <div ref={sectionsRef} className="flex flex-col gap-16 md:gap-24">
-      {[gallery, metadata, features, navigation].map((child, i) => (
+      {[gallery, links, metadata, features, navigation].map((child, i) => (
         <div key={i}>{child}</div>
       ))}
     </div>

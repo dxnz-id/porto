@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import projects from "@/lib/projects";
 import ProjectGallery from "@/components/projects/ProjectGallery";
+import ProjectLinks from "@/components/projects/ProjectLinks";
 import ProjectMetadata from "@/components/projects/ProjectMetadata";
 import KeyFeatures from "@/components/projects/KeyFeatures";
 import PrevNextNav from "@/components/ui/PrevNextNav";
@@ -77,6 +78,7 @@ export default async function ProjectPage({ params }: Props) {
 
       <ProjectCascade
         gallery={<ProjectGallery images={project.images} />}
+        links={<ProjectLinks links={project.links} />}
         metadata={
           <ProjectMetadata
             techStack={project.techStack}
