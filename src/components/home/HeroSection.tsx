@@ -13,27 +13,34 @@ export default function HeroSection() {
     () => {
       // Line-by-line clip reveal — each line rises from overflow:hidden container
       const lines = Array.from(
-        containerRef.current?.querySelectorAll("[data-line]") ?? []
+        containerRef.current?.querySelectorAll("[data-line]") ?? [],
       );
       const extras = Array.from(
-        containerRef.current?.querySelectorAll("[data-extra]") ?? []
+        containerRef.current?.querySelectorAll("[data-extra]") ?? [],
       );
       if (!lines.length) return;
 
-      const tl = gsap.timeline({ delay: 0.2, defaults: { ease: "power4.out" } });
+      const tl = gsap.timeline({
+        delay: 0.2,
+        defaults: { ease: "power4.out" },
+      });
 
-      tl.fromTo(lines, { y: "108%" }, { y: "0%", duration: 1.0, stagger: 0.12 });
+      tl.fromTo(
+        lines,
+        { y: "108%" },
+        { y: "0%", duration: 1.0, stagger: 0.12 },
+      );
 
       if (extras.length) {
         tl.fromTo(
           extras,
           { opacity: 0, y: 12 },
           { opacity: 1, y: 0, duration: 0.6, stagger: 0.08 },
-          "-=0.5"
+          "-=0.5",
         );
       }
     },
-    { scope: containerRef }
+    { scope: containerRef },
   );
 
   return (
@@ -53,17 +60,17 @@ export default function HeroSection() {
         <h1 className="text-headline-lg-mobile md:text-headline-xl mb-8 max-w-3xl">
           <span className="overflow-hidden block">
             <span data-line className="block text-primary">
-              I build full-stack web
+              I build web applications
             </span>
           </span>
           <span className="overflow-hidden block">
             <span data-line className="block text-primary">
-              applications that are simple
+              that are simple to use,
             </span>
           </span>
           <span className="overflow-hidden block">
             <span data-line className="block text-primary">
-              to use, easy to maintain,
+              easy to maintain,
             </span>
           </span>
           <span className="overflow-hidden block">
