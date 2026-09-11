@@ -86,7 +86,9 @@ export default function TransitionProvider({
   const go = useCallback(
     (href: string) => {
       if (busyRef.current) return;
-      if (href === pathname || !canAnimate()) {
+      // Read pathname directly without adding it to deps to keep Context value stable
+      const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+      if (href === currentPath || !canAnimate()) {
         router.push(href);
         return;
       }
@@ -106,7 +108,7 @@ export default function TransitionProvider({
       setGridConfig({ cols, rows, staggerEach, order });
       setStatus("covering");
     },
-    [pathname, photos, canAnimate, router],
+    [photos, canAnimate, router],
   );
 
   const handleCovered = useCallback(() => {
