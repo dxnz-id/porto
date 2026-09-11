@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { hankenGrotesk, inter, jetbrainsMono } from "@/lib/fonts";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import TransitionProvider from "@/components/transition/TransitionProvider";
+import { getTransitionPhotos } from "@/lib/transition-photos";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -44,15 +46,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const transitionPhotos = getTransitionPhotos();
+
   return (
     <html
       lang="en"
       className={`${hankenGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow pt-20">{children}</main>
-        <Footer />
+        <TransitionProvider photos={transitionPhotos}>
+          <Navbar />
+          <main className="flex-grow pt-20">{children}</main>
+          <Footer />
+        </TransitionProvider>
       </body>
     </html>
   );

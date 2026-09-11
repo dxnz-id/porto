@@ -1,4 +1,4 @@
-import Link from "next/link";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { Mail } from "lucide-react";
 
 function GithubIcon({ size = 18 }: { size?: number }) {
@@ -35,12 +35,12 @@ export default function Footer() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
         {/* Logo + Copyright */}
         <div className="flex flex-col gap-2">
-          <Link
+          <TransitionLink
             href="/"
             className="font-headline text-[24px] text-primary font-bold tracking-tighter"
           >
             DXNZ
-          </Link>
+          </TransitionLink>
           <p className="text-label-mono text-[12px] text-secondary">
             © 2026 DXNZ. All rights reserved.
           </p>

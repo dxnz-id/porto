@@ -1,4 +1,4 @@
-import Link from "next/link";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export interface NavItem {
@@ -23,7 +23,7 @@ export default function PrevNextNav({
     <nav className="grid grid-cols-2 border-t border-border-hairline mt-16">
       <div className="border-r border-border-hairline">
         {prev ? (
-          <Link
+          <TransitionLink
             href={`${hrefPrefix}/${prev.slug}`}
             className="group flex flex-col gap-2 p-8 hover:bg-surface-container-low transition-colors duration-200"
           >
@@ -37,7 +37,7 @@ export default function PrevNextNav({
             <span className="text-headline-lg-mobile text-primary line-clamp-2">
               {prev.title}
             </span>
-          </Link>
+          </TransitionLink>
         ) : (
           <div className="p-8" />
         )}
@@ -45,7 +45,7 @@ export default function PrevNextNav({
 
       <div>
         {next ? (
-          <Link
+          <TransitionLink
             href={`${hrefPrefix}/${next.slug}`}
             className="group flex flex-col gap-2 p-8 text-right hover:bg-surface-container-low transition-colors duration-200"
           >
@@ -59,7 +59,7 @@ export default function PrevNextNav({
             <span className="text-headline-lg-mobile text-primary line-clamp-2">
               {next.title}
             </span>
-          </Link>
+          </TransitionLink>
         ) : (
           <div className="p-8" />
         )}

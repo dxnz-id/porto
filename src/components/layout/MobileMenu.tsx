@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import TransitionLink from "@/components/transition/TransitionLink";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -67,13 +67,13 @@ export default function MobileMenu({
     >
       {/* Header — matches navbar */}
       <div className="flex justify-between items-center px-margin-mobile h-20 border-b border-border-hairline shrink-0">
-        <Link
+        <TransitionLink
           href="/"
-          onClick={onClose}
+          onNavigate={onClose}
           className="font-headline font-bold tracking-tighter text-primary text-[24px]"
         >
           DXNZ
-        </Link>
+        </TransitionLink>
         <button
           onClick={onClose}
           className="text-label-caps text-primary"
@@ -95,10 +95,10 @@ export default function MobileMenu({
               : pathname.startsWith(href);
 
           return (
-            <Link
+            <TransitionLink
               key={href}
               href={href}
-              onClick={onClose}
+              onNavigate={onClose}
               className={`group flex items-baseline gap-4 py-5 border-b border-border-hairline transition-colors duration-200 ${
                 isActive ? "text-primary" : "text-secondary"
               }`}
@@ -115,7 +115,7 @@ export default function MobileMenu({
               >
                 {label}
               </span>
-            </Link>
+            </TransitionLink>
           );
         })}
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -43,7 +43,7 @@ export default function BlogPreview() {
     <section id="blog" className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
         <SectionHeader label="Writing">
-          <Link
+          <TransitionLink
             href="/blog"
             className="text-label-mono text-primary hover:text-secondary flex items-center gap-2 group transition-colors"
           >
@@ -52,7 +52,7 @@ export default function BlogPreview() {
               size={16}
               className="group-hover:translate-x-1 transition-transform duration-200"
             />
-          </Link>
+          </TransitionLink>
         </SectionHeader>
 
         <div
@@ -60,7 +60,7 @@ export default function BlogPreview() {
           className="flex flex-col border-t border-border-hairline"
         >
           {posts.map((post) => (
-            <Link
+            <TransitionLink
               key={post.slug}
               href={`/blog/${post.slug}`}
               className="group py-8 border-b border-border-hairline hover:bg-surface-container-low transition-colors duration-200 -mx-margin-mobile md:-mx-margin-desktop px-margin-mobile md:px-margin-desktop"
@@ -86,7 +86,7 @@ export default function BlogPreview() {
                   />
                 </div>
               </div>
-            </Link>
+            </TransitionLink>
           ))}
         </div>
       </div>

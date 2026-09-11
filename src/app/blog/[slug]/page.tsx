@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { ArrowLeft } from "lucide-react";
 import { posts, getPost, getAdjacentPosts } from "@/lib/blog";
 import PrevNextNav from "@/components/ui/PrevNextNav";
@@ -91,7 +91,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="pt-16 md:pt-20 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto flex justify-center">
         <article className="w-full max-w-[700px]" id="post-article">
           {/* Back link */}
-          <Link
+          <TransitionLink
             href="/blog"
             className="text-label-mono text-secondary hover:text-primary transition-colors flex items-center gap-2 mb-12 group"
           >
@@ -100,7 +100,7 @@ export default async function BlogPostPage({ params }: Props) {
               className="group-hover:-translate-x-1 transition-transform duration-200"
             />
             Back to Writing
-          </Link>
+          </TransitionLink>
 
           {/* Post header */}
           <header className="mb-16">

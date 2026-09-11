@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
+import TransitionLink from "@/components/transition/TransitionLink";
 
 const navLinks = [
   { href: "/", label: "Work" },
@@ -31,12 +31,12 @@ export default function Navbar() {
         className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/80 backdrop-blur-lg border-b border-border-hairline"
       >
         {/* Logo */}
-        <Link
+        <TransitionLink
           href="/"
           className="font-headline font-bold tracking-tighter text-primary text-[24px] md:text-[28px]"
         >
           DXNZ
-        </Link>
+        </TransitionLink>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
@@ -47,7 +47,7 @@ export default function Navbar() {
                 : pathname.startsWith(href);
 
             return (
-              <Link
+              <TransitionLink
                 key={href}
                 href={href}
                 className={`text-label-caps transition-colors duration-200 ${
@@ -57,7 +57,7 @@ export default function Navbar() {
                 }`}
               >
                 {label}
-              </Link>
+              </TransitionLink>
             );
           })}
         </nav>

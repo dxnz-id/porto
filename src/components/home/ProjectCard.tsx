@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback } from "react";
-import Link from "next/link";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Project } from "@/lib/projects";
 
@@ -52,7 +52,10 @@ export default function ProjectCard({ project, isLast }: ProjectCardProps) {
     <article
       className={`${borderClass} p-margin-mobile md:p-margin-desktop hover:bg-bg-off-white transition-colors duration-300 flex flex-col h-full group`}
     >
-      <Link href={`/projects/${project.slug}`} className="flex flex-col h-full">
+      <TransitionLink
+        href={`/projects/${project.slug}`}
+        className="flex flex-col h-full"
+      >
         {/* Image / Carousel area */}
         <div className="mb-8 overflow-hidden bg-surface-container relative h-64 border border-border-hairline group/carousel">
           {hasCarousel ? (
@@ -143,7 +146,7 @@ export default function ProjectCard({ project, isLast }: ProjectCardProps) {
             </span>
           ))}
         </div>
-      </Link>
+      </TransitionLink>
     </article>
   );
 }

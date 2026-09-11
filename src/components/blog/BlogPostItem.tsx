@@ -1,4 +1,4 @@
-import Link from "next/link";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { ArrowUpRight } from "lucide-react";
 import type { BlogPost } from "@/lib/blog";
 
@@ -8,7 +8,7 @@ interface BlogPostItemProps {
 
 export default function BlogPostItem({ post }: BlogPostItemProps) {
   return (
-    <Link
+    <TransitionLink
       href={`/blog/${post.slug}`}
       className="group py-8 border-b border-border-hairline hover:bg-surface-container-low transition-colors duration-200 -mx-margin-mobile md:-mx-margin-desktop px-margin-mobile md:px-margin-desktop block"
     >
@@ -36,6 +36,6 @@ export default function BlogPostItem({ post }: BlogPostItemProps) {
           />
         </div>
       </div>
-    </Link>
+    </TransitionLink>
   );
 }

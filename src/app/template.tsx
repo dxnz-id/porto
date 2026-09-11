@@ -18,5 +18,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
     );
   }, []);
 
-  return <div ref={ref}>{children}</div>;
+  return (
+    <div ref={ref}>
+      <div className="page-transition-inner">{children}</div>
+    </div>
+  );
 }

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { ArrowLeft } from "lucide-react";
 import projects from "@/lib/projects";
 import ProjectGallery from "@/components/projects/ProjectGallery";
@@ -45,7 +45,7 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <div className="flex-grow w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-16 md:pt-20 pb-section-gap">
-      <Link
+      <TransitionLink
         href="/#work"
         className="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors text-label-mono mb-10 group"
       >
@@ -54,7 +54,7 @@ export default async function ProjectPage({ params }: Props) {
           className="group-hover:-translate-x-1 transition-transform duration-200"
         />
         Back to Work
-      </Link>
+      </TransitionLink>
 
       <header className="mb-16 md:mb-20 border-b border-border-hairline pb-12">
         <p className="text-label-caps text-secondary mb-4">Project</p>

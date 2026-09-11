@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -116,7 +116,7 @@ export default function AboutPreview() {
               work with Laravel, Next.js, TypeScript, and SQL databases, and I
               like designing systems from the UI down to the database.
             </p>
-            <Link
+            <TransitionLink
               href="/about"
               className="text-label-mono text-secondary hover:text-primary transition-colors flex items-center gap-2 mb-12 group"
             >
@@ -125,7 +125,7 @@ export default function AboutPreview() {
                 size={16}
                 className="group-hover:translate-x-1 transition-transform duration-200"
               />
-            </Link>
+            </TransitionLink>
 
             {/* Tech Stack */}
             <div ref={interestsBorderRef} className="border-t border-border-hairline pt-8">
