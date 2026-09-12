@@ -45,7 +45,7 @@ const REVEAL_TOTAL = 0.25;
 const REVEAL_TILE_DURATION = 0.1;
 
 // Failsafe so the reveal always plays even if load detection stalls.
-const LOAD_TIMEOUT = 2000;
+const LOAD_TIMEOUT = 15000;
 const PAINT_BUFFER = 120;
 
 function sameUrl(href: string | null): boolean {
