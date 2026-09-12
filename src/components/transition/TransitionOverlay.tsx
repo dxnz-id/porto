@@ -26,7 +26,8 @@ export default function TransitionOverlay({
 }: TransitionOverlayProps) {
   const gridRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<Array<gsap.core.Tween | gsap.core.Timeline>>([]);
-  const { cols, rows, staggerEach, order } = config;
+  const { cols, rows, cellSize, coverEach, staggerEach, coverOrder, order } =
+    config;
 
   const onCoveredRef = useRef(onCovered);
   const onRevealedRef = useRef(onRevealed);
@@ -43,14 +44,31 @@ export default function TransitionOverlay({
       timersRef.current = [];
 
       if (status === "covering") {
-        const tween = gsap.to(tiles, {
-          opacity: 1,
-          duration: coverDuration,
-          ease: "power1.out",
-          overwrite: true,
-          onComplete: () => onCoveredRef.current(),
+        // Tiles pop in one by one in random order — square by square,
+        // mirroring the character of the reveal phase.
+        coverOrder.forEach((tileIndex, position) => {
+          const tile = tiles[tileIndex];
+          if (!tile) return;
+          const tween = gsap.fromTo(
+            tile,
+            { opacity: 0, scale: 0.92 },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: coverDuration,
+              ease: "power2.out",
+              delay: position * coverEach,
+              overwrite: true,
+            },
+          );
+          timersRef.current.push(tween);
         });
-        timersRef.current.push(tween);
+
+        const done = gsap.delayedCall(
+          coverOrder.length * coverEach + coverDuration,
+          () => onCoveredRef.current(),
+        );
+        timersRef.current.push(done);
       }
 
       if (status === "revealing") {
@@ -90,11 +108,14 @@ export default function TransitionOverlay({
     <div
       ref={gridRef}
       aria-hidden
-      className="fixed inset-0 z-[100]"
+      className="fixed inset-0 z-[100] overflow-hidden"
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${cols}, 1fr)`,
-        gridTemplateRows: `repeat(${rows}, 1fr)`,
+        gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
+        gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
+        gap: "1px",
+        alignContent: "start",
+        justifyContent: "start",
       }}
     >
       {cells.map(({ col, row }) => (
