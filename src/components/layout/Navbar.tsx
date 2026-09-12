@@ -39,7 +39,7 @@ export default function Navbar() {
         </TransitionLink>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center h-full">
           {navLinks.map(({ href, label }) => {
             const isActive =
               href === "/"
@@ -50,7 +50,7 @@ export default function Navbar() {
               <TransitionLink
                 key={href}
                 href={href}
-                className={`text-label-caps transition-colors duration-200 ${
+                className={`flex items-center h-full px-3 text-label-caps transition-colors duration-200 ${
                   isActive
                     ? "text-primary"
                     : "text-secondary hover:text-primary"
