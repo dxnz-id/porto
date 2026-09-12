@@ -97,6 +97,26 @@ export default function TransitionOverlay({
     { dependencies: [status, photo, config], scope: gridRef },
   );
 
+  const { photoW, photoH } = config;
+
+  // Cover-fit: scale the photo to cover the whole grid box (centered),
+  // so tiles show a proportional photo instead of a stretched one.
+  // Falls back to stretch math when natural dimensions are unknown.
+  const gridW = cols * cellSize + (cols - 1) * TRANSITION_TILE_GAP;
+  const gridH = rows * cellSize + (rows - 1) * TRANSITION_TILE_GAP;
+  const hasDims =
+    photoW !== null &&
+    photoH !== null &&
+    photoW > 0 &&
+    photoH > 0;
+  const coverScale = hasDims
+    ? Math.max(gridW / (photoW as number), gridH / (photoH as number))
+    : 0;
+  const bgW = hasDims ? (photoW as number) * coverScale : 0;
+  const bgH = hasDims ? (photoH as number) * coverScale : 0;
+  const bgOffX = hasDims ? (gridW - bgW) / 2 : 0;
+  const bgOffY = hasDims ? (gridH - bgH) / 2 : 0;
+
   const totalCells = cols * rows;
   const cells = Array.from({ length: totalCells }, (_, i) => {
     const col = i % cols;
@@ -126,10 +146,16 @@ export default function TransitionOverlay({
             opacity: 0,
             backgroundImage: `url("${photo}")`,
             backgroundRepeat: "no-repeat",
-            backgroundSize: `${cols * 100}% ${rows * 100}%`,
-            backgroundPosition: `${cols === 1 ? 50 : (col / (cols - 1)) * 100}% ${
-              rows === 1 ? 50 : (row / (rows - 1)) * 100
-            }%`,
+            backgroundSize: hasDims
+              ? `${bgW}px ${bgH}px`
+              : `${cols * 100}% ${rows * 100}%`,
+            backgroundPosition: hasDims
+              ? `${bgOffX - col * (cellSize + TRANSITION_TILE_GAP)}px ${
+                  bgOffY - row * (cellSize + TRANSITION_TILE_GAP)
+                }px`
+              : `${cols === 1 ? 50 : (col / (cols - 1)) * 100}% ${
+                  rows === 1 ? 50 : (row / (rows - 1)) * 100
+                }%`,
           }}
         />
       ))}

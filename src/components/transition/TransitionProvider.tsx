@@ -30,6 +30,9 @@ export interface GridConfig {
   coverOrder: number[];
   /** Tile indexes in the order they disappear (pre-shuffled). */
   order: number[];
+  /** Natural photo dimensions for cover-fit math (null = unknown, stretch fallback). */
+  photoW: number | null;
+  photoH: number | null;
 }
 
 const CELL_SIZES = [80];
@@ -113,10 +116,22 @@ export default function TransitionProvider({
   const [frozenChildren, setFrozenChildren] =
     useState<React.ReactNode>(null);
 
-  // Preload photos so the cover is never blank.
+  const photoDimsRef = useRef(new Map<string, { w: number; h: number }>());
+
+  // Preload photos so the cover is never blank; record natural dimensions
+  // for aspect-correct cover-fit math.
   useEffect(() => {
     photos.forEach((src) => {
+      if (photoDimsRef.current.has(src)) return;
       const img = new Image();
+      img.onload = () => {
+        if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+          photoDimsRef.current.set(src, {
+            w: img.naturalWidth,
+            h: img.naturalHeight,
+          });
+        }
+      };
       img.src = src;
     });
   }, [photos]);
@@ -174,6 +189,8 @@ export default function TransitionProvider({
       const coverEach = (COVER_TOTAL - COVER_TILE_DURATION) / total;
       const staggerEach = (REVEAL_TOTAL - REVEAL_TILE_DURATION) / total;
 
+      const dims = photoDimsRef.current.get(photo);
+
       setActivePhoto(photo);
       setGridConfig({
         cols,
@@ -183,6 +200,8 @@ export default function TransitionProvider({
         staggerEach,
         coverOrder,
         order,
+        photoW: dims?.w ?? null,
+        photoH: dims?.h ?? null,
       });
       setStatus("covering");
     },
