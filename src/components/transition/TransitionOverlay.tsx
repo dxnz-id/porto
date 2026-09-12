@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { TRANSITION_TILE_GAP } from "@/lib/transition-grid";
 import type { GridConfig, TransitionStatus } from "./TransitionProvider";
 
 interface TransitionOverlayProps {
@@ -51,12 +52,11 @@ export default function TransitionOverlay({
           if (!tile) return;
           const tween = gsap.fromTo(
             tile,
-            { opacity: 0, scale: 0.92 },
+            { opacity: 0 },
             {
               opacity: 1,
-              scale: 1,
               duration: coverDuration,
-              ease: "power2.out",
+              ease: "power1.out",
               delay: position * coverEach,
               overwrite: true,
             },
@@ -113,7 +113,7 @@ export default function TransitionOverlay({
         display: "grid",
         gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
         gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
-        gap: "1px",
+        gap: `${TRANSITION_TILE_GAP}px`,
         alignContent: "start",
         justifyContent: "start",
       }}

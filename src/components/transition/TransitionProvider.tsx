@@ -12,6 +12,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { shuffle } from "@/lib/shuffle";
+import { computeGrid, TRANSITION_TILE_GAP } from "@/lib/transition-grid";
 import TransitionOverlay from "./TransitionOverlay";
 
 export type TransitionStatus = "idle" | "covering" | "revealing";
@@ -31,13 +32,49 @@ export interface GridConfig {
   order: number[];
 }
 
-const CELL_SIZES = [64, 80, 96, 112];
+const CELL_SIZES = [80];
 
-const COVER_BUDGET = 0.4;
-const COVER_TILE_DURATION = 0.12;
-const REVEAL_TILE_DURATION = 0.25;
-const REVEAL_BUDGET_MIN = 0.8;
-const REVEAL_BUDGET_MAX = 1.2;
+// Total transition animation is exactly 0.5s: 0.25s cover + 0.25s reveal.
+// The load-wait between them is extra and deliberate.
+const COVER_TOTAL = 0.25;
+const COVER_TILE_DURATION = 0.1;
+const REVEAL_TOTAL = 0.25;
+const REVEAL_TILE_DURATION = 0.1;
+
+// Failsafe so the reveal always plays even if load detection stalls.
+const LOAD_TIMEOUT = 2000;
+const PAINT_BUFFER = 120;
+
+function sameUrl(href: string | null): boolean {
+  if (!href || typeof window === "undefined") return true;
+  const hashIndex = href.indexOf("#");
+  const target =
+    hashIndex >= 0 ? href : href || window.location.pathname;
+  return window.location.pathname + window.location.hash === target;
+}
+
+/** Resolve once the pushed route has applied, fonts are ready, and a beat has passed. */
+function waitForPageLoaded(href: string | null): Promise<void> {
+  const deadline = new Promise<void>((resolve) =>
+    setTimeout(resolve, LOAD_TIMEOUT),
+  );
+  const loaded = (async () => {
+    const start = Date.now();
+    while (!sameUrl(href) && Date.now() - start < LOAD_TIMEOUT) {
+      await new Promise((r) => setTimeout(r, 30));
+    }
+    try {
+      await document.fonts.ready;
+    } catch {
+      /* fonts API unavailable — proceed */
+    }
+    await new Promise((r) =>
+      requestAnimationFrame(() => requestAnimationFrame(r)),
+    );
+    await new Promise((r) => setTimeout(r, PAINT_BUFFER));
+  })();
+  return Promise.race([loaded, deadline]);
+}
 
 interface TransitionContextValue {
   go: (href: string) => void;
@@ -68,6 +105,13 @@ export default function TransitionProvider({
   const busyRef = useRef(false);
   const pendingHrefRef = useRef<string | null>(null);
   const lastPhotoRef = useRef<string | null>(null);
+  const transitionGenRef = useRef(0);
+  const childrenRef = useRef(children);
+  childrenRef.current = children;
+  // Frozen snapshot of the old page, shown while covering/waiting so the
+  // new page only mounts (and its GSAP animations only fire) at reveal.
+  const [frozenChildren, setFrozenChildren] =
+    useState<React.ReactNode>(null);
 
   // Preload photos so the cover is never blank.
   useEffect(() => {
@@ -101,6 +145,8 @@ export default function TransitionProvider({
 
       busyRef.current = true;
       pendingHrefRef.current = href;
+      transitionGenRef.current += 1;
+      setFrozenChildren(childrenRef.current);
 
       // Never reuse the photo from the previous transition in a row.
       const candidates =
@@ -111,25 +157,22 @@ export default function TransitionProvider({
         candidates[Math.floor(Math.random() * candidates.length)];
       lastPhotoRef.current = photo;
 
-      // Square cells derived from the viewport so the grid is always 1:1.
-      const cellSize =
-        CELL_SIZES[Math.floor(Math.random() * CELL_SIZES.length)];
-      const cols = Math.max(1, Math.ceil(window.innerWidth / cellSize));
-      const rows = Math.max(1, Math.ceil(window.innerHeight / cellSize));
+      // Square cells flush with the left/right/top viewport edges;
+      // excess rows overflow at the bottom (clipped by the overlay).
+      const { cols, rows, cell: cellSize } = computeGrid(
+        window.innerWidth,
+        window.innerHeight,
+        CELL_SIZES[Math.floor(Math.random() * CELL_SIZES.length)],
+        TRANSITION_TILE_GAP,
+      );
       const total = cols * rows;
 
       const coverOrder = shuffle(
         Array.from({ length: total }, (_, i) => i),
       );
       const order = shuffle(Array.from({ length: total }, (_, i) => i));
-      const coverEach = COVER_BUDGET / total;
-      const revealBudget =
-        REVEAL_BUDGET_MIN +
-        Math.random() * (REVEAL_BUDGET_MAX - REVEAL_BUDGET_MIN);
-      const staggerEach = Math.min(
-        0.05,
-        Math.max(0.002, revealBudget / total),
-      );
+      const coverEach = (COVER_TOTAL - COVER_TILE_DURATION) / total;
+      const staggerEach = (REVEAL_TOTAL - REVEAL_TILE_DURATION) / total;
 
       setActivePhoto(photo);
       setGridConfig({
@@ -148,8 +191,14 @@ export default function TransitionProvider({
 
   const handleCovered = useCallback(() => {
     const href = pendingHrefRef.current;
+    const gen = transitionGenRef.current;
     if (href) router.push(href);
-    setStatus("revealing");
+    // Hold the frozen old page until the new route has loaded,
+    // then swap + reveal together so page GSAP animations fire in sync.
+    void waitForPageLoaded(href).then(() => {
+      if (transitionGenRef.current !== gen || !pendingHrefRef.current) return;
+      setStatus("revealing");
+    });
   }, [router]);
 
   const handleRevealed = useCallback(() => {
@@ -158,6 +207,7 @@ export default function TransitionProvider({
     setStatus("idle");
     setActivePhoto(null);
     setGridConfig(null);
+    setFrozenChildren(null);
   }, []);
 
   const value = useMemo(() => ({ go }), [go]);
@@ -175,7 +225,7 @@ export default function TransitionProvider({
           onRevealed={handleRevealed}
         />
       )}
-      {children}
+      {status === "idle" ? children : (frozenChildren ?? children)}
     </TransitionContext.Provider>
   );
 }
