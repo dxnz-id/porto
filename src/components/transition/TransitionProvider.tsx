@@ -44,6 +44,9 @@ const REVEAL_TILE_DURATION = 0.1;
 const LOAD_TIMEOUT = 30000;
 const PAINT_BUFFER = 120;
 
+// Max time to wait for the cover photo to decode before falling back to solid.
+const PHOTO_GATE_TIMEOUT = 800;
+
 // Delay before showing the progress number — if the page loads within
 // this window, the user never sees the progress indicator at all.
 const PROGRESS_DELAY = 1000;
@@ -118,6 +121,8 @@ export default function TransitionProvider({
 
   const [showProgress, setShowProgress] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
+  const [photoReady, setPhotoReady] = useState(false);
+  const [photoDims, setPhotoDims] = useState<{ w: number; h: number } | null>(null);
 
   const progressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressRafRef = useRef<number>(0);
@@ -135,7 +140,7 @@ export default function TransitionProvider({
   }, [photos]);
 
   const go = useCallback(
-    (href: string) => {
+    async (href: string) => {
       if (busyRef.current) return;
       // Read pathname directly without adding it to deps to keep Context value stable
       const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
@@ -147,6 +152,7 @@ export default function TransitionProvider({
       busyRef.current = true;
       pendingHrefRef.current = href;
       transitionGenRef.current += 1;
+      const gen = transitionGenRef.current;
 
       try {
         setFrozenChildren(childrenRef.current);
@@ -177,6 +183,51 @@ export default function TransitionProvider({
         const coverEach = (COVER_TOTAL - COVER_TILE_DURATION) / total;
         const staggerEach = (REVEAL_TOTAL - REVEAL_TILE_DURATION) / total;
 
+        // PHOTO GATE: wait for decode + GPU buffer, max 800ms.
+        // Decision is made BEFORE overlay mounts — no mid-transition switching.
+        let ready = false;
+        let dims: { w: number; h: number } | null = null;
+
+        const img = new Image();
+        img.src = photo;
+
+        if (img.complete && img.naturalWidth > 0) {
+          ready = true;
+          dims = { w: img.naturalWidth, h: img.naturalHeight };
+        } else {
+          ready = await new Promise<boolean>((resolve) => {
+            const timeout = setTimeout(
+              () => resolve(false),
+              PHOTO_GATE_TIMEOUT,
+            );
+            img
+              .decode()
+              .then(
+                () =>
+                  new Promise<void>((r) => {
+                    requestAnimationFrame(() =>
+                      requestAnimationFrame(() => r()),
+                    );
+                  }),
+              )
+              .then(() => {
+                clearTimeout(timeout);
+                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                  dims = { w: img.naturalWidth, h: img.naturalHeight };
+                }
+                resolve(true);
+              })
+              .catch(() => {
+                clearTimeout(timeout);
+                resolve(false);
+              });
+          });
+        }
+
+        if (transitionGenRef.current !== gen) return;
+
+        setPhotoReady(ready);
+        setPhotoDims(dims);
         setActivePhoto(photo);
         setGridConfig({
           cols,
@@ -256,6 +307,8 @@ export default function TransitionProvider({
     setStatus("idle");
     setShowProgress(false);
     setProgressValue(0);
+    setPhotoReady(false);
+    setPhotoDims(null);
     setActivePhoto(null);
     setGridConfig(null);
     setFrozenChildren(null);
@@ -276,6 +329,8 @@ export default function TransitionProvider({
           onRevealed={handleRevealed}
           showProgress={showProgress}
           progressValue={progressValue}
+          photoReady={photoReady}
+          photoDims={photoDims}
         />
       )}
       {status === "idle" ? children : (frozenChildren ?? children)}

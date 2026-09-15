@@ -27,7 +27,7 @@ export default function TransitionLink({
       onClick={(e) => {
         e.preventDefault();
         onNavigate?.();
-        go(href);
+        void go(href);
       }}
     >
       {children}

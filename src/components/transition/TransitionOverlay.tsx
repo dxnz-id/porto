@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { TRANSITION_TILE_GAP } from "@/lib/transition-grid";
@@ -16,6 +16,8 @@ interface TransitionOverlayProps {
   onRevealed: () => void;
   showProgress: boolean;
   progressValue: number;
+  photoReady: boolean;
+  photoDims: { w: number; h: number } | null;
 }
 
 export default function TransitionOverlay({
@@ -28,6 +30,8 @@ export default function TransitionOverlay({
   onRevealed,
   showProgress,
   progressValue,
+  photoReady,
+  photoDims,
 }: TransitionOverlayProps) {
   const gridRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<Array<gsap.core.Tween | gsap.core.Timeline>>([]);
@@ -38,43 +42,6 @@ export default function TransitionOverlay({
   const onRevealedRef = useRef(onRevealed);
   onCoveredRef.current = onCovered;
   onRevealedRef.current = onRevealed;
-
-  // Local photo readiness — overlay decides when the image is safe to render,
-  // independent of any preload. decode() + frame buffer ensures the image is
-  // fully decodable and GPU-composed before tiles switch from solid to photo.
-  const [photoReady, setPhotoReady] = useState(false);
-  const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
-
-  useEffect(() => {
-    setPhotoReady(false);
-    setDims(null);
-    let cancelled = false;
-    const img = new Image();
-    img.src = photo;
-    img
-      .decode()
-      .then(() => {
-        // 2-frame buffer for GPU upload
-        return new Promise<void>((resolve) => {
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => resolve());
-          });
-        });
-      })
-      .then(() => {
-        if (cancelled) return;
-        if (img.naturalWidth > 0 && img.naturalHeight > 0) {
-          setDims({ w: img.naturalWidth, h: img.naturalHeight });
-        }
-        setPhotoReady(true);
-      })
-      .catch(() => {
-        if (!cancelled) setPhotoReady(true);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [photo]);
 
   useGSAP(
     () => {
@@ -138,8 +105,8 @@ export default function TransitionOverlay({
     { dependencies: [status, photo, config], scope: gridRef },
   );
 
-  const photoW = dims?.w ?? null;
-  const photoH = dims?.h ?? null;
+  const photoW = photoDims?.w ?? null;
+  const photoH = photoDims?.h ?? null;
 
   // Cover-fit: scale the photo to cover the whole grid box (centered),
   // so tiles show a proportional photo instead of a stretched one.
