@@ -198,13 +198,15 @@ export default function TransitionProvider({
   );
 
   const handleCovered = useCallback(() => {
+    // Clear progress IMMEDIATELY — text must not be visible when reveal starts.
+    if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
+    if (progressRafRef.current) cancelAnimationFrame(progressRafRef.current);
+    setShowProgress(false);
+    setProgressValue(0);
+
     const href = pendingHrefRef.current;
     const gen = transitionGenRef.current;
     if (href) router.push(href);
-
-    // Progress: show after 1s delay only if page hasn't loaded yet.
-    setShowProgress(false);
-    setProgressValue(0);
 
     const pageLoaded = waitForPageLoaded(href);
 
