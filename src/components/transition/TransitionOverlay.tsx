@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { TRANSITION_TILE_GAP } from "@/lib/transition-grid";
@@ -14,6 +14,8 @@ interface TransitionOverlayProps {
   revealTileDuration: number;
   onCovered: () => void;
   onRevealed: () => void;
+  showProgress: boolean;
+  progressValue: number;
 }
 
 export default function TransitionOverlay({
@@ -24,6 +26,8 @@ export default function TransitionOverlay({
   revealTileDuration,
   onCovered,
   onRevealed,
+  showProgress,
+  progressValue,
 }: TransitionOverlayProps) {
   const gridRef = useRef<HTMLDivElement>(null);
   const timersRef = useRef<Array<gsap.core.Tween | gsap.core.Timeline>>([]);
@@ -34,6 +38,43 @@ export default function TransitionOverlay({
   const onRevealedRef = useRef(onRevealed);
   onCoveredRef.current = onCovered;
   onRevealedRef.current = onRevealed;
+
+  // Local photo readiness — overlay decides when the image is safe to render,
+  // independent of any preload. decode() + frame buffer ensures the image is
+  // fully decodable and GPU-composed before tiles switch from solid to photo.
+  const [photoReady, setPhotoReady] = useState(false);
+  const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
+
+  useEffect(() => {
+    setPhotoReady(false);
+    setDims(null);
+    let cancelled = false;
+    const img = new Image();
+    img.src = photo;
+    img
+      .decode()
+      .then(() => {
+        // 2-frame buffer for GPU upload
+        return new Promise<void>((resolve) => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => resolve());
+          });
+        });
+      })
+      .then(() => {
+        if (cancelled) return;
+        if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+          setDims({ w: img.naturalWidth, h: img.naturalHeight });
+        }
+        setPhotoReady(true);
+      })
+      .catch(() => {
+        if (!cancelled) setPhotoReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [photo]);
 
   useGSAP(
     () => {
@@ -97,7 +138,8 @@ export default function TransitionOverlay({
     { dependencies: [status, photo, config], scope: gridRef },
   );
 
-  const { photoW, photoH } = config;
+  const photoW = dims?.w ?? null;
+  const photoH = dims?.h ?? null;
 
   // Cover-fit: scale the photo to cover the whole grid box (centered),
   // so tiles show a proportional photo instead of a stretched one.
@@ -125,40 +167,63 @@ export default function TransitionOverlay({
   });
 
   return (
-    <div
-      ref={gridRef}
-      aria-hidden
-      className="fixed inset-0 z-[100] overflow-hidden"
-      style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
-        gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
-        gap: `${TRANSITION_TILE_GAP}px`,
-        alignContent: "start",
-        justifyContent: "start",
-      }}
-    >
-      {cells.map(({ col, row }) => (
+    <>
+      <div
+        ref={gridRef}
+        aria-hidden
+        className="fixed inset-0 z-[100] overflow-hidden"
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
+          gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
+          gap: `${TRANSITION_TILE_GAP}px`,
+          alignContent: "start",
+          justifyContent: "start",
+        }}
+      >
+        {cells.map(({ col, row }) => (
+          <div
+            key={`${col}-${row}`}
+            className="w-full h-full"
+            style={
+              photoReady
+                ? {
+                    opacity: 0,
+                    backgroundImage: `url("${photo}")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: hasDims
+                      ? `${bgW}px ${bgH}px`
+                      : `${cols * 100}% ${rows * 100}%`,
+                    backgroundPosition: hasDims
+                      ? `${bgOffX - col * (cellSize + TRANSITION_TILE_GAP)}px ${
+                          bgOffY - row * (cellSize + TRANSITION_TILE_GAP)
+                        }px`
+                      : `${cols === 1 ? 50 : (col / (cols - 1)) * 100}% ${
+                          rows === 1 ? 50 : (row / (rows - 1)) * 100
+                        }%`,
+                  }
+                : { opacity: 0, backgroundColor: "#000" }
+            }
+          />
+        ))}
+      </div>
+      {showProgress && (
         <div
-          key={`${col}-${row}`}
-          className="w-full h-full"
-          style={{
-            opacity: 0,
-            backgroundImage: `url("${photo}")`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: hasDims
-              ? `${bgW}px ${bgH}px`
-              : `${cols * 100}% ${rows * 100}%`,
-            backgroundPosition: hasDims
-              ? `${bgOffX - col * (cellSize + TRANSITION_TILE_GAP)}px ${
-                  bgOffY - row * (cellSize + TRANSITION_TILE_GAP)
-                }px`
-              : `${cols === 1 ? 50 : (col / (cols - 1)) * 100}% ${
-                  rows === 1 ? 50 : (row / (rows - 1)) * 100
-                }%`,
-          }}
-        />
-      ))}
-    </div>
+          className="fixed inset-0 z-[101] flex items-center justify-center pointer-events-none"
+          aria-hidden
+        >
+          <span
+            className="text-headline-lg-mobile md:text-headline-xl"
+            style={{
+              fontFamily: "var(--font-family-headline)",
+              color: "#ffffff",
+              mixBlendMode: "difference",
+            }}
+          >
+            {progressValue}
+          </span>
+        </div>
+      )}
+    </>
   );
 }

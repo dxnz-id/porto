@@ -4,7 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -30,9 +29,6 @@ export interface GridConfig {
   coverOrder: number[];
   /** Tile indexes in the order they disappear (pre-shuffled). */
   order: number[];
-  /** Natural photo dimensions for cover-fit math (null = unknown, stretch fallback). */
-  photoW: number | null;
-  photoH: number | null;
 }
 
 const CELL_SIZES = [80];
@@ -45,8 +41,12 @@ const REVEAL_TOTAL = 0.25;
 const REVEAL_TILE_DURATION = 0.1;
 
 // Failsafe so the reveal always plays even if load detection stalls.
-const LOAD_TIMEOUT = 15000;
+const LOAD_TIMEOUT = 30000;
 const PAINT_BUFFER = 120;
+
+// Delay before showing the progress number — if the page loads within
+// this window, the user never sees the progress indicator at all.
+const PROGRESS_DELAY = 1000;
 
 function sameUrl(href: string | null): boolean {
   if (!href || typeof window === "undefined") return true;
@@ -116,25 +116,11 @@ export default function TransitionProvider({
   const [frozenChildren, setFrozenChildren] =
     useState<React.ReactNode>(null);
 
-  const photoDimsRef = useRef(new Map<string, { w: number; h: number }>());
+  const [showProgress, setShowProgress] = useState(false);
+  const [progressValue, setProgressValue] = useState(0);
 
-  // Preload photos so the cover is never blank; record natural dimensions
-  // for aspect-correct cover-fit math.
-  useEffect(() => {
-    photos.forEach((src) => {
-      if (photoDimsRef.current.has(src)) return;
-      const img = new Image();
-      img.onload = () => {
-        if (img.naturalWidth > 0 && img.naturalHeight > 0) {
-          photoDimsRef.current.set(src, {
-            w: img.naturalWidth,
-            h: img.naturalHeight,
-          });
-        }
-      };
-      img.src = src;
-    });
-  }, [photos]);
+  const progressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const progressRafRef = useRef<number>(0);
 
   const canAnimate = useCallback(() => {
     if (typeof window === "undefined") return false;
@@ -161,49 +147,52 @@ export default function TransitionProvider({
       busyRef.current = true;
       pendingHrefRef.current = href;
       transitionGenRef.current += 1;
-      setFrozenChildren(childrenRef.current);
 
-      // Never reuse the photo from the previous transition in a row.
-      const candidates =
-        photos.length > 1 && lastPhotoRef.current
-          ? photos.filter((p) => p !== lastPhotoRef.current)
-          : photos;
-      const photo =
-        candidates[Math.floor(Math.random() * candidates.length)];
-      lastPhotoRef.current = photo;
+      try {
+        setFrozenChildren(childrenRef.current);
 
-      // Square cells flush with the left/right/top viewport edges;
-      // excess rows overflow at the bottom (clipped by the overlay).
-      const { cols, rows, cell: cellSize } = computeGrid(
-        window.innerWidth,
-        window.innerHeight,
-        CELL_SIZES[Math.floor(Math.random() * CELL_SIZES.length)],
-        TRANSITION_TILE_GAP,
-      );
-      const total = cols * rows;
+        // Never reuse the photo from the previous transition in a row.
+        const candidates =
+          photos.length > 1 && lastPhotoRef.current
+            ? photos.filter((p) => p !== lastPhotoRef.current)
+            : photos;
+        const photo =
+          candidates[Math.floor(Math.random() * candidates.length)];
+        lastPhotoRef.current = photo;
 
-      const coverOrder = shuffle(
-        Array.from({ length: total }, (_, i) => i),
-      );
-      const order = shuffle(Array.from({ length: total }, (_, i) => i));
-      const coverEach = (COVER_TOTAL - COVER_TILE_DURATION) / total;
-      const staggerEach = (REVEAL_TOTAL - REVEAL_TILE_DURATION) / total;
+        // Square cells flush with the left/right/top viewport edges;
+        // excess rows overflow at the bottom (clipped by the overlay).
+        const { cols, rows, cell: cellSize } = computeGrid(
+          window.innerWidth,
+          window.innerHeight,
+          CELL_SIZES[Math.floor(Math.random() * CELL_SIZES.length)],
+          TRANSITION_TILE_GAP,
+        );
+        const total = cols * rows;
 
-      const dims = photoDimsRef.current.get(photo);
+        const coverOrder = shuffle(
+          Array.from({ length: total }, (_, i) => i),
+        );
+        const order = shuffle(Array.from({ length: total }, (_, i) => i));
+        const coverEach = (COVER_TOTAL - COVER_TILE_DURATION) / total;
+        const staggerEach = (REVEAL_TOTAL - REVEAL_TILE_DURATION) / total;
 
-      setActivePhoto(photo);
-      setGridConfig({
-        cols,
-        rows,
-        cellSize,
-        coverEach,
-        staggerEach,
-        coverOrder,
-        order,
-        photoW: dims?.w ?? null,
-        photoH: dims?.h ?? null,
-      });
-      setStatus("covering");
+        setActivePhoto(photo);
+        setGridConfig({
+          cols,
+          rows,
+          cellSize,
+          coverEach,
+          staggerEach,
+          coverOrder,
+          order,
+        });
+        setStatus("covering");
+      } catch {
+        busyRef.current = false;
+        pendingHrefRef.current = null;
+        setFrozenChildren(null);
+      }
     },
     [photos, canAnimate, router],
   );
@@ -212,18 +201,59 @@ export default function TransitionProvider({
     const href = pendingHrefRef.current;
     const gen = transitionGenRef.current;
     if (href) router.push(href);
-    // Hold the frozen old page until the new route has loaded,
-    // then swap + reveal together so page GSAP animations fire in sync.
-    void waitForPageLoaded(href).then(() => {
+
+    // Progress: show after 1s delay only if page hasn't loaded yet.
+    setShowProgress(false);
+    setProgressValue(0);
+
+    const pageLoaded = waitForPageLoaded(href);
+
+    progressTimerRef.current = setTimeout(() => {
       if (transitionGenRef.current !== gen || !pendingHrefRef.current) return;
+      setShowProgress(true);
+
+      // Counting loop: fast ramp to 99%, then micro-increment.
+      const start = Date.now();
+      const RAMP_DURATION = 1500; // ms to reach 99%
+      const MICRO_INTERVAL = 3000; // ms between +1 increments after 99%
+
+      const tick = () => {
+        if (transitionGenRef.current !== gen || !pendingHrefRef.current) return;
+        const elapsed = Date.now() - start;
+        if (elapsed < RAMP_DURATION) {
+          // Fast ramp: linear from 0 to 99
+          setProgressValue(Math.min(99, Math.floor((elapsed / RAMP_DURATION) * 99)));
+        } else {
+          // Micro-increment: slowly creep toward 99
+          setProgressValue((prev) => Math.min(99, prev + 1));
+        }
+        progressRafRef.current = requestAnimationFrame(tick);
+      };
+      progressRafRef.current = requestAnimationFrame(tick);
+    }, PROGRESS_DELAY);
+
+    void pageLoaded.then(() => {
+      // Clear progress timers
+      if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
+      if (progressRafRef.current) cancelAnimationFrame(progressRafRef.current);
+
+      if (transitionGenRef.current !== gen || !pendingHrefRef.current) return;
+
+      // Hide progress text BEFORE triggering reveal
+      setShowProgress(false);
+      setProgressValue(0);
       setStatus("revealing");
     });
   }, [router]);
 
   const handleRevealed = useCallback(() => {
+    if (progressTimerRef.current) clearTimeout(progressTimerRef.current);
+    if (progressRafRef.current) cancelAnimationFrame(progressRafRef.current);
     pendingHrefRef.current = null;
     busyRef.current = false;
     setStatus("idle");
+    setShowProgress(false);
+    setProgressValue(0);
     setActivePhoto(null);
     setGridConfig(null);
     setFrozenChildren(null);
@@ -242,6 +272,8 @@ export default function TransitionProvider({
           revealTileDuration={REVEAL_TILE_DURATION}
           onCovered={handleCovered}
           onRevealed={handleRevealed}
+          showProgress={showProgress}
+          progressValue={progressValue}
         />
       )}
       {status === "idle" ? children : (frozenChildren ?? children)}
