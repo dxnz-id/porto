@@ -20,6 +20,8 @@ import { usePhotoGate } from "@/hooks/usePhotoGate";
 import { useProgressCounter } from "@/hooks/useProgressCounter";
 import type { GridConfig, TransitionStatus } from "@/components/transition/TransitionProvider";
 
+const PHOTO_HISTORY = 8;
+
 export function useTransition(photos: string[]) {
   const router = useRouter();
   const pathname = usePathname();
@@ -33,7 +35,7 @@ export function useTransition(photos: string[]) {
 
   const busyRef = useRef(false);
   const pendingHrefRef = useRef<string | null>(null);
-  const lastPhotoRef = useRef<string | null>(null);
+  const lastPhotoRef = useRef<string[]>([]);
   const transitionGenRef = useRef(0);
   const childrenRef = useRef<React.ReactNode>(null);
 
@@ -87,6 +89,7 @@ export function useTransition(photos: string[]) {
     stopCounting();
     pendingHrefRef.current = null;
     busyRef.current = false;
+    lastPhotoRef.current = [];
     setStatus("idle");
     setPhotoReady(false);
     setPhotoDims(null);
@@ -113,14 +116,14 @@ export function useTransition(photos: string[]) {
       try {
         setFrozenChildren(childrenRef.current);
 
-        // Never reuse the photo from the previous transition in a row.
+        // Never reuse the 3 most recent photos.
         const candidates =
-          photos.length > 1 && lastPhotoRef.current
-            ? photos.filter((p) => p !== lastPhotoRef.current)
+          photos.length > 1 && lastPhotoRef.current.length > 0
+            ? photos.filter((p) => !lastPhotoRef.current.includes(p))
             : photos;
         const photo =
           candidates[Math.floor(Math.random() * candidates.length)];
-        lastPhotoRef.current = photo;
+        lastPhotoRef.current = [photo, ...lastPhotoRef.current].slice(0, PHOTO_HISTORY);
 
         // Square cells flush with the left/right/top viewport edges;
         // excess rows overflow at the bottom (clipped by the overlay).
