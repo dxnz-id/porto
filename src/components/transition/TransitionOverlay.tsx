@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { TRANSITION_TILE_GAP } from "@/lib/transition-grid";
+import { computeCoverFit } from "@/lib/cover-fit";
 import type { GridConfig, TransitionStatus } from "./TransitionProvider";
 
 interface TransitionOverlayProps {
@@ -105,26 +106,13 @@ export default function TransitionOverlay({
     { dependencies: [status, photo, config], scope: gridRef },
   );
 
-  const photoW = photoDims?.w ?? null;
-  const photoH = photoDims?.h ?? null;
-
-  // Cover-fit: scale the photo to cover the whole grid box (centered),
-  // so tiles show a proportional photo instead of a stretched one.
-  // Falls back to stretch math when natural dimensions are unknown.
-  const gridW = cols * cellSize + (cols - 1) * TRANSITION_TILE_GAP;
-  const gridH = rows * cellSize + (rows - 1) * TRANSITION_TILE_GAP;
-  const hasDims =
-    photoW !== null &&
-    photoH !== null &&
-    photoW > 0 &&
-    photoH > 0;
-  const coverScale = hasDims
-    ? Math.max(gridW / (photoW as number), gridH / (photoH as number))
-    : 0;
-  const bgW = hasDims ? (photoW as number) * coverScale : 0;
-  const bgH = hasDims ? (photoH as number) * coverScale : 0;
-  const bgOffX = hasDims ? (gridW - bgW) / 2 : 0;
-  const bgOffY = hasDims ? (gridH - bgH) / 2 : 0;
+  const { bgW, bgH, bgOffX, bgOffY, hasDims } = computeCoverFit(
+    cols,
+    rows,
+    cellSize,
+    photoDims?.w ?? null,
+    photoDims?.h ?? null,
+  );
 
   const totalCells = cols * rows;
   const cells = Array.from({ length: totalCells }, (_, i) => {

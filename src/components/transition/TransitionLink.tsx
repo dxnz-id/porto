@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTransition } from "./TransitionProvider";
+import { useTransitionContext } from "./TransitionProvider";
 
 interface TransitionLinkProps {
   href: string;
@@ -18,7 +18,7 @@ export default function TransitionLink({
   children,
   onNavigate,
 }: TransitionLinkProps) {
-  const { go } = useTransition();
+  const { go } = useTransitionContext();
 
   return (
     <Link
