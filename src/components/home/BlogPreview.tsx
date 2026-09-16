@@ -42,7 +42,7 @@ export default function BlogPreview() {
   return (
     <section id="blog" className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
-        <SectionHeader label="Writing">
+        <SectionHeader label="Writing" className="mb-0">
           <TransitionLink
             href="/blog"
             className="text-label-mono text-primary hover:text-secondary flex items-center gap-2 group transition-colors"
@@ -57,7 +57,7 @@ export default function BlogPreview() {
 
         <div
           ref={listRef}
-          className="flex flex-col border-t border-border-hairline"
+          className="flex flex-col"
         >
           {posts.map((post) => (
             <TransitionLink

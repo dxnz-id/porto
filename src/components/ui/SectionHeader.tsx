@@ -57,7 +57,7 @@ export default function SectionHeader({
   );
 
   return (
-    <div ref={ref} className={`mb-12 ${className}`}>
+    <div ref={ref} className={className}>
       <div className="flex justify-between items-end mb-2">
         <div className="overflow-hidden">
           <p data-sh-line className="text-label-caps text-secondary">
