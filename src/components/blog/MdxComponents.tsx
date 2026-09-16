@@ -1,7 +1,66 @@
+import Mermaid from "@/components/blog/Mermaid";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MdxComponentMap = Record<string, React.ComponentType<any>>;
 
 export const mdxComponents: MdxComponentMap = {
+  /**
+   * `pre` receives props directly from MDX AST — at this point `children`
+   * is a React element whose `type` is the *string* "code" (the raw HTML tag),
+   * NOT our custom `code` component, because MDX composes component
+   * substitutions bottom-up.  The `className` from the fenced-code info
+   * string (e.g. `language-mermaid`) is passed directly on the `<code>` node.
+   *
+   * Strategy: inspect `children.props.className` before returning.
+   * If it contains "language-mermaid", delegate to <Mermaid>.
+   */
+  pre: (props) => {
+    // props.children is the raw React element for the inner <code>
+    const child = props.children as React.ReactElement<{
+      className?: string;
+      children?: string;
+    }> | null;
+
+    const className =
+      child && typeof child === "object" && "props" in child
+        ? (child.props?.className ?? "")
+        : "";
+
+    const rawText =
+      child && typeof child === "object" && "props" in child
+        ? (child.props?.children ?? "")
+        : "";
+
+    if (className.includes("language-mermaid")) {
+      const chart = typeof rawText === "string" ? rawText : "";
+      return <Mermaid chart={chart} />;
+    }
+
+    return (
+      <pre className="bg-surface-container-low border border-border-hairline p-6 overflow-x-auto my-8 font-mono text-[13px] leading-relaxed">
+        {props.children}
+      </pre>
+    );
+  },
+
+  /**
+   * `code` handles inline code.  When inside a <pre>, MDX doesn't call this
+   * for fenced code blocks that have been intercepted by our `pre` component.
+   * This only fires for inline `code` spans.
+   */
+  code: ({ children, className }) => {
+    // Fenced blocks have className like "language-xxx" — don't apply
+    // inline styling to them (though in practice pre intercepts first).
+    if (className?.startsWith("language-")) {
+      return <code className={className}>{children}</code>;
+    }
+    return (
+      <code className="font-mono text-[14px] px-1.5 py-0.5 bg-surface-container-low border border-border-hairline text-primary">
+        {children}
+      </code>
+    );
+  },
+
   h2: ({ children, ...props }) => {
     const id = children
       ?.toString()
@@ -51,18 +110,6 @@ export const mdxComponents: MdxComponentMap = {
     >
       {children}
     </a>
-  ),
-
-  code: ({ children }) => (
-    <code className="font-mono text-[14px] px-1.5 py-0.5 bg-surface-container-low border border-border-hairline text-primary">
-      {children}
-    </code>
-  ),
-
-  pre: ({ children }) => (
-    <pre className="bg-surface-container-low border border-border-hairline p-6 overflow-x-auto my-8 font-mono text-[13px] leading-relaxed">
-      {children}
-    </pre>
   ),
 
   blockquote: ({ children }) => (

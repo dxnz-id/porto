@@ -1,0 +1,38 @@
+---
+title: "Designing Minimal Interfaces That Stay Practical"
+date: "10.15.23"
+excerpt: "Thoughts on keeping UI simple without sacrificing usability."
+readTime: "3 MIN READ"
+---
+
+Minimal design is often misunderstood as "less work." In reality, achieving a truly minimal interface requires more thought, more iteration, and more restraint than piling on features.
+
+## What Minimalism Actually Means
+
+A minimal interface isn't one with few elements — it's one where every element serves a clear purpose. The challenge is knowing what to remove without sacrificing usability.
+
+The decision-making process for any UI element can be mapped simply:
+
+```mermaid
+flowchart TD
+    Q1{Does this element serve\na user goal?} -->|Yes| Q2{Can we achieve the same\ngoal without it?}
+    Q1 -->|No| Remove[Remove it]
+    Q2 -->|Yes| Remove
+    Q2 -->|No| Q3{Does it add visual\nnoise?}
+    Q3 -->|Yes| Refine[Refine the design]
+    Q3 -->|No| Keep[Keep it]
+
+    style Remove fill:#7f1d1d,stroke:#ef4444,color:#fef2f2
+    style Keep fill:#064e3b,stroke:#10b981,color:#ecfdf5
+    style Refine fill:#1e1b4b,stroke:#818cf8,color:#e0e7ff
+```
+
+## Starting with User Goals
+
+Before removing anything, understand what the user is trying to accomplish. Every design decision should map back to a specific user goal. If an element doesn't support a goal, it's a candidate for removal.
+
+## Typography as Structure
+
+In minimal design, typography does a lot of heavy lifting. Clear hierarchy through font weight, size, and spacing can replace visual clutter like borders, backgrounds, and decorative elements.
+
+The principle is simple: if your layout requires a decorative element to explain itself, the layout has already failed.

@@ -6,6 +6,7 @@ export interface BlogPost {
   readTime: string;
 }
 
+// Static list — source of truth for slugs, metadata used in client components
 export const posts: BlogPost[] = [
   {
     slug: "building-digital-library-laravel-filament",
@@ -13,7 +14,7 @@ export const posts: BlogPost[] = [
     title: "Building a Digital Library with Laravel Filament",
     description:
       "Notes on building an admin-friendly library management system with Laravel and Filament.",
-    readTime: "5 MIN READ",
+    readTime: "6 MIN READ",
   },
   {
     slug: "why-i-use-linux-for-development",
