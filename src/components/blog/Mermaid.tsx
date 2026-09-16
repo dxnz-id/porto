@@ -27,7 +27,6 @@ const PAN_STEP = 80;
 export default function Mermaid({ chart }: MermaidProps) {
   const ref = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  // The invisible div we render the SVG into to measure it
   const measureRef = useRef<HTMLDivElement>(null);
 
   const [svg, setSvg] = useState<string | null>(null);
@@ -39,56 +38,57 @@ export default function Mermaid({ chart }: MermaidProps) {
   const [scale, setScale] = useState(1);
   const fitScaleRef = useRef(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
+
+  // Mouse drag refs
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
   const translateAtDragStart = useRef({ x: 0, y: 0 });
 
-  // Compute fit-scale by measuring the actual rendered SVG size
+  // Touch refs
+  const lastTouchRef = useRef<{ x: number; y: number } | null>(null);
+  const lastPinchDistRef = useRef<number | null>(null);
+  const scaleAtPinchStart = useRef(1);
+
+  // ── Fit scale ──────────────────────────────────────────────────────────────
   const computeFitScale = useCallback(() => {
-    // Measure the SVG by looking at the actual rendered element in the measure div
     const svgEl = measureRef.current?.querySelector("svg");
     if (!svgEl) return 1;
-
     const svgW = svgEl.getBoundingClientRect().width;
     const svgH = svgEl.getBoundingClientRect().height;
     if (!svgW || !svgH) return 1;
-
-    // The canvas is the full viewport minus modal padding
-    const modalW = canvasRef.current?.getBoundingClientRect().width ?? (window.innerWidth * 0.9);
-    const modalH = canvasRef.current?.getBoundingClientRect().height ?? (window.innerHeight * 0.9);
-
+    const modalW = canvasRef.current?.getBoundingClientRect().width ?? window.innerWidth * 0.9;
+    const modalH = canvasRef.current?.getBoundingClientRect().height ?? window.innerHeight * 0.9;
     const PADDING = 64;
     const scaleX = (modalW - PADDING) / svgW;
     const scaleY = (modalH - PADDING) / svgH;
     return parseFloat(Math.min(scaleX, scaleY).toFixed(3));
   }, []);
 
-  // Reset to fit view when modal opens — use rAF twice to ensure DOM is painted
+  // Reset to fit view when modal opens
   useEffect(() => {
     if (!isEnlarged) return;
-    const raf1 = requestAnimationFrame(() => {
-      const raf2 = requestAnimationFrame(() => {
-        const fitScale = computeFitScale();
-        fitScaleRef.current = fitScale;
-        setScale(fitScale);
+    const r1 = requestAnimationFrame(() => {
+      const r2 = requestAnimationFrame(() => {
+        const fit = computeFitScale();
+        fitScaleRef.current = fit;
+        setScale(fit);
         setTranslate({ x: 0, y: 0 });
       });
-      return () => cancelAnimationFrame(raf2);
+      return () => cancelAnimationFrame(r2);
     });
-    return () => cancelAnimationFrame(raf1);
+    return () => cancelAnimationFrame(r1);
   }, [isEnlarged, computeFitScale]);
 
-  // Lock body scroll when modal is open
+  // Lock body scroll
   useEffect(() => {
     document.body.style.overflow = isEnlarged ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isEnlarged]);
 
-  // Render mermaid SVG
+  // ── Render mermaid ─────────────────────────────────────────────────────────
   useEffect(() => {
     if (!chart?.trim()) return;
     let cancelled = false;
-
     async function render() {
       try {
         const mermaid = (await import("mermaid")).default;
@@ -98,30 +98,18 @@ export default function Mermaid({ chart }: MermaidProps) {
           darkMode: false,
           flowchart: { curve: "basis", padding: 20 },
           sequence: {
-            diagramMarginX: 20,
-            diagramMarginY: 10,
-            actorMargin: 60,
-            width: 150,
-            height: 65,
-            boxMargin: 10,
-            boxTextMargin: 5,
-            noteMargin: 10,
-            messageMargin: 40,
+            diagramMarginX: 20, diagramMarginY: 10,
+            actorMargin: 60, width: 150, height: 65,
+            boxMargin: 10, boxTextMargin: 5, noteMargin: 10, messageMargin: 40,
           },
         });
         const uniqueId = `mermaid-${id}-${Math.random().toString(36).slice(2, 7)}`;
         const { svg: renderedSvg } = await mermaid.render(uniqueId, chart.trim());
-        if (!cancelled) {
-          setSvg(renderedSvg);
-          setError(null);
-        }
+        if (!cancelled) { setSvg(renderedSvg); setError(null); }
       } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Failed to render diagram");
-        }
+        if (!cancelled) setError(err instanceof Error ? err.message : "Failed to render diagram");
       }
     }
-
     render();
     return () => { cancelled = true; };
   }, [chart, id]);
@@ -132,7 +120,7 @@ export default function Mermaid({ chart }: MermaidProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // --- Drag ---
+  // ── Mouse handlers ─────────────────────────────────────────────────────────
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     if (e.button !== 0) return;
     isDragging.current = true;
@@ -157,23 +145,66 @@ export default function Mermaid({ chart }: MermaidProps) {
     setScale((s) => parseFloat(Math.min(MAX_SCALE, Math.max(MIN_SCALE, s + delta)).toFixed(3)));
   }, []);
 
-  // --- Controls ---
+  // ── Touch handlers (drag + pinch) ──────────────────────────────────────────
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      lastTouchRef.current = { x: t.clientX, y: t.clientY };
+      translateAtDragStart.current = { ...translate };
+      lastPinchDistRef.current = null;
+    } else if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      lastPinchDistRef.current = Math.hypot(dx, dy);
+      scaleAtPinchStart.current = scale;
+      lastTouchRef.current = null;
+    }
+  }, [translate, scale]);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
+    if (e.touches.length === 1 && lastTouchRef.current) {
+      const t = e.touches[0];
+      const dx = t.clientX - lastTouchRef.current.x;
+      const dy = t.clientY - lastTouchRef.current.y;
+      lastTouchRef.current = { x: t.clientX, y: t.clientY };
+      setTranslate((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
+    } else if (e.touches.length === 2 && lastPinchDistRef.current !== null) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.hypot(dx, dy);
+      const ratio = dist / lastPinchDistRef.current;
+      const newScale = parseFloat(
+        Math.min(MAX_SCALE, Math.max(MIN_SCALE, scaleAtPinchStart.current * ratio)).toFixed(3)
+      );
+      setScale(newScale);
+    }
+  }, []);
+
+  const onTouchEnd = useCallback(() => {
+    lastTouchRef.current = null;
+    lastPinchDistRef.current = null;
+  }, []);
+
+  // ── Controls ───────────────────────────────────────────────────────────────
   const zoom = (delta: number) =>
     setScale((s) => parseFloat(Math.min(MAX_SCALE, Math.max(MIN_SCALE, s + delta)).toFixed(3)));
+  // NOTE: pan(0, +PAN_STEP) moves diagram DOWN → user sees content move up → "up" button
   const pan = (dx: number, dy: number) =>
     setTranslate((t) => ({ x: t.x + dx, y: t.y + dy }));
   const resetView = () => {
-    const fitScale = computeFitScale();
-    fitScaleRef.current = fitScale;
-    setScale(fitScale);
+    const fit = computeFitScale();
+    fitScaleRef.current = fit;
+    setScale(fit);
     setTranslate({ x: 0, y: 0 });
   };
-  // Percentage relative to fit baseline (fit = 100%)
+
   const displayPct = Math.round((scale / fitScaleRef.current) * 100);
 
   const btnClass =
-    "p-1.5 bg-surface-container-high hover:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm";
+    "p-1.5 bg-surface-container-high hover:bg-surface-container-highest active:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm touch-manipulation";
 
+  // ── Early returns ──────────────────────────────────────────────────────────
   if (error) {
     return (
       <div className="my-8 p-4 border border-red-800/50 bg-red-950/20 font-mono text-[13px] text-red-400 overflow-x-auto rounded-md">
@@ -196,7 +227,7 @@ export default function Mermaid({ chart }: MermaidProps) {
 
   return (
     <>
-      {/* Hidden measurement div — sits off-screen so we can measure the SVG's real rendered size */}
+      {/* Hidden off-screen div to measure actual SVG pixel size */}
       <div
         ref={measureRef}
         aria-hidden="true"
@@ -204,19 +235,20 @@ export default function Mermaid({ chart }: MermaidProps) {
         dangerouslySetInnerHTML={{ __html: svg }}
       />
 
-      {/* Inline diagram preview */}
+      {/* ── Inline preview ── */}
       <div className="relative group my-8 border border-border-hairline bg-surface-container-low p-4 md:p-6 rounded-md">
-        <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+        {/* Toolbar: always visible on mobile (no hover needed), fade-in on desktop */}
+        <div className="absolute top-2 right-2 flex gap-2 z-10 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
           <button
             onClick={handleCopy}
-            className="p-1.5 bg-surface border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
+            className="p-1.5 bg-surface border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm touch-manipulation"
             title="Copy diagram code"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
           </button>
           <button
             onClick={() => setIsEnlarged(true)}
-            className="p-1.5 bg-surface border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
+            className="p-1.5 bg-surface border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm touch-manipulation"
             title="Enlarge diagram"
           >
             <Maximize size={14} />
@@ -232,37 +264,40 @@ export default function Mermaid({ chart }: MermaidProps) {
       {/* ── Enlarged Modal ── */}
       {isEnlarged && (
         <div
-          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
+          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-3 md:p-8"
           onClick={() => setIsEnlarged(false)}
         >
           <div
-            className="relative w-full h-full max-w-6xl max-h-[90vh] bg-surface-container border border-border-hairline rounded-lg overflow-hidden"
+            className="relative w-full h-full max-w-6xl max-h-[92vh] bg-surface-container border border-border-hairline rounded-lg overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close */}
             <button
               onClick={() => setIsEnlarged(false)}
-              className="absolute top-4 right-4 z-20 p-2 bg-surface-container-high hover:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
+              className="absolute top-3 right-3 z-20 p-2 bg-surface-container-high hover:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm touch-manipulation"
               title="Close"
             >
               <X size={18} />
             </button>
 
             {/* Zoom % badge */}
-            <div className="absolute top-4 left-4 z-20 px-2 py-1 bg-surface-container-high border border-border-hairline rounded text-xs font-mono text-secondary select-none">
+            <div className="absolute top-3 left-3 z-20 px-2 py-1 bg-surface-container-high border border-border-hairline rounded text-xs font-mono text-secondary select-none">
               {displayPct}%
             </div>
 
-            {/* Pan/zoom canvas */}
+            {/* Pan / zoom canvas */}
             <div
               ref={canvasRef}
               className="w-full h-full flex items-center justify-center overflow-hidden"
-              style={{ cursor: isDragging.current ? "grabbing" : "grab" }}
+              style={{ cursor: isDragging.current ? "grabbing" : "grab", touchAction: "none" }}
               onMouseDown={onMouseDown}
               onMouseMove={onMouseMove}
               onMouseUp={onMouseUp}
               onMouseLeave={onMouseUp}
               onWheel={onWheel}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
             >
               <div
                 style={{
@@ -276,20 +311,20 @@ export default function Mermaid({ chart }: MermaidProps) {
               />
             </div>
 
-            {/* ── D-Pad controls — bottom right ── */}
-            {/* Grid layout:
-                  col:  [1]     [2]    [3]
-                row 1:  [ ]     [↑]    [+]
-                row 2:  [←]    [⊡]    [→]
-                row 3:  [ ]     [↓]    [−]
+            {/* ── D-Pad — bottom right ──
+                Grid:  col1   col2   col3
+                row1:  [ ]    [↑]    [+]
+                row2:  [←]   [⊡]    [→]
+                row3:  [ ]    [↓]    [−]
             */}
             <div
-              className="absolute bottom-4 right-4 z-20 grid gap-1"
+              className="absolute bottom-3 right-3 z-20 grid gap-1"
               style={{ gridTemplateColumns: "repeat(3, auto)" }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Row 1 */}
               <div />
+              {/* ↑ button: diagram moves UP → translate.y decreases */}
               <button onClick={() => pan(0, -PAN_STEP)} className={btnClass} title="Pan up">
                 <ChevronUp size={16} />
               </button>
@@ -310,6 +345,7 @@ export default function Mermaid({ chart }: MermaidProps) {
 
               {/* Row 3 */}
               <div />
+              {/* ↓ button: diagram moves DOWN → translate.y increases */}
               <button onClick={() => pan(0, PAN_STEP)} className={btnClass} title="Pan down">
                 <ChevronDown size={16} />
               </button>
