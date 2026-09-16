@@ -44,7 +44,7 @@ export default function ProjectsSection() {
       className="py-16 md:py-24 border-b border-border-hairline"
     >
       <div className="max-w-7xl mx-auto">
-        <SectionHeader label="Selected Work" />
+        <SectionHeader label="Selected Work" className="px-margin-mobile md:px-margin-desktop" />
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2">
           {projects.map((project, i) => (
