@@ -20,18 +20,18 @@ export default function CodeBlock({ children, rawText }: CodeBlockProps) {
 
   return (
     <div className="relative group my-8">
-      <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
         <button
           onClick={handleCopy}
-          className="p-1.5 bg-surface border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
+          className="p-1.5 bg-surface-container-high border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
           title="Copy code"
         >
           {copied ? <Check size={14} /> : <Copy size={14} />}
         </button>
       </div>
-      <pre className="bg-surface-container-low border border-border-hairline p-6 overflow-x-auto font-mono text-[13px] leading-relaxed rounded-md">
+      <div className="[&>figure>pre]:p-6 [&>figure>pre]:overflow-x-auto [&>figure>pre]:font-mono [&>figure>pre]:text-[13px] [&>figure>pre]:leading-relaxed [&>figure>pre]:rounded-md [&>figure>pre]:border [&>figure>pre]:border-border-hairline [&>figure>pre]:bg-surface-container-low [&>figure]:m-0">
         {children}
-      </pre>
+      </div>
     </div>
   );
 }

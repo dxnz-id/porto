@@ -18,7 +18,9 @@
     "next-mdx-remote": "^6.0.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "rehype-pretty-code": "^0.14.5",
     "remark-gfm": "^4.0.1",
+    "shiki": "^4.4.3",
     "tech-stack-icons": "^3.7.1"
   },
   "devDependencies": {

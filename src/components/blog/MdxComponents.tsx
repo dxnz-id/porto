@@ -3,56 +3,58 @@ import CodeBlock from "@/components/blog/CodeBlock";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MdxComponentMap = Record<string, React.ComponentType<any>>;
 
+import { isValidElement, ReactNode } from "react";
+
+function extractText(node: ReactNode): string {
+  if (typeof node === "string") return node;
+  if (typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(extractText).join("");
+  if (isValidElement(node)) {
+    const props = node.props as { children?: ReactNode };
+    return extractText(props.children);
+  }
+  return "";
+}
+
 export const mdxComponents: MdxComponentMap = {
   /**
-   * `pre` receives props directly from MDX AST — at this point `children`
-   * is a React element whose `type` is the *string* "code" (the raw HTML tag),
-   * NOT our custom `code` component, because MDX composes component
-   * substitutions bottom-up.  The `className` from the fenced-code info
-   * string (e.g. `language-mermaid`) is passed directly on the `<code>` node.
-   *
-   * Strategy: inspect `children.props.className` before returning.
-   * If it contains "language-mermaid", delegate to <Mermaid>.
+   * rehype-pretty-code wraps code blocks in a <figure data-rehype-pretty-code-figure>
+   * We intercept this figure to extract raw text and determine if it's mermaid or a normal code block.
    */
-  pre: (props) => {
-    // props.children is the raw React element for the inner <code>
-    const child = props.children as React.ReactElement<{
-      className?: string;
-      children?: string;
-    }> | null;
+  figure: ({ children, ...props }) => {
+    if ("data-rehype-pretty-code-figure" in props) {
+      const rawCode = extractText(children);
+      
+      // rehype-pretty-code puts data-language on the inner <pre> element
+      const child = children as React.ReactElement<{
+        "data-language"?: string;
+      }> | null;
+      const language =
+        child && typeof child === "object" && "props" in child
+          ? child.props?.["data-language"]
+          : undefined;
 
-    const className =
-      child && typeof child === "object" && "props" in child
-        ? (child.props?.className ?? "")
-        : "";
+      if (language === "mermaid") {
+        return <Mermaid chart={rawCode} />;
+      }
 
-    const rawText =
-      child && typeof child === "object" && "props" in child
-        ? (child.props?.children ?? "")
-        : "";
-
-    const rawCode = typeof rawText === "string" ? rawText : "";
-    
-    if (className.includes("language-mermaid")) {
-      return <Mermaid chart={rawCode} />;
+      return (
+        <CodeBlock rawText={rawCode}>
+          <figure {...props}>{children}</figure>
+        </CodeBlock>
+      );
     }
-
-    return <CodeBlock rawText={rawCode}>{props.children}</CodeBlock>;
+    return <figure {...props}>{children}</figure>;
   },
 
-  /**
-   * `code` handles inline code.  When inside a <pre>, MDX doesn't call this
-   * for fenced code blocks that have been intercepted by our `pre` component.
-   * This only fires for inline `code` spans.
-   */
-  code: ({ children, className }) => {
-    // Fenced blocks have className like "language-xxx" — don't apply
-    // inline styling to them (though in practice pre intercepts first).
-    if (className?.startsWith("language-")) {
-      return <code className={className}>{children}</code>;
+  code: ({ children, ...props }) => {
+    // rehype-pretty-code adds data-language or data-theme to the <code> block inside the <pre>
+    if ("data-language" in props || "data-theme" in props) {
+      return <code {...props}>{children}</code>;
     }
+    // Inline code styling
     return (
-      <code className="font-mono text-[14px] px-1.5 py-0.5 bg-surface-container-low border border-border-hairline text-primary">
+      <code className="font-mono text-[14px] px-1.5 py-0.5 bg-surface-container-low border border-border-hairline text-primary rounded-sm" {...props}>
         {children}
       </code>
     );
