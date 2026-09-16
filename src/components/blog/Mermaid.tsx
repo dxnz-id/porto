@@ -37,6 +37,7 @@ export default function Mermaid({ chart }: MermaidProps) {
   const id = useId().replace(/:/g, "");
 
   const [scale, setScale] = useState(1);
+  const fitScaleRef = useRef(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
@@ -68,6 +69,7 @@ export default function Mermaid({ chart }: MermaidProps) {
     const raf1 = requestAnimationFrame(() => {
       const raf2 = requestAnimationFrame(() => {
         const fitScale = computeFitScale();
+        fitScaleRef.current = fitScale;
         setScale(fitScale);
         setTranslate({ x: 0, y: 0 });
       });
@@ -162,9 +164,12 @@ export default function Mermaid({ chart }: MermaidProps) {
     setTranslate((t) => ({ x: t.x + dx, y: t.y + dy }));
   const resetView = () => {
     const fitScale = computeFitScale();
+    fitScaleRef.current = fitScale;
     setScale(fitScale);
     setTranslate({ x: 0, y: 0 });
   };
+  // Percentage relative to fit baseline (fit = 100%)
+  const displayPct = Math.round((scale / fitScaleRef.current) * 100);
 
   const btnClass =
     "p-1.5 bg-surface-container-high hover:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm";
@@ -245,7 +250,7 @@ export default function Mermaid({ chart }: MermaidProps) {
 
             {/* Zoom % badge */}
             <div className="absolute top-4 left-4 z-20 px-2 py-1 bg-surface-container-high border border-border-hairline rounded text-xs font-mono text-secondary select-none">
-              {Math.round(scale * 100)}%
+              {displayPct}%
             </div>
 
             {/* Pan/zoom canvas */}
