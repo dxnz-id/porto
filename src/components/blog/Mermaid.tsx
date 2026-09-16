@@ -23,51 +23,8 @@ export default function Mermaid({ chart }: MermaidProps) {
 
         mermaid.initialize({
           startOnLoad: false,
-          theme: "dark",
-          darkMode: true,
-          themeVariables: {
-            // Background
-            background: "transparent",
-            mainBkg: "#1a1a2e",
-            // Node/box colors
-            nodeBorder: "#a78bfa",
-            clusterBkg: "#16213e",
-            // Font
-            fontFamily: "'Inter', system-ui, sans-serif",
-            fontSize: "14px",
-            // Primary colors
-            primaryColor: "#1e1b4b",
-            primaryBorderColor: "#818cf8",
-            primaryTextColor: "#e2e8f0",
-            // Secondary
-            secondaryColor: "#0f3460",
-            secondaryBorderColor: "#6366f1",
-            secondaryTextColor: "#e2e8f0",
-            // Tertiary
-            tertiaryColor: "#134e4a",
-            tertiaryBorderColor: "#10b981",
-            tertiaryTextColor: "#e2e8f0",
-            // Lines and text
-            lineColor: "#64748b",
-            textColor: "#e2e8f0",
-            labelColor: "#e2e8f0",
-            // Sequence diagram
-            actorBkg: "#1e1b4b",
-            actorBorder: "#818cf8",
-            actorTextColor: "#e2e8f0",
-            actorLineColor: "#64748b",
-            signalColor: "#94a3b8",
-            signalTextColor: "#e2e8f0",
-            activationBkgColor: "#0f172a",
-            activationBorderColor: "#475569",
-            labelBoxBkgColor: "#1e293b",
-            labelBoxBorderColor: "#475569",
-            labelTextColor: "#94a3b8",
-            loopTextColor: "#94a3b8",
-            noteBkgColor: "#1e293b",
-            noteBorderColor: "#475569",
-            noteTextColor: "#e2e8f0",
-          },
+          theme: "neutral",
+          darkMode: false,
           flowchart: {
             curve: "basis",
             padding: 20,

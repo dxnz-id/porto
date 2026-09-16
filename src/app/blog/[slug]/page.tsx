@@ -9,6 +9,7 @@ import TableOfContents from "@/components/blog/TableOfContents";
 import ShareSection from "@/components/blog/ShareSection";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/blog/MdxComponents";
+import remarkGfm from "remark-gfm";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -71,7 +72,11 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* Post content — rendered from MDX */}
           <div className="blog-content">
-            <MDXRemote source={content} components={mdxComponents} />
+            <MDXRemote
+              source={content}
+              components={mdxComponents}
+              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+            />
           </div>
 
           {/* Share */}
