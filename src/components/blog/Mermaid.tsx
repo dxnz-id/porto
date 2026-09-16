@@ -19,8 +19,6 @@ interface MermaidProps {
   chart: string;
 }
 
-const MIN_SCALE = 0.1;
-const MAX_SCALE = 4;
 const SCALE_STEP = 0.15;
 const PAN_STEP = 80;
 
@@ -142,7 +140,9 @@ export default function Mermaid({ chart }: MermaidProps) {
   const onWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -SCALE_STEP : SCALE_STEP;
-    setScale((s) => parseFloat(Math.min(MAX_SCALE, Math.max(MIN_SCALE, s + delta)).toFixed(3)));
+    const minS = fitScaleRef.current * 0.1;
+    const maxS = fitScaleRef.current * 5;
+    setScale((s) => parseFloat(Math.min(maxS, Math.max(minS, s + delta)).toFixed(3)));
   }, []);
 
   // ── Touch handlers (drag + pinch) ──────────────────────────────────────────
@@ -175,7 +175,7 @@ export default function Mermaid({ chart }: MermaidProps) {
       const dist = Math.hypot(dx, dy);
       const ratio = dist / lastPinchDistRef.current;
       const newScale = parseFloat(
-        Math.min(MAX_SCALE, Math.max(MIN_SCALE, scaleAtPinchStart.current * ratio)).toFixed(3)
+        Math.min(fitScaleRef.current * 5, Math.max(fitScaleRef.current * 0.1, scaleAtPinchStart.current * ratio)).toFixed(3)
       );
       setScale(newScale);
     }
@@ -187,8 +187,11 @@ export default function Mermaid({ chart }: MermaidProps) {
   }, []);
 
   // ── Controls ───────────────────────────────────────────────────────────────
-  const zoom = (delta: number) =>
-    setScale((s) => parseFloat(Math.min(MAX_SCALE, Math.max(MIN_SCALE, s + delta)).toFixed(3)));
+  const zoom = (delta: number) => {
+    const minS = fitScaleRef.current * 0.1;
+    const maxS = fitScaleRef.current * 5;
+    setScale((s) => parseFloat(Math.min(maxS, Math.max(minS, s + delta)).toFixed(3)));
+  };
   // NOTE: pan(0, +PAN_STEP) moves diagram DOWN → user sees content move up → "up" button
   const pan = (dx: number, dy: number) =>
     setTranslate((t) => ({ x: t.x + dx, y: t.y + dy }));
