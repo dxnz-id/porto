@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import MobileMenu from "./MobileMenu";
 import TransitionLink from "@/components/transition/TransitionLink";
 
 const navLinks = [
-  { href: "/", label: "Work" },
+  { href: "/", label: "Index" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -23,6 +25,33 @@ export default function Navbar() {
   const closeMenu = useCallback(() => {
     setMobileMenuOpen(false);
   }, []);
+
+  // Ensure menu closes when route changes (e.g. after a page transition finishes)
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
+
+  useGSAP(() => {
+    if (!menuBtnRef.current) return;
+    if (mobileMenuOpen) {
+      // Menu opens, animate "Menu" text out
+      gsap.to(menuBtnRef.current, {
+        opacity: 0,
+        y: -8,
+        duration: 0.2,
+        ease: "power1.inOut",
+      });
+    } else {
+      // Menu closes (or initial load), animate "Menu" text in
+      gsap.fromTo(
+        menuBtnRef.current,
+        { opacity: 0, y: -8 },
+        { opacity: 1, y: 0, duration: 0.3, delay: 0.1, ease: "power1.out" }
+      );
+    }
+  }, { dependencies: [mobileMenuOpen] });
 
   return (
     <>
@@ -64,6 +93,7 @@ export default function Navbar() {
 
         {/* Mobile — text menu trigger */}
         <button
+          ref={menuBtnRef}
           className="md:hidden text-label-caps text-primary"
           onClick={toggleMenu}
           aria-label="Open menu"
