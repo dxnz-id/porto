@@ -1,5 +1,5 @@
 import Mermaid from "@/components/blog/Mermaid";
-
+import CodeBlock from "@/components/blog/CodeBlock";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MdxComponentMap = Record<string, React.ComponentType<any>>;
 
@@ -31,16 +31,13 @@ export const mdxComponents: MdxComponentMap = {
         ? (child.props?.children ?? "")
         : "";
 
+    const rawCode = typeof rawText === "string" ? rawText : "";
+    
     if (className.includes("language-mermaid")) {
-      const chart = typeof rawText === "string" ? rawText : "";
-      return <Mermaid chart={chart} />;
+      return <Mermaid chart={rawCode} />;
     }
 
-    return (
-      <pre className="bg-surface-container-low border border-border-hairline p-6 overflow-x-auto my-8 font-mono text-[13px] leading-relaxed">
-        {props.children}
-      </pre>
-    );
+    return <CodeBlock rawText={rawCode}>{props.children}</CodeBlock>;
   },
 
   /**
