@@ -104,7 +104,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* Post header */}
           <header className="mb-16">
-            <h1 className="text-headline-xl text-primary mb-6">{post.title}</h1>
+            <h1 className="text-headline-lg-mobile md:text-headline-xl text-primary mb-6">{post.title}</h1>
             <div className="flex items-center gap-4 text-label-mono text-secondary border-b border-border-hairline pb-6">
               <span>{post.date}</span>
               <span className="w-1 h-1 rounded-full bg-border-hairline" />

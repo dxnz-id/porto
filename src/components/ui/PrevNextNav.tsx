@@ -34,7 +34,7 @@ export default function PrevNextNav({
               />
               Previous
             </span>
-            <span className="text-headline-lg-mobile text-primary line-clamp-2">
+            <span className="text-headline-lg-mobile text-primary line-clamp-2 text-[24px] leading-[32px] md:text-[32px] md:leading-[40px]">
               {prev.title}
             </span>
           </TransitionLink>
@@ -56,7 +56,7 @@ export default function PrevNextNav({
                 className="group-hover:translate-x-1 transition-transform duration-200"
               />
             </span>
-            <span className="text-headline-lg-mobile text-primary line-clamp-2">
+            <span className="text-headline-lg-mobile text-primary line-clamp-2 text-[24px] leading-[32px] md:text-[32px] md:leading-[40px]">
               {next.title}
             </span>
           </TransitionLink>
