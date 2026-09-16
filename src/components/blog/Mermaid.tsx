@@ -277,7 +277,7 @@ export default function Mermaid({ chart }: MermaidProps) {
             {/* Close */}
             <button
               onClick={() => setIsEnlarged(false)}
-              className="absolute top-3 right-3 z-20 p-2 bg-surface-container-high hover:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm touch-manipulation"
+              className="absolute top-3 right-3 z-20 p-2 text-secondary hover:text-primary transition-colors touch-manipulation"
               title="Close"
             >
               <X size={18} />
