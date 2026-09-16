@@ -1,37 +1,100 @@
 "use client";
 
-import { useEffect, useRef, useState, useId } from "react";
-import { Copy, Check, Maximize, X } from "lucide-react";
+import { useEffect, useRef, useState, useId, useCallback } from "react";
+import {
+  Copy,
+  Check,
+  Maximize,
+  X,
+  ZoomIn,
+  ZoomOut,
+  ChevronUp,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Minimize2,
+} from "lucide-react";
 
 interface MermaidProps {
   chart: string;
 }
 
+const MIN_SCALE = 0.1;
+const MAX_SCALE = 4;
+const SCALE_STEP = 0.15;
+const PAN_STEP = 80;
+
 export default function Mermaid({ chart }: MermaidProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
+  // The invisible div we render the SVG into to measure it
+  const measureRef = useRef<HTMLDivElement>(null);
+
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [isEnlarged, setIsEnlarged] = useState(false);
   const id = useId().replace(/:/g, "");
 
+  const [scale, setScale] = useState(1);
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const isDragging = useRef(false);
+  const dragStart = useRef({ x: 0, y: 0 });
+  const translateAtDragStart = useRef({ x: 0, y: 0 });
+
+  // Compute fit-scale by measuring the actual rendered SVG size
+  const computeFitScale = useCallback(() => {
+    // Measure the SVG by looking at the actual rendered element in the measure div
+    const svgEl = measureRef.current?.querySelector("svg");
+    if (!svgEl) return 1;
+
+    const svgW = svgEl.getBoundingClientRect().width;
+    const svgH = svgEl.getBoundingClientRect().height;
+    if (!svgW || !svgH) return 1;
+
+    // The canvas is the full viewport minus modal padding
+    const modalW = canvasRef.current?.getBoundingClientRect().width ?? (window.innerWidth * 0.9);
+    const modalH = canvasRef.current?.getBoundingClientRect().height ?? (window.innerHeight * 0.9);
+
+    const PADDING = 64;
+    const scaleX = (modalW - PADDING) / svgW;
+    const scaleY = (modalH - PADDING) / svgH;
+    return parseFloat(Math.min(scaleX, scaleY).toFixed(3));
+  }, []);
+
+  // Reset to fit view when modal opens — use rAF twice to ensure DOM is painted
+  useEffect(() => {
+    if (!isEnlarged) return;
+    const raf1 = requestAnimationFrame(() => {
+      const raf2 = requestAnimationFrame(() => {
+        const fitScale = computeFitScale();
+        setScale(fitScale);
+        setTranslate({ x: 0, y: 0 });
+      });
+      return () => cancelAnimationFrame(raf2);
+    });
+    return () => cancelAnimationFrame(raf1);
+  }, [isEnlarged, computeFitScale]);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = isEnlarged ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isEnlarged]);
+
+  // Render mermaid SVG
   useEffect(() => {
     if (!chart?.trim()) return;
-
     let cancelled = false;
 
     async function render() {
       try {
         const mermaid = (await import("mermaid")).default;
-
         mermaid.initialize({
           startOnLoad: false,
           theme: "neutral",
           darkMode: false,
-          flowchart: {
-            curve: "basis",
-            padding: 20,
-          },
+          flowchart: { curve: "basis", padding: 20 },
           sequence: {
             diagramMarginX: 20,
             diagramMarginY: 10,
@@ -44,28 +107,21 @@ export default function Mermaid({ chart }: MermaidProps) {
             messageMargin: 40,
           },
         });
-
         const uniqueId = `mermaid-${id}-${Math.random().toString(36).slice(2, 7)}`;
         const { svg: renderedSvg } = await mermaid.render(uniqueId, chart.trim());
-
         if (!cancelled) {
           setSvg(renderedSvg);
           setError(null);
         }
       } catch (err) {
         if (!cancelled) {
-          console.error("Mermaid render error:", err);
-          setError(
-            err instanceof Error ? err.message : "Failed to render diagram"
-          );
+          setError(err instanceof Error ? err.message : "Failed to render diagram");
         }
       }
     }
 
     render();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [chart, id]);
 
   const handleCopy = () => {
@@ -73,6 +129,45 @@ export default function Mermaid({ chart }: MermaidProps) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  // --- Drag ---
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if (e.button !== 0) return;
+    isDragging.current = true;
+    dragStart.current = { x: e.clientX, y: e.clientY };
+    translateAtDragStart.current = { ...translate };
+    e.preventDefault();
+  }, [translate]);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    setTranslate({
+      x: translateAtDragStart.current.x + (e.clientX - dragStart.current.x),
+      y: translateAtDragStart.current.y + (e.clientY - dragStart.current.y),
+    });
+  }, []);
+
+  const onMouseUp = useCallback(() => { isDragging.current = false; }, []);
+
+  const onWheel = useCallback((e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -SCALE_STEP : SCALE_STEP;
+    setScale((s) => parseFloat(Math.min(MAX_SCALE, Math.max(MIN_SCALE, s + delta)).toFixed(3)));
+  }, []);
+
+  // --- Controls ---
+  const zoom = (delta: number) =>
+    setScale((s) => parseFloat(Math.min(MAX_SCALE, Math.max(MIN_SCALE, s + delta)).toFixed(3)));
+  const pan = (dx: number, dy: number) =>
+    setTranslate((t) => ({ x: t.x + dx, y: t.y + dy }));
+  const resetView = () => {
+    const fitScale = computeFitScale();
+    setScale(fitScale);
+    setTranslate({ x: 0, y: 0 });
+  };
+
+  const btnClass =
+    "p-1.5 bg-surface-container-high hover:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm";
 
   if (error) {
     return (
@@ -96,9 +191,17 @@ export default function Mermaid({ chart }: MermaidProps) {
 
   return (
     <>
+      {/* Hidden measurement div — sits off-screen so we can measure the SVG's real rendered size */}
+      <div
+        ref={measureRef}
+        aria-hidden="true"
+        style={{ position: "fixed", top: -9999, left: -9999, opacity: 0, pointerEvents: "none" }}
+        dangerouslySetInnerHTML={{ __html: svg }}
+      />
+
+      {/* Inline diagram preview */}
       <div className="relative group my-8 border border-border-hairline bg-surface-container-low p-4 md:p-6 rounded-md">
-        {/* Toolbar */}
-        <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
           <button
             onClick={handleCopy}
             className="p-1.5 bg-surface border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
@@ -114,8 +217,6 @@ export default function Mermaid({ chart }: MermaidProps) {
             <Maximize size={14} />
           </button>
         </div>
-
-        {/* Diagram */}
         <div
           ref={ref}
           className="overflow-x-auto flex justify-center"
@@ -123,27 +224,94 @@ export default function Mermaid({ chart }: MermaidProps) {
         />
       </div>
 
-      {/* Enlarge Modal */}
+      {/* ── Enlarged Modal ── */}
       {isEnlarged && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
           onClick={() => setIsEnlarged(false)}
         >
           <div
-            className="relative w-full h-full max-w-6xl max-h-[90vh] bg-surface-container border border-border-hairline overflow-auto flex items-center justify-center p-4 md:p-12 rounded-lg"
+            className="relative w-full h-full max-w-6xl max-h-[90vh] bg-surface-container border border-border-hairline rounded-lg overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Close */}
             <button
               onClick={() => setIsEnlarged(false)}
-              className="absolute top-4 right-4 p-2 bg-surface-container-high hover:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
-              title="Close diagram"
+              className="absolute top-4 right-4 z-20 p-2 bg-surface-container-high hover:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
+              title="Close"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
+
+            {/* Zoom % badge */}
+            <div className="absolute top-4 left-4 z-20 px-2 py-1 bg-surface-container-high border border-border-hairline rounded text-xs font-mono text-secondary select-none">
+              {Math.round(scale * 100)}%
+            </div>
+
+            {/* Pan/zoom canvas */}
             <div
-              className="w-full flex justify-center scale-100 md:scale-125 transform-gpu transition-transform origin-center"
-              dangerouslySetInnerHTML={{ __html: svg }}
-            />
+              ref={canvasRef}
+              className="w-full h-full flex items-center justify-center overflow-hidden"
+              style={{ cursor: isDragging.current ? "grabbing" : "grab" }}
+              onMouseDown={onMouseDown}
+              onMouseMove={onMouseMove}
+              onMouseUp={onMouseUp}
+              onMouseLeave={onMouseUp}
+              onWheel={onWheel}
+            >
+              <div
+                style={{
+                  transform: `translate(${translate.x}px, ${translate.y}px) scale(${scale})`,
+                  transformOrigin: "center center",
+                  transition: isDragging.current ? "none" : "transform 0.06s ease-out",
+                  userSelect: "none",
+                  pointerEvents: "none",
+                }}
+                dangerouslySetInnerHTML={{ __html: svg }}
+              />
+            </div>
+
+            {/* ── D-Pad controls — bottom right ── */}
+            {/* Grid layout:
+                  col:  [1]     [2]    [3]
+                row 1:  [ ]     [↑]    [+]
+                row 2:  [←]    [⊡]    [→]
+                row 3:  [ ]     [↓]    [−]
+            */}
+            <div
+              className="absolute bottom-4 right-4 z-20 grid gap-1"
+              style={{ gridTemplateColumns: "repeat(3, auto)" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Row 1 */}
+              <div />
+              <button onClick={() => pan(0, -PAN_STEP)} className={btnClass} title="Pan up">
+                <ChevronUp size={16} />
+              </button>
+              <button onClick={() => zoom(SCALE_STEP)} className={btnClass} title="Zoom in">
+                <ZoomIn size={16} />
+              </button>
+
+              {/* Row 2 */}
+              <button onClick={() => pan(-PAN_STEP, 0)} className={btnClass} title="Pan left">
+                <ChevronLeft size={16} />
+              </button>
+              <button onClick={resetView} className={btnClass} title="Fit / Reset">
+                <Minimize2 size={14} />
+              </button>
+              <button onClick={() => pan(PAN_STEP, 0)} className={btnClass} title="Pan right">
+                <ChevronRight size={16} />
+              </button>
+
+              {/* Row 3 */}
+              <div />
+              <button onClick={() => pan(0, PAN_STEP)} className={btnClass} title="Pan down">
+                <ChevronDown size={16} />
+              </button>
+              <button onClick={() => zoom(-SCALE_STEP)} className={btnClass} title="Zoom out">
+                <ZoomOut size={16} />
+              </button>
+            </div>
           </div>
         </div>
       )}
