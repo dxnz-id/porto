@@ -5,7 +5,6 @@ import { ArrowRight } from "lucide-react";
 
 interface FormState {
   name: string;
-  email: string;
   subject: string;
   message: string;
 }
@@ -19,7 +18,6 @@ const labelClass =
 export default function ContactForm() {
   const [form, setForm] = useState<FormState>({
     name: "",
-    email: "",
     subject: "",
     message: "",
   });
@@ -35,7 +33,11 @@ export default function ContactForm() {
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      console.log("Contact form submitted:", form);
+      const to = "dxnzid@icloud.com";
+      const subject = `${form.name} - ${form.subject}`;
+      const body = form.message;
+      const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
       setSubmitted(true);
     },
     [form]
@@ -45,16 +47,19 @@ export default function ContactForm() {
     return (
       <div className="flex flex-col gap-4 py-12">
         <p className="text-headline-lg-mobile text-primary">
-          Message sent. I&apos;ll get back to you soon.
+          Opening your email client...
+        </p>
+        <p className="text-body-md text-secondary">
+          If it didn&apos;t open, check your email app settings.
         </p>
         <button
           className="text-label-mono text-secondary hover:text-primary transition-colors self-start"
           onClick={() => {
             setSubmitted(false);
-            setForm({ name: "", email: "", subject: "", message: "" });
+            setForm({ name: "", subject: "", message: "" });
           }}
         >
-          Send another message →
+          Compose another →
         </button>
       </div>
     );
@@ -79,35 +84,16 @@ export default function ContactForm() {
         />
       </div>
 
-      {/* Email */}
-      <div className="flex flex-col gap-2">
-        <label htmlFor="email" className={labelClass}>
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Where can I reach you?"
-          className={inputClass}
-        />
-      </div>
-
-      {/* Subject (optional) */}
+      {/* Subject */}
       <div className="flex flex-col gap-2">
         <label htmlFor="subject" className={labelClass}>
-          Subject{" "}
-          <span className="text-label-caps text-secondary normal-case tracking-normal font-body ml-1">
-            (optional)
-          </span>
+          Subject
         </label>
         <input
           id="subject"
           name="subject"
           type="text"
+          required
           value={form.subject}
           onChange={handleChange}
           placeholder="What's this about?"
