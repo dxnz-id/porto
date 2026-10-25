@@ -9,35 +9,20 @@ export interface BlogPost {
 // Static list — source of truth for slugs, metadata used in client components
 export const posts: BlogPost[] = [
   {
-    slug: "writing-math-in-mdx",
+    slug: "markdown-test",
     date: "10.25.26",
-    title: "Writing Math in MDX",
+    title: "Markdown Test Page",
     description:
-      "How this blog renders LaTeX, plus a reference for the Markdown features it supports.",
-    readTime: "4 MIN READ",
+      "Every Markdown, MDX, math, and diagram case this blog renders, in one page.",
+    readTime: "12 MIN READ",
   },
   {
-    slug: "building-digital-library-laravel-filament",
-    date: "01.12.24",
-    title: "Building a Digital Library with Laravel Filament",
+    slug: "second-post",
+    date: "10.24.26",
+    title: "Second Post",
     description:
-      "Notes on building an admin-friendly library management system with Laravel and Filament.",
-    readTime: "6 MIN READ",
-  },
-  {
-    slug: "why-i-use-linux-for-development",
-    date: "11.28.23",
-    title: "Why I Use Linux for Development",
-    description:
-      "A few reasons Linux has become my daily driver for coding and self-hosting.",
-    readTime: "4 MIN READ",
-  },
-  {
-    slug: "designing-minimal-interfaces",
-    date: "10.15.23",
-    title: "Designing Minimal Interfaces That Stay Practical",
-    description: "Thoughts on keeping UI simple without sacrificing usability.",
-    readTime: "3 MIN READ",
+      "A short second entry so the blog index and prev/next navigation have both ends to test.",
+    readTime: "1 MIN READ",
   },
 ];
 
