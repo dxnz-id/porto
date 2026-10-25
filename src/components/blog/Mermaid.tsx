@@ -98,6 +98,8 @@ export default function Mermaid({ chart }: MermaidProps) {
           startOnLoad: false,
           theme: "neutral",
           darkMode: false,
+          // Keep mermaid's giant error SVG out of <body>; the catch below renders our own box.
+          suppressErrorRendering: true,
           flowchart: { curve: "basis", padding: 20 },
           sequence: {
             diagramMarginX: 20, diagramMarginY: 10,
