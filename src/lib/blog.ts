@@ -9,6 +9,14 @@ export interface BlogPost {
 // Static list — source of truth for slugs, metadata used in client components
 export const posts: BlogPost[] = [
   {
+    slug: "writing-math-in-mdx",
+    date: "10.25.26",
+    title: "Writing Math in MDX",
+    description:
+      "How this blog renders LaTeX, plus a reference for the Markdown features it supports.",
+    readTime: "4 MIN READ",
+  },
+  {
     slug: "building-digital-library-laravel-filament",
     date: "01.12.24",
     title: "Building a Digital Library with Laravel Filament",

@@ -10,7 +10,10 @@ import ShareSection from "@/components/blog/ShareSection";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/blog/MdxComponents";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -72,23 +75,22 @@ export default async function BlogPostPage({ params }: Props) {
           </header>
 
           {/* Post content — rendered from MDX */}
-          <div className="blog-content">
-            <MDXRemote
-              source={content}
-              components={mdxComponents}
-              options={{
-                mdxOptions: {
-                  remarkPlugins: [remarkGfm],
-                  rehypePlugins: [
-                    [
-                      rehypePrettyCode,
-                      { theme: "catppuccin-latte", keepBackground: false },
-                    ],
+          <MDXRemote
+            source={content}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm, remarkMath],
+                rehypePlugins: [
+                  [
+                    rehypePrettyCode,
+                    { theme: "catppuccin-latte", keepBackground: false },
                   ],
-                },
-              }}
-            />
-          </div>
+                  rehypeKatex,
+                ],
+              },
+            }}
+          />
 
           {/* Share */}
           <ShareSection title={post.title} description={post.description} />

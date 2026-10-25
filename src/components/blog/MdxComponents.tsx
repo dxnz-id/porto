@@ -16,6 +16,40 @@ function extractText(node: ReactNode): string {
   return "";
 }
 
+function slugify(children: ReactNode): string {
+  return extractText(children)
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]/g, "");
+}
+
+/** Markdown images and explicit <BlogImage> both use this, so dimensions and
+ *  lazy loading apply without repeating the markup. */
+function BlogImage({
+  src,
+  alt,
+  width,
+  height,
+}: {
+  src?: string;
+  alt?: string;
+  width?: string;
+  height?: string;
+}) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt ?? ""}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      className="w-full h-auto border border-border-hairline my-8"
+    />
+  );
+}
+
 export const mdxComponents: MdxComponentMap = {
   /**
    * rehype-pretty-code wraps code blocks in a <figure data-rehype-pretty-code-figure>
@@ -61,14 +95,9 @@ export const mdxComponents: MdxComponentMap = {
   },
 
   h2: ({ children, ...props }) => {
-    const id = children
-      ?.toString()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "");
     return (
       <h2
-        id={id}
+        id={slugify(children)}
         className="text-headline-lg-mobile text-primary mt-16 mb-6 border-b border-border-hairline pb-4 scroll-mt-24"
         {...props}
       >
@@ -78,14 +107,9 @@ export const mdxComponents: MdxComponentMap = {
   },
 
   h3: ({ children, ...props }) => {
-    const id = children
-      ?.toString()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "");
     return (
       <h3
-        id={id}
+        id={slugify(children)}
         className="text-body-lg font-semibold text-primary mt-10 mb-4 scroll-mt-24"
         {...props}
       >
@@ -155,12 +179,6 @@ export const mdxComponents: MdxComponentMap = {
 
   hr: () => <hr className="border-border-hairline my-12" />,
 
-  img: ({ src, alt }) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt={alt ?? ""}
-      className="w-full border border-border-hairline my-8"
-    />
-  ),
+  img: BlogImage,
+  BlogImage,
 };

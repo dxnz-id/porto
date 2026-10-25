@@ -20,7 +20,7 @@ export default function CodeBlock({ children, rawText }: CodeBlockProps) {
 
   return (
     <div className="relative group my-8">
-      <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+      <div className="absolute top-2 right-2 flex gap-2 z-10 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
         <button
           onClick={handleCopy}
           className="p-1.5 bg-surface-container-high border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
