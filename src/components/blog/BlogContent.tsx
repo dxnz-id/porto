@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BlogPostItem from "@/components/blog/BlogPostItem";
 import type { BlogPost } from "@/lib/blog";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,8 @@ export default function BlogContent({ posts }: BlogContentProps) {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
+
       const lines = headerRef.current?.querySelectorAll("[data-h-line]");
       const extras = headerRef.current?.querySelectorAll("[data-h-extra]");
       const items = listRef.current?.children;

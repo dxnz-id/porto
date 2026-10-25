@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import StackIcon from "tech-stack-icons";
+import { prefersReducedMotion } from "@/lib/motion";
 
 export default function IntroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -16,6 +17,7 @@ export default function IntroSection() {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
       if (!photoRef.current || !textRef.current) return;
       const categories = gsap.utils.toArray<HTMLElement>(".stack-category");
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });

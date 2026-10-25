@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { Project } from "@/lib/projects";
 
 interface ProjectGalleryProps {
@@ -12,14 +13,15 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
       <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 scrollbar-hide pb-8">
         {images.map((img, i) => (
           <div
-            key={i}
+            key={`${img.src}-${i}`}
             className="snap-center shrink-0 w-[85vw] md:w-[800px] aspect-video border border-border-hairline bg-bg-off-white relative group"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={img.src}
               alt={img.label}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 768px) 85vw, 800px"
+              className="object-cover"
             />
             {/* Label overlay */}
             <div className="absolute bottom-4 left-4 bg-surface/90 px-3 py-1 border border-border-hairline">

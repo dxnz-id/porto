@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import projects from "@/lib/projects";
 import ProjectCard from "./ProjectCard";
 import SectionHeader from "@/components/ui/SectionHeader";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +16,8 @@ export default function ProjectsSection() {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
+
       const cards = gridRef.current?.children;
       if (!cards?.length) return;
 

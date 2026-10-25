@@ -2,32 +2,11 @@
 
 import { useState, useCallback } from "react";
 import { Share2, Copy, Check } from "lucide-react";
+import { copyToClipboard } from "@/lib/clipboard";
 
 interface ShareSectionProps {
   title: string;
   description: string;
-}
-
-async function copyToClipboard(text: string): Promise<void> {
-  // Modern async Clipboard API
-  if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-  // Fallback for older browsers
-  const ta = document.createElement("textarea");
-  ta.value = text;
-  ta.style.cssText =
-    "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0.01;pointer-events:none";
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try {
-    document.execCommand("copy");
-  } catch {
-    // ignored
-  }
-  document.body.removeChild(ta);
 }
 
 export default function ShareSection({
@@ -47,15 +26,19 @@ export default function ShareSection({
   const handleShare = useCallback(async () => {
     const url = window.location.href;
     if (navigator.share) {
-      await navigator.share({ title, text: description, url }).catch(() => {});
-      return;
+      try {
+        await navigator.share({ title, text: description, url });
+        return;
+      } catch (err) {
+        // User cancelled the native sheet — nothing else to do.
+        if (err instanceof Error && err.name === "AbortError") return;
+      }
     }
-    await copyToClipboard(url);
-    showToast("Link copied to clipboard");
+    if (await copyToClipboard(url)) showToast("Link copied to clipboard");
   }, [title, description, showToast]);
 
   const handleCopyLink = useCallback(async () => {
-    await copyToClipboard(window.location.href);
+    if (!(await copyToClipboard(window.location.href))) return;
     setButtonCopied(true);
     setTimeout(() => setButtonCopied(false), 2000);
     showToast("Link copied to clipboard");

@@ -5,12 +5,15 @@ import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ArrowDown } from "lucide-react";
+import { prefersReducedMotion } from "@/lib/motion";
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
+
       // Line-by-line clip reveal — each line rises from overflow:hidden container
       const lines = Array.from(
         containerRef.current?.querySelectorAll("[data-line]") ?? [],

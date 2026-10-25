@@ -8,6 +8,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { posts } from "@/lib/blog";
 import SectionHeader from "@/components/ui/SectionHeader";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,8 @@ export default function BlogPreview() {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
+
       const items = listRef.current?.children;
       if (!items?.length) return;
 

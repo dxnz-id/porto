@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,6 +30,7 @@ export default function AboutPreview() {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
       if (!photoRef.current || !textRef.current) return;
 
       const interestItems = interestsGridRef.current?.querySelectorAll("li");

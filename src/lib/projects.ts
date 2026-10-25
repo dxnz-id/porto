@@ -10,7 +10,6 @@ export interface Project {
     role: string;
     focus: string;
     shipped: string;
-    stackCount: string;
   };
   features: { title: string; description: string }[];
 }
@@ -34,7 +33,6 @@ const projects: Project[] = [
       role: "Core Systems & DevOps Architect",
       focus: "Web application",
       shipped: "Mar 2026",
-      stackCount: "3 technologies",
     },
     features: [
       {
@@ -85,7 +83,6 @@ const projects: Project[] = [
       role: "Fullstack Developer",
       focus: "Web application",
       shipped: "Feb 2026",
-      stackCount: "5 technologies",
     },
     features: [
       {
@@ -132,7 +129,6 @@ const projects: Project[] = [
       role: "Fullstack Developer",
       focus: "Web application",
       shipped: "Jan 2026",
-      stackCount: "3 technologies",
     },
     features: [
       {

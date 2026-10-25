@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Minimize2,
 } from "lucide-react";
+import { copyToClipboard } from "@/lib/clipboard";
 
 interface MermaidProps {
   chart: string;
@@ -26,6 +27,7 @@ export default function Mermaid({ chart }: MermaidProps) {
   const ref = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -114,11 +116,50 @@ export default function Mermaid({ chart }: MermaidProps) {
     return () => { cancelled = true; };
   }, [chart, id]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(chart.trim());
+  const handleCopy = async () => {
+    if (!(await copyToClipboard(chart.trim()))) return;
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  // Modal keyboard behaviour: Escape closes, Tab stays inside, focus returns.
+  useEffect(() => {
+    if (!isEnlarged) return;
+
+    const previous = document.activeElement as HTMLElement | null;
+    closeBtnRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsEnlarged(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const dialog = closeBtnRef.current?.closest("[role='dialog']");
+      if (!dialog) return;
+      const focusable = dialog.querySelectorAll<HTMLElement>(
+        "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])",
+      );
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      previous?.focus();
+    };
+  }, [isEnlarged]);
 
   // ── Mouse handlers ─────────────────────────────────────────────────────────
   const onMouseDown = useCallback((e: React.MouseEvent) => {
@@ -246,6 +287,7 @@ export default function Mermaid({ chart }: MermaidProps) {
         {/* Toolbar: always visible on mobile (no hover needed), fade-in on desktop */}
         <div className="absolute top-2 right-2 flex gap-2 z-10 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
           <button
+            type="button"
             onClick={handleCopy}
             className="p-1.5 bg-surface border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm touch-manipulation"
             title="Copy diagram code"
@@ -253,6 +295,7 @@ export default function Mermaid({ chart }: MermaidProps) {
             {copied ? <Check size={14} /> : <Copy size={14} />}
           </button>
           <button
+            type="button"
             onClick={() => setIsEnlarged(true)}
             className="p-1.5 bg-surface border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm touch-manipulation"
             title="Enlarge diagram"
@@ -270,6 +313,9 @@ export default function Mermaid({ chart }: MermaidProps) {
       {/* ── Enlarged Modal ── */}
       {isEnlarged && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Diagram preview"
           className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-3 md:p-8"
           onClick={() => setIsEnlarged(false)}
         >
@@ -279,9 +325,12 @@ export default function Mermaid({ chart }: MermaidProps) {
           >
             {/* Close */}
             <button
+              ref={closeBtnRef}
+              type="button"
               onClick={() => setIsEnlarged(false)}
               className="absolute top-3 right-3 z-20 p-2 text-secondary hover:text-primary transition-colors touch-manipulation"
               title="Close"
+              aria-label="Close diagram"
             >
               <X size={18} />
             </button>

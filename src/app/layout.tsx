@@ -4,12 +4,11 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import TransitionProvider from "@/components/transition/TransitionProvider";
 import { getTransitionPhotos } from "@/lib/transition-photos";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://dxnz.id"
-  ),
+  metadataBase: new URL(SITE_URL),
   title: {
     template: "%s — DXNZ",
     default: "DXNZ — Fullstack Developer",
@@ -26,8 +25,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/images/profile.jpg",
-        width: 800,
-        height: 600,
+        width: 640,
+        height: 640,
         alt: "DXNZ — Fullstack Developer",
       },
     ],

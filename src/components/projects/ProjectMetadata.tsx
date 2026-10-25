@@ -13,7 +13,7 @@ export default function ProjectMetadata({
     { label: "Role", value: metadata.role },
     { label: "Focus", value: metadata.focus },
     { label: "Shipped", value: metadata.shipped },
-    { label: "Stack", value: metadata.stackCount },
+    { label: "Stack", value: `${techStack.length} technologies` },
   ];
 
   return (

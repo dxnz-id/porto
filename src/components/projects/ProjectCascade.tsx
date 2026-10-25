@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,6 +27,8 @@ export default function ProjectCascade({
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
+
       const sections = sectionsRef.current?.children;
       if (!sections?.length) return;
 

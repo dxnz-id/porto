@@ -5,12 +5,15 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import IntroSection from "@/components/about/IntroSection";
 import JourneyTimeline from "@/components/about/JourneyTimeline";
+import { prefersReducedMotion } from "@/lib/motion";
 
 export default function AboutContent() {
   const headerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
+
       const lines = headerRef.current?.querySelectorAll("[data-h-line]");
       const extras = headerRef.current?.querySelectorAll("[data-h-extra]");
 

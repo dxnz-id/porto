@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import TransitionLink from "@/components/transition/TransitionLink";
+import { prefersReducedMotion } from "@/lib/motion";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -30,6 +31,11 @@ export default function MobileMenu({
   useGSAP(
     () => {
       if (!overlayRef.current || !linksRef.current || !closeBtnRef.current) return;
+
+      if (prefersReducedMotion()) {
+        if (!isOpen) setShouldRender(false);
+        return;
+      }
 
       const links = linksRef.current.querySelectorAll("a");
 
@@ -95,23 +101,48 @@ export default function MobileMenu({
     { dependencies: [isOpen, shouldRender] }
   );
 
+  useEffect(() => {
+    if (!shouldRender) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    closeBtnRef.current?.focus();
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+      document.getElementById("menu-trigger")?.focus();
+    };
+  }, [shouldRender, onClose]);
+
   if (!shouldRender) return null;
 
   return (
     <div
       ref={overlayRef}
+      id="mobile-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
       className="fixed inset-0 z-[60] bg-surface flex flex-col"
     >
       {/* Header — matches navbar */}
       <div className="flex justify-between items-center px-margin-mobile h-20 border-b border-border-hairline shrink-0">
         <TransitionLink
           href="/"
+          onNavigate={onClose}
           className="font-headline font-bold tracking-tighter text-primary text-[24px]"
         >
           DXNZ
         </TransitionLink>
         <button
           ref={closeBtnRef}
+          type="button"
           onClick={onClose}
           className="text-label-caps text-primary"
           aria-label="Close menu"
@@ -135,6 +166,7 @@ export default function MobileMenu({
             <TransitionLink
               key={href}
               href={href}
+              onNavigate={onClose}
               className={`group flex items-baseline gap-4 py-5 border-b border-border-hairline transition-colors duration-200 ${
                 isActive ? "text-primary" : "text-secondary"
               }`}

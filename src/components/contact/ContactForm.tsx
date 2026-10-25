@@ -43,28 +43,6 @@ export default function ContactForm() {
     [form]
   );
 
-  if (submitted) {
-    return (
-      <div className="flex flex-col gap-4 py-12">
-        <p className="text-headline-lg-mobile text-primary">
-          Opening your email client...
-        </p>
-        <p className="text-body-md text-secondary">
-          If it didn&apos;t open, check your email app settings.
-        </p>
-        <button
-          className="text-label-mono text-secondary hover:text-primary transition-colors self-start"
-          onClick={() => {
-            setSubmitted(false);
-            setForm({ name: "", subject: "", message: "" });
-          }}
-        >
-          Compose another →
-        </button>
-      </div>
-    );
-  }
-
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-2xl">
       {/* Name */}
@@ -129,6 +107,20 @@ export default function ContactForm() {
           className="group-hover:translate-x-1 transition-transform duration-200"
         />
       </button>
+
+      {submitted && (
+        <p role="status" className="text-body-md text-secondary">
+          Your email app should open with the message ready. If it doesn&apos;t,
+          email{" "}
+          <a
+            href="mailto:dxnzid@icloud.com"
+            className="text-primary underline decoration-border-hairline hover:decoration-primary transition-colors"
+          >
+            dxnzid@icloud.com
+          </a>
+          . Your text stays here either way.
+        </p>
+      )}
     </form>
   );
 }

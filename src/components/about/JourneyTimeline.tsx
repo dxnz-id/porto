@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionHeader from "@/components/ui/SectionHeader";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,6 +75,7 @@ export default function JourneyTimeline() {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
       const items = itemsRef.current?.querySelectorAll("[data-timeline-item]");
       if (!items?.length || !lineRef.current) return;
 

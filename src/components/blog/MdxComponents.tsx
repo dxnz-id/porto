@@ -1,5 +1,6 @@
 import Mermaid from "@/components/blog/Mermaid";
 import CodeBlock from "@/components/blog/CodeBlock";
+import TransitionLink from "@/components/transition/TransitionLink";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MdxComponentMap = Record<string, React.ComponentType<any>>;
 
@@ -16,15 +17,8 @@ function extractText(node: ReactNode): string {
   return "";
 }
 
-function slugify(children: ReactNode): string {
-  return extractText(children)
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]/g, "");
-}
-
-/** Markdown images and explicit <BlogImage> both use this, so dimensions and
- *  lazy loading apply without repeating the markup. */
+/** Markdown images and explicit <BlogImage> both use this. Markdown has no
+ *  dimensions, so unknown images get a 3:2 box to reserve space. */
 function BlogImage({
   src,
   alt,
@@ -36,6 +30,21 @@ function BlogImage({
   width?: string;
   height?: string;
 }) {
+  if (!width || !height) {
+    return (
+      <span className="block relative aspect-[3/2] my-8 border border-border-hairline bg-surface-container-low">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt ?? ""}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-contain"
+        />
+      </span>
+    );
+  }
+
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -58,7 +67,7 @@ export const mdxComponents: MdxComponentMap = {
   figure: ({ children, ...props }) => {
     if ("data-rehype-pretty-code-figure" in props) {
       const rawCode = extractText(children);
-      
+
       // rehype-pretty-code puts data-language on the inner <pre> element
       const child = children as React.ReactElement<{
         "data-language"?: string;
@@ -94,90 +103,155 @@ export const mdxComponents: MdxComponentMap = {
     );
   },
 
-  h2: ({ children, ...props }) => {
-    return (
-      <h2
-        id={slugify(children)}
-        className="text-headline-lg-mobile text-primary mt-16 mb-6 border-b border-border-hairline pb-4 scroll-mt-24"
-        {...props}
-      >
-        {children}
-      </h2>
-    );
-  },
+  h1: ({ children, ...props }) => (
+    <h1
+      className="text-headline-lg-mobile md:text-headline-xl text-primary mt-12 mb-6 scroll-mt-24"
+      {...props}
+    >
+      {children}
+    </h1>
+  ),
 
-  h3: ({ children, ...props }) => {
-    return (
-      <h3
-        id={slugify(children)}
-        className="text-body-lg font-semibold text-primary mt-10 mb-4 scroll-mt-24"
-        {...props}
-      >
-        {children}
-      </h3>
-    );
-  },
+  h2: ({ children, ...props }) => (
+    <h2
+      className="text-headline-lg-mobile text-primary mt-16 mb-6 border-b border-border-hairline pb-4 scroll-mt-24"
+      {...props}
+    >
+      {children}
+    </h2>
+  ),
 
-  p: ({ children }) => (
-    <p className="text-body-lg text-on-surface leading-relaxed mb-6">
+  h3: ({ children, ...props }) => (
+    <h3
+      className="text-body-lg font-semibold text-primary mt-10 mb-4 scroll-mt-24"
+      {...props}
+    >
+      {children}
+    </h3>
+  ),
+
+  h4: ({ children, ...props }) => (
+    <h4
+      className="text-body-lg font-semibold text-primary mt-8 mb-3 scroll-mt-24"
+      {...props}
+    >
+      {children}
+    </h4>
+  ),
+
+  h5: ({ children, ...props }) => (
+    <h5
+      className="text-body-md font-semibold text-primary mt-6 mb-2 scroll-mt-24"
+      {...props}
+    >
+      {children}
+    </h5>
+  ),
+
+  h6: ({ children, ...props }) => (
+    <h6
+      className="text-label-caps text-secondary mt-6 mb-2 scroll-mt-24"
+      {...props}
+    >
+      {children}
+    </h6>
+  ),
+
+  p: ({ children, ...props }) => (
+    <p className="text-body-lg text-on-surface leading-relaxed mb-6" {...props}>
       {children}
     </p>
   ),
 
-  a: ({ children, href }) => (
-    <a
-      href={href}
-      className="text-primary underline decoration-border-hairline hover:decoration-primary transition-colors"
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
-    >
-      {children}
-    </a>
-  ),
+  a: ({ children, href, title, ...props }) => {
+    const className =
+      "text-primary underline decoration-border-hairline hover:decoration-primary transition-colors";
 
-  blockquote: ({ children }) => (
-    <blockquote className="pl-6 border-l-2 border-primary italic text-secondary my-8">
+    if (href?.startsWith("/")) {
+      return (
+        <TransitionLink href={href} title={title} className={className}>
+          {children}
+        </TransitionLink>
+      );
+    }
+
+    return (
+      <a
+        href={href}
+        title={title}
+        className={className}
+        target={href?.startsWith("http") ? "_blank" : undefined}
+        rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  },
+
+  blockquote: ({ children, ...props }) => (
+    <blockquote
+      className="pl-6 border-l-2 border-primary italic text-secondary my-8"
+      {...props}
+    >
       {children}
     </blockquote>
   ),
 
-  table: ({ children }) => (
+  table: ({ children, ...props }) => (
     <div className="overflow-x-auto my-8">
-      <table className="w-full border-collapse border border-border-hairline text-body-md">
+      <table
+        className="w-full border-collapse border border-border-hairline text-body-md"
+        {...props}
+      >
         {children}
       </table>
     </div>
   ),
 
-  th: ({ children }) => (
-    <th className="bg-surface-container-low text-label-caps text-secondary p-4 border border-border-hairline text-left">
+  th: ({ children, ...props }) => (
+    <th
+      className="bg-surface-container-low text-label-caps text-secondary p-4 border border-border-hairline"
+      {...props}
+    >
       {children}
     </th>
   ),
 
-  td: ({ children }) => (
-    <td className="p-4 border border-border-hairline text-on-surface">
+  td: ({ children, ...props }) => (
+    <td
+      className="p-4 border border-border-hairline text-on-surface"
+      {...props}
+    >
       {children}
     </td>
   ),
 
-  ul: ({ children }) => (
-    <ul className="list-none flex flex-col gap-4 my-6 pl-4 border-l border-border-hairline ml-1">
+  ul: ({ children, ...props }) => (
+    <ul
+      className="list-none flex flex-col gap-4 my-6 pl-4 border-l border-border-hairline ml-1"
+      {...props}
+    >
       {children}
     </ul>
   ),
 
-  ol: ({ children }) => (
-    <ol className="list-decimal list-outside flex flex-col gap-4 my-6 pl-6 text-body-lg text-on-surface">
+  ol: ({ children, ...props }) => (
+    <ol
+      className="list-decimal list-outside flex flex-col gap-4 my-6 pl-6 text-body-lg text-on-surface"
+      {...props}
+    >
       {children}
     </ol>
   ),
 
-  li: ({ children }) => (
-    <li className="text-body-md text-on-surface">{children}</li>
+  li: ({ children, ...props }) => (
+    <li className="text-body-md text-on-surface" {...props}>
+      {children}
+    </li>
   ),
 
-  hr: () => <hr className="border-border-hairline my-12" />,
+  hr: (props) => <hr className="border-border-hairline my-12" {...props} />,
 
   img: BlogImage,
   BlogImage,

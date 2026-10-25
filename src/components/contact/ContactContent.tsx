@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ContactForm from "@/components/contact/ContactForm";
 import AvailabilityInfo from "@/components/contact/AvailabilityInfo";
 import SocialLinks from "@/components/contact/SocialLinks";
+import { prefersReducedMotion } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +18,8 @@ export default function ContactContent() {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
+
       const lines = headerRef.current?.querySelectorAll("[data-h-line]");
       const extras = headerRef.current?.querySelectorAll("[data-h-extra]");
 
@@ -44,6 +47,8 @@ export default function ContactContent() {
 
   useGSAP(
     () => {
+      if (prefersReducedMotion()) return;
+
       const formFields = formRef.current?.querySelector("form")?.children;
       const sidebarItems = sidebarRef.current?.children;
 

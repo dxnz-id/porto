@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Copy, Check } from "lucide-react";
+import { copyToClipboard } from "@/lib/clipboard";
 
 interface CodeBlockProps {
   children: React.ReactNode;
@@ -11,9 +12,9 @@ interface CodeBlockProps {
 export default function CodeBlock({ children, rawText }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (!rawText) return;
-    navigator.clipboard.writeText(rawText.trim());
+    if (!(await copyToClipboard(rawText.trim()))) return;
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -22,6 +23,7 @@ export default function CodeBlock({ children, rawText }: CodeBlockProps) {
     <div className="relative group my-8">
       <div className="absolute top-2 right-2 flex gap-2 z-10 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
         <button
+          type="button"
           onClick={handleCopy}
           className="p-1.5 bg-surface-container-high border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm"
           title="Copy code"

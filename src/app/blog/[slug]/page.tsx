@@ -13,6 +13,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeKatex from "rehype-katex";
+import rehypeSlug from "rehype-slug";
 import "katex/dist/katex.min.css";
 
 interface Props {
@@ -30,6 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
+    ...(slug === "markdown-test" && {
+      robots: { index: false, follow: false },
+    }),
   };
 }
 
@@ -82,6 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
               mdxOptions: {
                 remarkPlugins: [remarkGfm, remarkMath],
                 rehypePlugins: [
+                  rehypeSlug,
                   [
                     rehypePrettyCode,
                     { theme: "catppuccin-latte", keepBackground: false },

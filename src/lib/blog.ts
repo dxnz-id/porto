@@ -34,6 +34,7 @@ export function getAdjacentPosts(
   slug: string
 ): { prev: BlogPost | null; next: BlogPost | null } {
   const idx = posts.findIndex((p) => p.slug === slug);
+  if (idx === -1) return { prev: null, next: null };
   return {
     prev: idx < posts.length - 1 ? posts[idx + 1] : null,
     next: idx > 0 ? posts[idx - 1] : null,

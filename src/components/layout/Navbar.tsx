@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import MobileMenu from "./MobileMenu";
 import TransitionLink from "@/components/transition/TransitionLink";
+import { prefersReducedMotion } from "@/lib/motion";
 
 const navLinks = [
   { href: "/", label: "Index" },
@@ -37,6 +38,7 @@ export default function Navbar() {
 
   useGSAP(() => {
     if (!menuBtnRef.current) return;
+    if (prefersReducedMotion()) return;
     if (mobileMenuOpen) {
       // Menu opens, animate "Menu" text out
       gsap.to(menuBtnRef.current, {
@@ -96,9 +98,13 @@ export default function Navbar() {
         {/* Mobile — text menu trigger */}
         <button
           ref={menuBtnRef}
+          id="menu-trigger"
+          type="button"
           className="md:hidden text-label-caps text-primary"
           onClick={toggleMenu}
-          aria-label="Open menu"
+          aria-label="Menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-menu"
         >
           Menu
         </button>

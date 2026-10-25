@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback } from "react";
+import Image from "next/image";
 import TransitionLink from "@/components/transition/TransitionLink";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Project } from "@/lib/projects";
@@ -29,6 +30,7 @@ export default function ProjectCard({ project, isLast }: ProjectCardProps) {
   const handlePrev = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       scrollTo(currentIndex - 1);
     },
     [currentIndex, scrollTo]
@@ -37,10 +39,17 @@ export default function ProjectCard({ project, isLast }: ProjectCardProps) {
   const handleNext = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       scrollTo(currentIndex + 1);
     },
     [currentIndex, scrollTo]
   );
+
+  const handleScroll = useCallback(() => {
+    const el = carouselRef.current;
+    if (!el?.clientWidth) return;
+    setCurrentIndex(Math.round(el.scrollLeft / el.clientWidth));
+  }, []);
 
   // Border logic: prototype shows border-right on all but last card in the row
   // Grid is 2-col desktop → cards at index 0,2,... get border-right
@@ -63,18 +72,20 @@ export default function ProjectCard({ project, isLast }: ProjectCardProps) {
               {/* Snap scroll track */}
               <div
                 ref={carouselRef}
+                onScroll={handleScroll}
                 className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth"
               >
-                {project.images.map((img, i) => (
+                {project.images.map((img) => (
                   <div
-                    key={i}
+                    key={img.src}
                     className="w-full h-full flex-shrink-0 snap-center relative"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                       src={img.src}
                       alt={img.label}
-                      className="object-cover w-full h-full"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover"
                     />
                   </div>
                 ))}
@@ -82,6 +93,7 @@ export default function ProjectCard({ project, isLast }: ProjectCardProps) {
 
               {/* Prev button */}
               <button
+                type="button"
                 onClick={handlePrev}
                 className="group/btn absolute left-0 top-0 bottom-0 w-1/4 z-20 flex items-center justify-start pl-4 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 ease-in-out"
                 aria-label="Previous image"
@@ -93,6 +105,7 @@ export default function ProjectCard({ project, isLast }: ProjectCardProps) {
 
               {/* Next button */}
               <button
+                type="button"
                 onClick={handleNext}
                 className="group/btn absolute right-0 top-0 bottom-0 w-1/4 z-20 flex items-center justify-end pr-4 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 ease-in-out"
                 aria-label="Next image"
@@ -116,11 +129,12 @@ export default function ProjectCard({ project, isLast }: ProjectCardProps) {
             </>
           ) : (
             // Static single image
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={project.images[0].src}
               alt={project.images[0].label}
-              className="object-cover w-full h-full transition-all duration-500"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover transition-all duration-500"
             />
           )}
         </div>

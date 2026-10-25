@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DXNZ Portfolio
 
-## Getting Started
+Personal portfolio and blog for Zidan (dxnz.id), built with Next.js 16 (App Router), React 19, Tailwind CSS 4, GSAP, and MDX.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Start the dev server |
+| `pnpm build` | Production build (all pages prerendered) |
+| `pnpm start` | Serve the production build |
+| `pnpm typecheck` | TypeScript check |
+| `pnpm lint` | ESLint |
+| `pnpm test` | Unit tests for pure helpers (`node:test`) |
 
-## Learn More
+## Layout
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app` — routes: home, `/blog`, `/blog/[slug]`, `/about`, `/contact`, `/projects/[slug]`
+- `src/components` — UI grouped by feature
+- `src/lib` — data and helpers; `blog.ts` and `projects.ts` are the metadata sources
+- `src/content/blog` — MDX post bodies, no frontmatter
+- `public/images` — profile and transition photos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Content
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Posts are listed in `src/lib/blog.ts`; the matching body lives at
+`src/content/blog/<slug>.mdx`. Add both to publish a post. Metadata is not
+read from the MDX file.
 
-## Deploy on Vercel
+`/blog/markdown-test` is an intentional test bed for the Markdown/MDX
+pipeline. It is marked `noindex` and left out of the sitemap.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`NEXT_PUBLIC_SITE_URL` overrides the canonical site URL used by metadata,
+`sitemap.xml`, and `robots.txt`. Default: `https://dxnz.id`.
