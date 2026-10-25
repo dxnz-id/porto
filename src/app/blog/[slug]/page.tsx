@@ -53,7 +53,7 @@ export default async function BlogPostPage({ params }: Props) {
       <TableOfContents articleId="post-article" />
 
       <div className="pt-16 md:pt-20 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto flex justify-center">
-        <article className="w-full max-w-[700px]" id="post-article">
+        <article className="w-full max-w-[700px] break-words" id="post-article">
           {/* Back link */}
           <TransitionLink
             href="/blog"
