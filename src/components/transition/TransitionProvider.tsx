@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useCallback } from "react";
+import { createContext, useContext } from "react";
 import { useTransition } from "@/hooks/useTransition";
 import TransitionOverlay from "./TransitionOverlay";
 import { COVER_TILE_DURATION, REVEAL_TILE_DURATION } from "@/lib/transition-constants";
@@ -52,7 +52,6 @@ export default function TransitionProvider({
     photoDims,
     showProgress,
     progressValue,
-    go,
     handleCovered,
     handleRevealed,
     contextValue,

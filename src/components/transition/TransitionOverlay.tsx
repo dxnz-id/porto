@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { TRANSITION_TILE_GAP } from "@/lib/transition-grid";
@@ -41,8 +41,10 @@ export default function TransitionOverlay({
 
   const onCoveredRef = useRef(onCovered);
   const onRevealedRef = useRef(onRevealed);
-  onCoveredRef.current = onCovered;
-  onRevealedRef.current = onRevealed;
+  useEffect(() => {
+    onCoveredRef.current = onCovered;
+    onRevealedRef.current = onRevealed;
+  }, [onCovered, onRevealed]);
 
   useGSAP(
     () => {

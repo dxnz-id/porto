@@ -4,7 +4,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { shuffle } from "@/lib/shuffle";
 import { computeGrid, TRANSITION_TILE_GAP } from "@/lib/transition-grid";
@@ -24,7 +24,6 @@ const PHOTO_HISTORY = 8;
 
 export function useTransition(photos: string[]) {
   const router = useRouter();
-  const pathname = usePathname();
 
   const [status, setStatus] = useState<TransitionStatus>("idle");
   const [activePhoto, setActivePhoto] = useState<string | null>(null);

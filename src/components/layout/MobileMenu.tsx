@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import TransitionLink from "@/components/transition/TransitionLink";
@@ -24,10 +24,8 @@ export default function MobileMenu({
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   const [shouldRender, setShouldRender] = useState(isOpen);
-
-  useEffect(() => {
-    if (isOpen) setShouldRender(true);
-  }, [isOpen]);
+  // Keep the overlay mounted for its exit animation.
+  if (isOpen && !shouldRender) setShouldRender(true);
 
   useGSAP(
     () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -26,10 +26,12 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   }, []);
 
-  // Ensure menu closes when route changes (e.g. after a page transition finishes)
-  useEffect(() => {
+  // Close the menu when the route changes (e.g. after a page transition).
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   const menuBtnRef = useRef<HTMLButtonElement>(null);
 

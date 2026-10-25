@@ -45,7 +45,6 @@ export function useProgressCounter() {
         // Counting loop: fast ramp to 99%, then micro-increment.
         const start = Date.now();
         const RAMP_DURATION = 1500; // ms to reach 99%
-        const MICRO_INTERVAL = 3000; // ms between +1 increments after 99%
 
         const tick = () => {
           if (getGen() !== gen || !hasPendingHref()) return;

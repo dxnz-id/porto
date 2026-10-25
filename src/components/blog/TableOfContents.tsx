@@ -17,7 +17,8 @@ export default function TableOfContents({
   const [activeId, setActiveId] = useState<string>("");
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Parse headings from the article on mount
+  // Parse headings from the article after it renders. Deferred one frame so the
+  // DOM scan does not cascade a synchronous re-render inside the effect.
   useEffect(() => {
     const article = document.getElementById(articleId);
     if (!article) return;
@@ -34,7 +35,8 @@ export default function TableOfContents({
       });
     });
 
-    setHeadings(parsed);
+    const frame = requestAnimationFrame(() => setHeadings(parsed));
+    return () => cancelAnimationFrame(frame);
   }, [articleId]);
 
   // IntersectionObserver to track active heading

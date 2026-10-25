@@ -35,10 +35,11 @@ export default function Mermaid({ chart }: MermaidProps) {
 
   const [scale, setScale] = useState(1);
   const fitScaleRef = useRef(1);
+  const [fitScale, setFitScale] = useState(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
 
-  // Mouse drag refs
-  const isDragging = useRef(false);
+  // Mouse drag state (state, not ref: cursor + transition read it while rendering)
+  const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef({ x: 0, y: 0 });
   const translateAtDragStart = useRef({ x: 0, y: 0 });
 
@@ -69,6 +70,7 @@ export default function Mermaid({ chart }: MermaidProps) {
       const r2 = requestAnimationFrame(() => {
         const fit = computeFitScale();
         fitScaleRef.current = fit;
+        setFitScale(fit);
         setScale(fit);
         setTranslate({ x: 0, y: 0 });
       });
@@ -121,21 +123,21 @@ export default function Mermaid({ chart }: MermaidProps) {
   // ── Mouse handlers ─────────────────────────────────────────────────────────
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     if (e.button !== 0) return;
-    isDragging.current = true;
+    setIsDragging(true);
     dragStart.current = { x: e.clientX, y: e.clientY };
     translateAtDragStart.current = { ...translate };
     e.preventDefault();
   }, [translate]);
 
   const onMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging.current) return;
+    if (!isDragging) return;
     setTranslate({
       x: translateAtDragStart.current.x + (e.clientX - dragStart.current.x),
       y: translateAtDragStart.current.y + (e.clientY - dragStart.current.y),
     });
-  }, []);
+  }, [isDragging]);
 
-  const onMouseUp = useCallback(() => { isDragging.current = false; }, []);
+  const onMouseUp = useCallback(() => { setIsDragging(false); }, []);
 
   const onWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
@@ -198,11 +200,12 @@ export default function Mermaid({ chart }: MermaidProps) {
   const resetView = () => {
     const fit = computeFitScale();
     fitScaleRef.current = fit;
+    setFitScale(fit);
     setScale(fit);
     setTranslate({ x: 0, y: 0 });
   };
 
-  const displayPct = Math.round((scale / fitScaleRef.current) * 100);
+  const displayPct = Math.round((scale / fitScale) * 100);
 
   const btnClass =
     "p-1.5 bg-surface-container-high hover:bg-surface-container-highest active:bg-surface-container-highest border border-border-hairline rounded text-secondary hover:text-primary transition-colors shadow-sm touch-manipulation";
@@ -292,7 +295,7 @@ export default function Mermaid({ chart }: MermaidProps) {
             <div
               ref={canvasRef}
               className="w-full h-full flex items-center justify-center overflow-hidden"
-              style={{ cursor: isDragging.current ? "grabbing" : "grab", touchAction: "none" }}
+              style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "none" }}
               onMouseDown={onMouseDown}
               onMouseMove={onMouseMove}
               onMouseUp={onMouseUp}
@@ -306,7 +309,7 @@ export default function Mermaid({ chart }: MermaidProps) {
                 style={{
                   transform: `translate(${translate.x}px, ${translate.y}px) scale(${scale})`,
                   transformOrigin: "center center",
-                  transition: isDragging.current ? "none" : "transform 0.06s ease-out",
+                  transition: isDragging ? "none" : "transform 0.06s ease-out",
                   userSelect: "none",
                   pointerEvents: "none",
                 }}
