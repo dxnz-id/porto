@@ -81,10 +81,14 @@ export default function Mermaid({ chart }: MermaidProps) {
     return () => cancelAnimationFrame(r1);
   }, [isEnlarged, computeFitScale]);
 
-  // Lock body scroll
+  // Lock body scroll, then restore whatever was there before.
   useEffect(() => {
-    document.body.style.overflow = isEnlarged ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    if (!isEnlarged) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
   }, [isEnlarged]);
 
   // ── Render mermaid ─────────────────────────────────────────────────────────
@@ -262,6 +266,8 @@ export default function Mermaid({ chart }: MermaidProps) {
       </div>
     );
   }
+
+  if (!chart.trim()) return null;
 
   if (!svg) {
     return (

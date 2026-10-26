@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
-    ...(slug === "markdown-test" && {
+    ...(post.noindex && {
       robots: { index: false, follow: false },
     }),
   };

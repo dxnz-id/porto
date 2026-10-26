@@ -14,7 +14,7 @@ export default function CodeBlock({ children, rawText }: CodeBlockProps) {
 
   const handleCopy = async () => {
     if (!rawText) return;
-    if (!(await copyToClipboard(rawText.trim()))) return;
+    if (!(await copyToClipboard(rawText.trimEnd()))) return;
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

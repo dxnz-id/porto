@@ -83,6 +83,7 @@ export default function ShareSection({
 
       {/* Toast notification */}
       <div
+        role="status"
         className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-primary text-on-primary text-label-mono transition-all duration-300 ${
           toastVisible
             ? "opacity-100 translate-y-0"

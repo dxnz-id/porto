@@ -5,7 +5,10 @@ export function sameUrl(href: string | null): boolean {
   const hashIndex = href.indexOf("#");
   const target =
     hashIndex >= 0 ? href : href || window.location.pathname;
-  return window.location.pathname + window.location.hash === target;
+  return (
+    window.location.pathname + window.location.search + window.location.hash ===
+    target
+  );
 }
 
 /** Resolve once the pushed route has applied, fonts are ready, and a beat has passed. */

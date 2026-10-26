@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { prefersReducedMotion } from "@/lib/motion";
 
 interface Heading {
   id: string;
@@ -28,9 +29,12 @@ export default function TableOfContents({
 
     nodes.forEach((node) => {
       if (!node.id) return;
+      // KaTeX renders both MathML and visual HTML; drop the MathML copy.
+      const clone = node.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll(".katex-mathml").forEach((el) => el.remove());
       parsed.push({
         id: node.id,
-        text: node.textContent ?? "",
+        text: clone.textContent ?? "",
         level: node.tagName === "H2" ? 2 : 3,
       });
     });
@@ -70,7 +74,10 @@ export default function TableOfContents({
   const handleClick = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.scrollIntoView({
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+      block: "start",
+    });
     setActiveId(id);
   };
 

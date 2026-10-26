@@ -4,6 +4,7 @@ export interface BlogPost {
   title: string;
   description: string;
   readTime: string;
+  noindex?: boolean;
 }
 
 // Static list — source of truth for slugs, metadata used in client components
@@ -15,6 +16,7 @@ export const posts: BlogPost[] = [
     description:
       "Every Markdown, MDX, math, and diagram case this blog renders, in one page.",
     readTime: "12 MIN READ",
+    noindex: true,
   },
   {
     slug: "second-post",

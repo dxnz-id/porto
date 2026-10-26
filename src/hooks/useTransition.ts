@@ -6,6 +6,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
+import { prefersReducedMotion } from "@/lib/motion";
 import { shuffle } from "@/lib/shuffle";
 import { computeGrid, TRANSITION_TILE_GAP } from "@/lib/transition-grid";
 import {
@@ -49,8 +50,7 @@ export function useTransition(photos: string[]) {
   const canAnimate = useCallback(() => {
     if (typeof window === "undefined") return false;
     if (!photos.length) return false;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-      return false;
+    if (prefersReducedMotion()) return false;
     try {
       return typeof gsap.to === "function";
     } catch {
@@ -88,7 +88,6 @@ export function useTransition(photos: string[]) {
     stopCounting();
     pendingHrefRef.current = null;
     busyRef.current = false;
-    lastPhotoRef.current = [];
     setStatus("idle");
     setPhotoReady(false);
     setPhotoDims(null);

@@ -22,11 +22,13 @@ function extractText(node: ReactNode): string {
 function BlogImage({
   src,
   alt,
+  title,
   width,
   height,
 }: {
   src?: string;
   alt?: string;
+  title?: string;
   width?: string;
   height?: string;
 }) {
@@ -37,6 +39,7 @@ function BlogImage({
         <img
           src={src}
           alt={alt ?? ""}
+          title={title}
           loading="lazy"
           decoding="async"
           className="absolute inset-0 w-full h-full object-contain"
@@ -50,6 +53,7 @@ function BlogImage({
     <img
       src={src}
       alt={alt ?? ""}
+      title={title}
       width={width}
       height={height}
       loading="lazy"
@@ -227,9 +231,9 @@ export const mdxComponents: MdxComponentMap = {
     </td>
   ),
 
-  ul: ({ children, ...props }) => (
+  ul: ({ children, className, ...props }) => (
     <ul
-      className="list-none flex flex-col gap-4 my-6 pl-4 border-l border-border-hairline ml-1"
+      className={`list-none flex flex-col gap-4 my-6 pl-4 border-l border-border-hairline ml-1 ${className ?? ""}`}
       {...props}
     >
       {children}
@@ -245,8 +249,11 @@ export const mdxComponents: MdxComponentMap = {
     </ol>
   ),
 
-  li: ({ children, ...props }) => (
-    <li className="text-body-md text-on-surface" {...props}>
+  li: ({ children, className, ...props }) => (
+    <li
+      className={`text-body-md text-on-surface ${className ?? ""}`}
+      {...props}
+    >
       {children}
     </li>
   ),

@@ -8,9 +8,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${SITE_URL}${path}`,
   }));
 
-  // The Markdown test page is noindex, so it stays out of the sitemap.
+  // Posts marked noindex stay out of the sitemap.
   const postRoutes = posts
-    .filter((post) => post.slug !== "markdown-test")
+    .filter((post) => !post.noindex)
     .map((post) => ({ url: `${SITE_URL}/blog/${post.slug}` }));
 
   const projectRoutes = projects.map((project) => ({

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "DXNZ — Fullstack Developer",
     description:
       "Portfolio of Zidan (dxnz.id), a fullstack developer from Indonesia building clean, practical web applications.",

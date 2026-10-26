@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { ArrowRight } from "lucide-react";
+import { EMAIL } from "@/lib/socials";
 
 interface FormState {
   name: string;
@@ -33,10 +34,9 @@ export default function ContactForm() {
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      const to = "dxnzid@icloud.com";
       const subject = `${form.name} - ${form.subject}`;
       const body = form.message;
-      const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = mailto;
       setSubmitted(true);
     },
@@ -113,10 +113,10 @@ export default function ContactForm() {
           Your email app should open with the message ready. If it doesn&apos;t,
           email{" "}
           <a
-            href="mailto:dxnzid@icloud.com"
+            href={`mailto:${EMAIL}`}
             className="text-primary underline decoration-border-hairline hover:decoration-primary transition-colors"
           >
-            dxnzid@icloud.com
+            {EMAIL}
           </a>
           . Your text stays here either way.
         </p>

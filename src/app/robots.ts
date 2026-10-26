@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { posts } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
@@ -6,7 +7,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "/blog/markdown-test",
+      disallow: posts
+        .filter((post) => post.noindex)
+        .map((post) => `/blog/${post.slug}`),
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };
